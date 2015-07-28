@@ -23,17 +23,23 @@ WINDOW_POS = (30,30)
 RIGHT = 3
 
 
-class Needle:
+class Instrument:
     """
-    A class for storing relevant arm segment information.
+    Instrument class.
+      Input:
+        image - Image of needle.
     """
     def __init__(self, image):
-        self.base = pygame.image.load(image)
-
+        self.needleImage  = pygame.image.load(image)  
         self.speed        = 2      # rotation speed of needle
-        self.angle        = 0      # current angle in radians
+        self.angle        = 0      # current angle in degrees
         self.rpm          = 0      # number of rpm, used for test purpose
         self.mousePressed = False  # flag indicating when mouse is pressed
+        self.displayMidPoint = (250,250)
+
+        # rotation point of needle image
+        self.offset1 = 99
+        self.offset2 = 99
 
     def reset_parameters(self):
         self.angle         = 0
@@ -48,7 +54,7 @@ class Needle:
 
     def set_needle_position(self, angle):
             self.angle = angle
-            image = pygame.transform.rotozoom(self.base, self.angle, IMAGE_SCALE)
+            image = pygame.transform.rotozoom(self.needleImage, self.angle, IMAGE_SCALE)
             rect = image.get_rect()
             rect.center = (0, 0)
             return image, rect
@@ -80,42 +86,35 @@ class Needle:
                 self.mousePressed = False
 
         # rotate needle
-        image = pygame.transform.rotozoom(self.base, self.angle, IMAGE_SCALE)
+        self.image = pygame.transform.rotozoom(self.needleImage, self.angle, IMAGE_SCALE)
 
         # reset the center
-        rect = image.get_rect()
-        rect.center = (0, 0)
+        self.rect = self.image.get_rect()
+        self.rect.center = (0, 0)
+ 
+    def blit_needle(self):
+        screen.blit(self.image, self.rect)
 
-        return image, rect
+    def instrument_update(self, degAngle):
+        self.rotate(degAngle) 
 
-    def blit_images(self, background, bgRect, greenLight, greenLightRect, needleImage, needleRect, keyFlag):
-        display.blit(background, bgRect)
+        self.rect.center += np.asarray(self.displayMidPoint)
+        self.rect.center += np.array([np.cos(math.radians(self.angle)) * self.offset1,
+                                           -np.sin(math.radians(self.angle)) * self.offset2])
+        print 'angle:',self.angle
 
-        if keyFlag == 1 and not self.mousePressed:
-            #display.blit(greenLight, greenLightRect)
-            display.blit(lblError, (45,420))
-        if keyFlag == 2 and not self.mousePressed:
-            display.blit(redLight, redLightRect)
-            display.blit(lblOK, (45,420))
-
-        display.blit(needleImage, needleRect)
+        self.blit_needle()
 
 
 # position window 
 os.environ["SDL_VIDEO_WINDOW_POS"] = "%d, %d" % WINDOW_POS
+fpsClock = pygame.time.Clock()
 
 pygame.init()
-display  = pygame.display.set_mode((WIDTH, HEIGHT))
-fpsClock = pygame.time.Clock()
+screen  = pygame.display.set_mode((WIDTH, HEIGHT))
  
-needle = Needle('../pic/red_needle.png')
+needle = Instrument('../pic/red_needle.png')
 needle.set_flag(True)
-
-displayMidPoint = (WIDTH/2, HEIGHT/2)
-
-# rotation point of needle image
-offset1 = 99
-offset2 = 99
 
 # set needle at start position
 degAngle = -20.0
@@ -123,34 +122,21 @@ needle.set_needle_position(degAngle)
 
 # load images
 background     = pygame.image.load("../pic/background3.png")
-greenLight     = pygame.image.load("../pic/green.png")
-redLight       = pygame.image.load("../pic/red.png")
 bgRect         = background.get_rect()
-greenLightRect = greenLight.get_rect()
-redLightRect   = redLight.get_rect()
 
 inputData = 0.0
 keyFlag = 0
 
 # define headline, font type and text messages
 pygame.display.set_caption("                                  *** POSITION ***")
-messageFont = pygame.font.SysFont("None", 28) 
-lblError    = messageFont.render("ERROR", 0, RED)
-lblOK       = messageFont.render("OK", 0, GREEN)
-
 
 while 1:
  
-    display.fill(BLACK)
+    screen.fill(BLACK)
  
-    needleImage, needleRect = needle.rotate(degAngle) 
-    needleRect.center += np.asarray(displayMidPoint)
-    needleRect.center += np.array([np.cos(math.radians(needle.angle)) * offset1,
-                                  -np.sin(math.radians(needle.angle)) * offset2])
-    print 'angle:',needle.angle
- 
-    needle.blit_images(background, bgRect, greenLight, greenLightRect, needleImage, needleRect, keyFlag)
- 
+    screen.blit(background, bgRect)
+    needle.instrument_update(degAngle)
+
     # check for events, [quit, mouse click]
     for event in pygame.event.get():
         if event.type == pygame.locals.QUIT:
@@ -185,9 +171,6 @@ while 1:
 
             y = -20*inputData + 220
             degAngle = y
-
-    lblInputData = messageFont.render("Input data: "+str(inputData), 0, WHITE)
-    display.blit(lblInputData, (195,380))
 
     pygame.display.update()
     fpsClock.tick(30)
