@@ -119,12 +119,12 @@ needle.set_flag(True)
 degAngle = -20.0
 needle.set_needle_position(degAngle)
 
-# load images
+# load background image
 background = pygame.image.load("../pic/background3.png")
 bgRect     = background.get_rect()
 
 inputData = 0.0
-keyFlag = 0
+keyFlag   = 0
 
 # define headline, font type and text messages
 pygame.display.set_caption("                                  *** POSITION ***")
