@@ -30,12 +30,12 @@ class Instrument:
         image - Image of needle.
     """
     def __init__(self, image):
-        self.needleImage  = pygame.image.load(image)  
-        self.speed        = 2      # rotation speed of needle
-        self.angle        = 0      # current angle in degrees
-        self.rpm          = 0      # number of rpm, used for test purpose
-        self.mousePressed = False  # flag indicating when mouse is pressed
-        self.displayMidPoint = (250,250)
+        self.needleImage    = pygame.image.load(image)  
+        self.speed          = 2             # rotation speed of needle
+        self.angle          = 0             # current angle in degrees
+        self.rpm            = 0             # number of rpm, used for test purpose
+        self.mousePressed   = False         # flag indicating when mouse is pressed
+        self.needleMidPoint = (250, 250)    # mid point for needle
 
         # rotation point of needle image
         self.offset1 = 99
@@ -98,10 +98,9 @@ class Instrument:
     def instrument_update(self, degAngle):
         self.rotate(degAngle) 
 
-        self.rect.center += np.asarray(self.displayMidPoint)
+        self.rect.center += np.asarray(self.needleMidPoint)
         self.rect.center += np.array([np.cos(math.radians(self.angle)) * self.offset1,
                                            -np.sin(math.radians(self.angle)) * self.offset2])
-        print 'angle:',self.angle
 
         self.blit_needle()
 
@@ -111,7 +110,7 @@ os.environ["SDL_VIDEO_WINDOW_POS"] = "%d, %d" % WINDOW_POS
 fpsClock = pygame.time.Clock()
 
 pygame.init()
-screen  = pygame.display.set_mode((WIDTH, HEIGHT))
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
  
 needle = Instrument('../pic/red_needle.png')
 needle.set_flag(True)
@@ -121,8 +120,8 @@ degAngle = -20.0
 needle.set_needle_position(degAngle)
 
 # load images
-background     = pygame.image.load("../pic/background3.png")
-bgRect         = background.get_rect()
+background = pygame.image.load("../pic/background3.png")
+bgRect     = background.get_rect()
 
 inputData = 0.0
 keyFlag = 0
