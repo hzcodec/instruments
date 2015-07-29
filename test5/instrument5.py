@@ -58,10 +58,6 @@ class Instrument:
 
     def set_needle_position(self, angle):
             self.angle = angle
-            image = pygame.transform.rotozoom(self.needleImage, self.angle, IMAGE_SCALE)
-            rect = image.get_rect()
-            rect.center = (0, 0)
-            return image, rect
 
     def rotate(self, rotation):
         """

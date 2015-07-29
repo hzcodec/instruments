@@ -46,16 +46,10 @@ class Instrument:
         """
         input parameters:
           screen              -  Current surface name
-          instrumentNumber    -  Each instrument shall have an index number 1,2 ...
-          rotationSpeed       -  Rotation speed of needle, set in degrees
-          angle               -  Initial angle of needle in degrees
           image               -  Image of needle
+          middlePoint         -  Middle point of instrument
         """
-
         self.needleImage      = pygame.image.load(image)
-        #self.speed            = rotationSpeed
-        #self.angle            = angle
-
         self.speed            = 2
         self.angle            = 0
         self.rpm              = 0      # number of rpm, used for test purpose
@@ -63,6 +57,8 @@ class Instrument:
         self.instrumentMidPoint  = middlePoint
         self.screen  = screen
 
+        #self.speed            = rotationSpeed
+        #self.angle            = angle
         #self.instrumentNumber = instrumentNumber
 
 #        self.indicator    = Indicator(self.screen) # create an Indicator instance
@@ -84,10 +80,6 @@ class Instrument:
 
     def set_needle_position(self, angle):
             self.angle = angle
-            self.image = pygame.transform.rotozoom(self.needleImage, self.angle, IMAGE_SCALE)
-            self.rect = self.image.get_rect()
-            self.rect.center = (0, 0)
-            return self.image, self.rect
 
     def rotate(self, rotation):
         """
@@ -118,10 +110,10 @@ class Instrument:
                 #self.indicator.turn_on_indicator(self.instrumentNumber)
 
         # rotate needle
-        image = pygame.transform.rotozoom(self.needleImage, self.angle, IMAGE_SCALE)
+        self.image = pygame.transform.rotozoom(self.needleImage, self.angle, IMAGE_SCALE)
 
         # reset the center
-        self.rect = image.get_rect()
+        self.rect = self.image.get_rect()
         self.rect.center = (0, 0)
 
     def blit_needle(self):

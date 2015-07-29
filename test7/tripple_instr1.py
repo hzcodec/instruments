@@ -40,6 +40,7 @@ os.environ["SDL_VIDEO_WINDOW_POS"] = "%d, %d" % WINDOW_POS
 
 pygame.init()
 screen  = pygame.display.set_mode((WIDTH, HEIGHT))
+
 fpsClock = pygame.time.Clock()
 
 indexFont = pygame.font.SysFont("None",28)
@@ -57,13 +58,10 @@ bgRect     = background.get_rect()
  
 # load needle for all instances of instrument
 firstInstrument = Instrument(screen, '../pic/small_red_needle.png', FIRST_INSTRUMENT_MID_POINT)
-#firstInstrument.set_flag(True)
+
 #secondInstrument = Instrument(screen, 2, '../pic/small_red_needle.png', 4)
-#secondInstrument.set_flag(True)
 #thirdInstrument = Instrument(screen, 3, '../pic/small_red_needle.png', 1)
-#thirdInstrument.set_flag(True)
 #fourthInstrument = Instrument(screen, 4, '../pic/small_red_needle.png', 2)
-#fourthInstrument.set_flag(True)
 
 # rotation point of instrument image
 offset1 = 19
@@ -71,8 +69,8 @@ offset2 = 19
 
 # set instrument at start position
 degAngle = -20.0
-
 firstInstrument.set_needle_position(degAngle)
+
 #secondInstrument.set_needle_position(degAngle)
 #thirdInstrument.set_needle_position(degAngle)
 #fourthInstrument.set_needle_position(degAngle)
