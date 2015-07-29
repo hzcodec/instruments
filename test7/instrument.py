@@ -42,7 +42,7 @@ class Instrument:
     """
     A class for handling the instrument.
     """
-    def __init__(self, screen, instrumentNumber, rotationSpeed, angle, image):
+    def __init__(self, screen, image, middlePoint):
         """
         input parameters:
           screen              -  Current surface name
@@ -52,27 +52,20 @@ class Instrument:
           image               -  Image of needle
         """
 
-        self.screen           = screen             
-        self.instrumentNumber = instrumentNumber
-        self.speed            = rotationSpeed
-        self.angle            = angle
-        self.base             = pygame.image.load(image)
+        self.needleImage      = pygame.image.load(image)
+        #self.speed            = rotationSpeed
+        #self.angle            = angle
 
-        self.mousePressed     = False  # flag indicating when mouse is pressed
+        self.speed            = 2
+        self.angle            = 0
         self.rpm              = 0      # number of rpm, used for test purpose
-#        self.indicator    = Indicator(self.screen) # create an Indicator instance
+        self.mousePressed     = False  # flag indicating when mouse is pressed
+        self.instrumentMidPoint  = middlePoint
+        self.screen  = screen
 
-    def rotate_needle(self, midPoint):
-        """
-        Rotate needle.
-        input parameters:
-          midPoint    -  Mid point of needle
-        """
-        rect = image.get_rect()
-        self.rect.center += np.asarray(midPoint)
-        print self.rect.center
-        self.rect.center += np.array([np.cos(math.radians(self.angle)) * 19,
-                                      -np.sin(math.radians(self.angle)) * 19])
+        #self.instrumentNumber = instrumentNumber
+
+#        self.indicator    = Indicator(self.screen) # create an Indicator instance
 
     def reset_parameters(self):
         """
@@ -81,7 +74,7 @@ class Instrument:
         self.angle         = 0
         self.rpm           = 0  
         self.mousePressed  = False
-        self.indicator.turn_off_indicator()
+        #self.indicator.turn_off_indicator()
 
     def set_flag(self, flag):
         """
@@ -89,10 +82,9 @@ class Instrument:
         """
         self.mousePressed = flag
 
-
     def set_needle_position(self, angle):
             self.angle = angle
-            self.image = pygame.transform.rotozoom(self.base, self.angle, IMAGE_SCALE)
+            self.image = pygame.transform.rotozoom(self.needleImage, self.angle, IMAGE_SCALE)
             self.rect = self.image.get_rect()
             self.rect.center = (0, 0)
             return self.image, self.rect
@@ -118,30 +110,32 @@ class Instrument:
 
             else:
                 print 'Stopped'
-                self.indicator.turn_off_indicator()
+                #self.indicator.turn_off_indicator()
 
             # clear flag when leftInstrument has reached final position
             if (int(self.angle) == rotation):
-                print 'mouse False'
                 self.mousePressed = False
-                self.indicator.turn_on_indicator(self.instrumentNumber)
+                #self.indicator.turn_on_indicator(self.instrumentNumber)
 
         # rotate needle
-        image = pygame.transform.rotozoom(self.base, self.angle, IMAGE_SCALE)
+        image = pygame.transform.rotozoom(self.needleImage, self.angle, IMAGE_SCALE)
 
         # reset the center
         self.rect = image.get_rect()
         self.rect.center = (0, 0)
- 
-#        self.rot(image, rect, displayMidPoint, 19, 19)
-#        self.blit_needle(screen, image, rect)
 
-        return image, rect
+    def blit_needle(self):
+        self.screen.blit(self.image, self.rect)
 
-    def blit_needle(self, scr, needleImage, needleRect):
-        scr.blit(needleImage, needleRect)
+    def instrument_update(self, degAngle):
+        """
+        """
+        self.rotate(degAngle)
 
-    def instrument_update(self, screen, angle, midPoint):
-        self.rotate(20)
-        self.rotate_needle(midPoint)
+        self.rect.center += np.asarray(self.instrumentMidPoint)
+        self.rect.center += np.array([np.cos(math.radians(self.angle)) * 19,
+                                      -np.sin(math.radians(self.angle)) * 19])
+
+        self.blit_needle()
+
 

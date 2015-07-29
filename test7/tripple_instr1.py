@@ -56,7 +56,7 @@ background = pygame.image.load("../pic/tripple.png")
 bgRect     = background.get_rect()
  
 # load needle for all instances of instrument
-firstInstrument = Instrument(screen, 1, -20.0, 1, '../pic/small_red_needle.png')
+firstInstrument = Instrument(screen, '../pic/small_red_needle.png', FIRST_INSTRUMENT_MID_POINT)
 #firstInstrument.set_flag(True)
 #secondInstrument = Instrument(screen, 2, '../pic/small_red_needle.png', 4)
 #secondInstrument.set_flag(True)
@@ -83,9 +83,9 @@ inputData = 0.0
 while 1:
  
     screen.blit(background, bgRect)
+    firstInstrument.instrument_update(degAngle)
     blit_idx()
- 
-    firstInstrument.instrument_update(screen, degAngle, FIRST_INSTRUMENT_MID_POINT)
+
   #  secondInstrument.instrument_update(screen, degAngle, SECOND_INSTRUMENT_MID_POINT)
     #needleImage1, needleRect1 = firstInstrument.rotate(degAngle) 
     #firstInstrument.rot(needleImage1, needleRect1, leftDisplayMidPoint, offset1, offset2)
