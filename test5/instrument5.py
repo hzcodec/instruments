@@ -109,15 +109,17 @@ class Instrument:
         self.blit_needle()
 
 
-# position window 
+# position window at WINDOW_POS
 os.environ["SDL_VIDEO_WINDOW_POS"] = "%d, %d" % WINDOW_POS
-fpsClock = pygame.time.Clock()
 
+# initialize pygame and set window size
 pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
+
+fpsClock = pygame.time.Clock()
  
+# initialize instrument instance
 instrument = Instrument('../pic/red_needle.png', INSTRUMENT_MIDDLE_POINT)
-instrument.set_flag(True)
 
 # set instrument angle at start position in degrees
 degAngle = -20.0
