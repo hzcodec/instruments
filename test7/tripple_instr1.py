@@ -43,6 +43,7 @@ screen  = pygame.display.set_mode((WIDTH, HEIGHT))
 
 fpsClock = pygame.time.Clock()
 
+# define font
 indexFont = pygame.font.SysFont("None",28)
 idx1 = indexFont.render("1", 0, BLACK)
 idx2 = indexFont.render("2", 0, BLACK)
@@ -56,16 +57,14 @@ instrument4 = indexFont.render("Position 4", 0, WHITE)
 background = pygame.image.load("../pic/tripple.png")
 bgRect     = background.get_rect()
  
-# load needle for all instances of instrument
-firstInstrument = Instrument(screen, '../pic/small_red_needle.png', FIRST_INSTRUMENT_MID_POINT, 1, 2)
-
+# generate instances for all instruments
+# input parameters: surface name, image, mid point, instrument index, speed
+firstInstrument  = Instrument(screen, '../pic/small_red_needle.png', FIRST_INSTRUMENT_MID_POINT,  1, 2)
 secondInstrument = Instrument(screen, '../pic/small_red_needle.png', SECOND_INSTRUMENT_MID_POINT, 2, 2)
-thirdInstrument = Instrument(screen, '../pic/small_red_needle.png', THIRD_INSTRUMENT_MID_POINT, 3, 1)
+thirdInstrument  = Instrument(screen, '../pic/small_red_needle.png', THIRD_INSTRUMENT_MID_POINT,  3, 1)
 fourthInstrument = Instrument(screen, '../pic/small_red_needle.png', FOURTH_INSTRUMENT_MID_POINT, 4, 1)
 
-# rotation point of instrument image
-offset1 = 19
-offset2 = 19
+# initalize variables
 firstInstrumentdegAngle  = 0.0
 secondInstrumentdegAngle = 0.0
 thirdInstrumentdegAngle  = 0.0
