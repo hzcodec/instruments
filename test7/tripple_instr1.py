@@ -59,21 +59,24 @@ bgRect     = background.get_rect()
 # load needle for all instances of instrument
 firstInstrument = Instrument(screen, '../pic/small_red_needle.png', FIRST_INSTRUMENT_MID_POINT)
 
-#secondInstrument = Instrument(screen, 2, '../pic/small_red_needle.png', 4)
-#thirdInstrument = Instrument(screen, 3, '../pic/small_red_needle.png', 1)
-#fourthInstrument = Instrument(screen, 4, '../pic/small_red_needle.png', 2)
+secondInstrument = Instrument(screen, '../pic/small_red_needle.png', SECOND_INSTRUMENT_MID_POINT)
+thirdInstrument = Instrument(screen, '../pic/small_red_needle.png', THIRD_INSTRUMENT_MID_POINT)
+fourthInstrument = Instrument(screen, '../pic/small_red_needle.png', FOURTH_INSTRUMENT_MID_POINT)
 
 # rotation point of instrument image
 offset1 = 19
 offset2 = 19
+firstInstrumentdegAngle  = 0.0
+secondInstrumentdegAngle = 0.0
+thirdInstrumentdegAngle  = 0.0
+fourthInstrumentdegAngle = 0.0
 
 # set instrument at start position
 degAngle = -20.0
 firstInstrument.set_needle_position(degAngle)
-
-#secondInstrument.set_needle_position(degAngle)
-#thirdInstrument.set_needle_position(degAngle)
-#fourthInstrument.set_needle_position(degAngle)
+secondInstrument.set_needle_position(degAngle)
+thirdInstrument.set_needle_position(degAngle)
+fourthInstrument.set_needle_position(degAngle)
 
 # input data that will set the final position of needle
 inputData = 0.0
@@ -81,17 +84,11 @@ inputData = 0.0
 while 1:
  
     screen.blit(background, bgRect)
-    firstInstrument.instrument_update(degAngle)
+    firstInstrument.instrument_update(firstInstrumentdegAngle)
+    secondInstrument.instrument_update(secondInstrumentdegAngle)
+    thirdInstrument.instrument_update(thirdInstrumentdegAngle)
+    fourthInstrument.instrument_update(fourthInstrumentdegAngle)
     blit_idx()
-
-  #  secondInstrument.instrument_update(screen, degAngle, SECOND_INSTRUMENT_MID_POINT)
-    #needleImage1, needleRect1 = firstInstrument.rotate(degAngle) 
-    #firstInstrument.rot(needleImage1, needleRect1, leftDisplayMidPoint, offset1, offset2)
-    #firstInstrument.blit_needle(screen, needleImage1, needleRect1)
-
-#    needleImage2, needleRect2 = secondInstrument.rotate(degAngle) 
-#    secondInstrument.rot(needleImage2, needleRect2, secondDisplayMidPoint, offset1, offset2)
-#    secondInstrument.blit_needle(screen, needleImage2, needleRect2)
 
     # check for events, [quit, mouse click]
     for event in pygame.event.get():
@@ -103,6 +100,9 @@ while 1:
         elif event.type == pygame.MOUSEBUTTONDOWN and event.button == RIGHT:
             print 'Restart'
             firstInstrument.reset_parameters()
+            secondInstrument.reset_parameters()
+            thirdInstrument.reset_parameters()
+            fourthInstrument.reset_parameters()
 
         elif event.type == pygame.KEYDOWN:
    
@@ -113,13 +113,22 @@ while 1:
             if event.key == pygame.K_1:
                 firstInstrument.set_flag(True)
                 inputData = 1.1
+                firstInstrumentdegAngle = -20*inputData + 220
 
             elif event.key == pygame.K_2:
                 secondInstrument.set_flag(True)
                 inputData = 6.4
+                secondInstrumentdegAngle = -20*inputData + 220
 
-            y = -20*inputData + 220
-            degAngle = y
+            elif event.key == pygame.K_3:
+                thirdInstrument.set_flag(True)
+                inputData = 8.1
+                thirdInstrumentdegAngle = -20*inputData + 220
+
+            elif event.key == pygame.K_4:
+                fourthInstrument.set_flag(True)
+                inputData = 3.8
+                fourthInstrumentdegAngle = -20*inputData + 220
 
     pygame.display.update()
     fpsClock.tick(30)
