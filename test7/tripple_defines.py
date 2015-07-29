@@ -28,3 +28,7 @@ FOURTH_INDICATOR_MID_POINT  = (1000, 300)
 
 # size of scale factor
 IMAGE_SCALE = 1
+
+# thickness of indicator out ring
+INDICATOR_THICKNESS = 3
+INDICATOR = 15

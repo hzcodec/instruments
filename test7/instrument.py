@@ -13,35 +13,27 @@ from tripple_defines import *
 class Indicator:
     def __init__(self, screen):
         self.screen = screen
-        pygame.draw.circle(self.screen, BLACK,   FIRST_INDICATOR_MID_POINT, 15, 0)
-        pygame.draw.circle(self.screen, WHITE,   FIRST_INDICATOR_MID_POINT, 15, 2)
-        pygame.draw.circle(self.screen, BLACK,   SECOND_INDICATOR_MID_POINT, 15, 0)
-        pygame.draw.circle(self.screen, WHITE,   SECOND_INDICATOR_MID_POINT, 15, 2)
-        pygame.draw.circle(self.screen, BLACK,   THIRD_INDICATOR_MID_POINT, 15, 0)
-        pygame.draw.circle(self.screen, WHITE,   THIRD_INDICATOR_MID_POINT, 15, 2)
-        pygame.draw.circle(self.screen, BLACK,   FOURTH_INDICATOR_MID_POINT, 15, 0)
-        pygame.draw.circle(self.screen, WHITE,   FOURTH_INDICATOR_MID_POINT, 15, 2)
+        self.turn_off_indicator()
 
     def turn_on_indicator(self, instNr):
         if instNr == 1:
-            pygame.draw.circle(self.screen, RED, FIRST_INDICATOR_MID_POINT, 14, 0)
+            pygame.draw.circle(self.screen, RED, FIRST_INDICATOR_MID_POINT, INDICATOR-INDICATOR_THICKNESS, 0)
         elif instNr == 2:
-            pygame.draw.circle(self.screen, BLUE, SECOND_INDICATOR_MID_POINT, 14, 0)
+            pygame.draw.circle(self.screen, BLUE, SECOND_INDICATOR_MID_POINT, INDICATOR-INDICATOR_THICKNESS, 0)
         elif instNr == 3:
-            pygame.draw.circle(self.screen, GREEN, THIRD_INDICATOR_MID_POINT, 14, 0)
+            pygame.draw.circle(self.screen, GREEN, THIRD_INDICATOR_MID_POINT, INDICATOR-INDICATOR_THICKNESS, 0)
         elif instNr == 4:
-            pygame.draw.circle(self.screen, YELLOW,  FOURTH_INDICATOR_MID_POINT, 14, 0)
+            pygame.draw.circle(self.screen, YELLOW,  FOURTH_INDICATOR_MID_POINT, INDICATOR-INDICATOR_THICKNESS, 0)
 
     def turn_off_indicator(self):
-        pygame.draw.circle(self.screen, BLACK,   (xPos,yPos), 15, 0)
-        pygame.draw.circle(self.screen, BLACK,   (xPos+265,yPos), 15, 0)
-        pygame.draw.circle(self.screen, BLACK,   (xPos+505,yPos), 15, 0)
-        pygame.draw.circle(self.screen, BLACK,   (xPos+765,yPos), 15, 0)
-
-        pygame.draw.circle(self.screen, WHITE,   (xPos,yPos), 15, 2)
-        pygame.draw.circle(self.screen, WHITE,   (xPos+265,yPos), 15, 2)
-        pygame.draw.circle(self.screen, WHITE,   (xPos+505,yPos), 15, 2)
-        pygame.draw.circle(self.screen, WHITE,   (xPos+765,yPos), 15, 2)
+        pygame.draw.circle(self.screen, BLACK,   FIRST_INDICATOR_MID_POINT, INDICATOR, 0)
+        pygame.draw.circle(self.screen, WHITE,   FIRST_INDICATOR_MID_POINT, INDICATOR, INDICATOR_THICKNESS)
+        pygame.draw.circle(self.screen, BLACK,   SECOND_INDICATOR_MID_POINT, INDICATOR, 0)
+        pygame.draw.circle(self.screen, WHITE,   SECOND_INDICATOR_MID_POINT, INDICATOR, INDICATOR_THICKNESS)
+        pygame.draw.circle(self.screen, BLACK,   THIRD_INDICATOR_MID_POINT, INDICATOR, 0)
+        pygame.draw.circle(self.screen, WHITE,   THIRD_INDICATOR_MID_POINT, INDICATOR, INDICATOR_THICKNESS)
+        pygame.draw.circle(self.screen, BLACK,   FOURTH_INDICATOR_MID_POINT, INDICATOR, 0)
+        pygame.draw.circle(self.screen, WHITE,   FOURTH_INDICATOR_MID_POINT, INDICATOR, INDICATOR_THICKNESS)
 
 
 class Instrument:
@@ -76,7 +68,7 @@ class Instrument:
         self.angle         = 0
         self.rpm           = 0  
         self.mousePressed  = False
-        #self.indicator.turn_off_indicator()
+        self.indicator.turn_off_indicator()
 
     def set_flag(self, flag):
         """
@@ -108,7 +100,6 @@ class Instrument:
 
             else:
                 print 'Stopped'
-                #self.indicator.turn_off_indicator()
 
             # clear flag when leftInstrument has reached final position
             if (int(self.angle) == rotation):
