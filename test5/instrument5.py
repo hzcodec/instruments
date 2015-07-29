@@ -5,7 +5,7 @@ import sys
 import math
 import os
 
-IMAGE_SCALE = 1
+IMAGE_SCALE = 1.0 
 
 # define colors
 BLACK  = (0, 0, 0)

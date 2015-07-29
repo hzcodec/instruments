@@ -40,7 +40,7 @@ class Instrument:
     """
     A class for handling the instrument.
     """
-    def __init__(self, screen, image, middlePoint, instrumentIndex, speed):
+    def __init__(self, screen, image, middlePoint, instrumentIndex, speed, scale=IMAGE_SCALE):
         """
         input parameters:
           screen          -  Current surface name
@@ -60,6 +60,7 @@ class Instrument:
         self.offsetX             = 19                     # offset for needle, x-position
         self.offsetY             = 19                     # offset for needle, y-position
         self.indicator           = Indicator(self.screen) # create an Indicator instance
+        self.scale               = scale                  # set scale of needle, default = IMAGE_SCALE
 
     def reset_parameters(self):
         """
@@ -107,7 +108,7 @@ class Instrument:
                 self.indicator.turn_on_indicator(self.instrumentIndex)
 
         # rotate needle
-        self.image = pygame.transform.rotozoom(self.needleImage, self.angle, IMAGE_SCALE)
+        self.image = pygame.transform.rotozoom(self.needleImage, self.angle, self.scale)
 
         # reset the center
         self.rect = self.image.get_rect()
