@@ -22,20 +22,24 @@ WINDOW_POS = (30,30)
 # define mouse buttons
 RIGHT = 3
 
+# define instrument's middle point
+INSTRUMENT_MIDDLE_POINT = (250, 250)
+
 
 class Instrument:
     """
     Instrument class.
       Input:
-        image - Image of needle.
+        image       - Image of needle.
+        middlePoint - Middle point of instrument
     """
-    def __init__(self, image):
-        self.needleImage    = pygame.image.load(image)  
-        self.speed          = 2             # rotation speed of needle
-        self.angle          = 0             # current angle in degrees
-        self.rpm            = 0             # number of rpm, used for test purpose
-        self.mousePressed   = False         # flag indicating when mouse is pressed
-        self.needleMidPoint = (250, 250)    # mid point for needle
+    def __init__(self, image, middlePoint):
+        self.needleImage        = pygame.image.load(image)  
+        self.speed              = 2             # rotation speed of needle
+        self.angle              = 0             # current angle in degrees
+        self.rpm                = 0             # number of rpm, used for test purpose
+        self.mousePressed       = False         # flag indicating when mouse is pressed
+        self.instrumentMidPoint = middlePoint   # mid point of needle
 
         # rotation point of needle image
         self.offset1 = 99
@@ -98,9 +102,9 @@ class Instrument:
     def instrument_update(self, degAngle):
         self.rotate(degAngle) 
 
-        self.rect.center += np.asarray(self.needleMidPoint)
+        self.rect.center += np.asarray(self.instrumentMidPoint)
         self.rect.center += np.array([np.cos(math.radians(self.angle)) * self.offset1,
-                                           -np.sin(math.radians(self.angle)) * self.offset2])
+                                     -np.sin(math.radians(self.angle)) * self.offset2])
 
         self.blit_needle()
 
@@ -112,29 +116,26 @@ fpsClock = pygame.time.Clock()
 pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
  
-needle = Instrument('../pic/red_needle.png')
-needle.set_flag(True)
+instrument = Instrument('../pic/red_needle.png', INSTRUMENT_MIDDLE_POINT)
+instrument.set_flag(True)
 
-# set needle at start position
+# set instrument angle at start position in degrees
 degAngle = -20.0
-needle.set_needle_position(degAngle)
+instrument.set_needle_position(degAngle)
 
 # load background image
 background = pygame.image.load("../pic/background3.png")
 bgRect     = background.get_rect()
 
 inputData = 0.0
-keyFlag   = 0
 
-# define headline, font type and text messages
-pygame.display.set_caption("                                  *** POSITION ***")
 
 while 1:
  
     screen.fill(BLACK)
  
     screen.blit(background, bgRect)
-    needle.instrument_update(degAngle)
+    instrument.instrument_update(degAngle)
 
     # check for events, [quit, mouse click]
     for event in pygame.event.get():
@@ -142,34 +143,31 @@ while 1:
             pygame.quit()
             sys.exit()
 
-        # reset the needle
+        # reset the instrument
         elif event.type == pygame.MOUSEBUTTONDOWN and event.button == RIGHT:
             print 'Restart'
-            needle.reset_parameters()
+            instrument.reset_parameters()
 
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_1:
-                needle.set_flag(True)
+                instrument.set_flag(True)
                 inputData = 1.0 
-                keyFlag = 1
 
             elif event.key == pygame.K_2:
-                needle.set_flag(True)
+                instrument.set_flag(True)
                 inputData = 6.5 
-                keyFlag = 2
 
             elif event.key == pygame.K_3:
-                needle.set_flag(True)
+                instrument.set_flag(True)
                 inputData = 12.0
-                keyFlag = 3
 
             elif event.key == pygame.K_4:
-                needle.set_flag(True)
+                instrument.set_flag(True)
                 inputData = 2.8
-                keyFlag = 4
 
             y = -20*inputData + 220
             degAngle = y
+            print 'degAngle:',degAngle
 
     pygame.display.update()
     fpsClock.tick(30)
