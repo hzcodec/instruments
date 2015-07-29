@@ -57,11 +57,11 @@ background = pygame.image.load("../pic/tripple.png")
 bgRect     = background.get_rect()
  
 # load needle for all instances of instrument
-firstInstrument = Instrument(screen, '../pic/small_red_needle.png', FIRST_INSTRUMENT_MID_POINT)
+firstInstrument = Instrument(screen, '../pic/small_red_needle.png', FIRST_INSTRUMENT_MID_POINT, 1, 2)
 
-secondInstrument = Instrument(screen, '../pic/small_red_needle.png', SECOND_INSTRUMENT_MID_POINT)
-thirdInstrument = Instrument(screen, '../pic/small_red_needle.png', THIRD_INSTRUMENT_MID_POINT)
-fourthInstrument = Instrument(screen, '../pic/small_red_needle.png', FOURTH_INSTRUMENT_MID_POINT)
+secondInstrument = Instrument(screen, '../pic/small_red_needle.png', SECOND_INSTRUMENT_MID_POINT, 2, 2)
+thirdInstrument = Instrument(screen, '../pic/small_red_needle.png', THIRD_INSTRUMENT_MID_POINT, 3, 1)
+fourthInstrument = Instrument(screen, '../pic/small_red_needle.png', FOURTH_INSTRUMENT_MID_POINT, 4, 1)
 
 # rotation point of instrument image
 offset1 = 19
@@ -83,6 +83,7 @@ inputData = 0.0
 
 while 1:
  
+    # update each instrument
     screen.blit(background, bgRect)
     firstInstrument.instrument_update(firstInstrumentdegAngle)
     secondInstrument.instrument_update(secondInstrumentdegAngle)
@@ -96,7 +97,7 @@ while 1:
             pygame.quit()
             sys.exit()
 
-        # reset the firstInstrument
+        # reset the instruments
         elif event.type == pygame.MOUSEBUTTONDOWN and event.button == RIGHT:
             print 'Restart'
             firstInstrument.reset_parameters()
@@ -104,6 +105,7 @@ while 1:
             thirdInstrument.reset_parameters()
             fourthInstrument.reset_parameters()
 
+        # trig the instruments
         elif event.type == pygame.KEYDOWN:
    
             if event.key == pygame.K_ESCAPE:
