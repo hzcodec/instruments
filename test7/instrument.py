@@ -102,7 +102,7 @@ class Instrument:
             else:
                 print 'Stopped'
 
-            # clear flag when leftInstrument has reached final position
+            # clear flag when instrument has reached final position
             if (int(self.angle) == rotation):
                 self.mousePressed = False
                 self.indicator.turn_on_indicator(self.instrumentIndex)
