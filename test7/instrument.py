@@ -50,7 +50,7 @@ class Instrument:
           speed           -  Speed of needle
         """
         self.screen              = screen
-        self.needleImage         = pygame.image.load(image)
+        self.needleImage         = pygame.image.load(image).convert_alpha()
         self.instrumentMidPoint  = middlePoint
         self.instrumentIndex     = instrumentIndex
         self.speed               = speed
