@@ -81,7 +81,7 @@ while 1:
     screen.blit(background, bgRect)
     firstInstrument.instrument_update(firstInstrumentdegAngle)
     #secondInstrument.instrument_update(secondInstrumentdegAngle)
-    pygame.draw.circle(screen, RED, (250,150), 15, 0)
+    pygame.draw.circle(screen, RED1, (250,150), 15, 0)
     pygame.draw.circle(screen, BLACK, (250,150), 5, 0)
     blit_idx()
 
