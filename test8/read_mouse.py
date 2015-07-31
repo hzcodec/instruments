@@ -13,6 +13,7 @@ from instrument import Instrument
 def blit_idx():
     """
     Print out index number for each instrument
+    I know! There are magic numbers here. Just to lazy right now.
     """
     screen.blit(idx1, (165,165)) # add 250
     screen.blit(idx1, (415,165))
@@ -31,8 +32,6 @@ def blit_idx():
 
     screen.blit(instrument1, (200,260))
     screen.blit(instrument2, (460,260))
-#    screen.blit(instrument3, (700,260))
-#    screen.blit(instrument4, (960,260))
 
 
 # position window 
@@ -81,6 +80,8 @@ while 1:
     screen.blit(background, bgRect)
     firstInstrument.instrument_update(firstInstrumentdegAngle)
     #secondInstrument.instrument_update(secondInstrumentdegAngle)
+   
+    # draw center circle and blit index number in instrument
     pygame.draw.circle(screen, RED1,  (250,150), 15, 0)
     pygame.draw.circle(screen, BLACK, (250,150), 5, 0)
     blit_idx()
@@ -104,12 +105,6 @@ while 1:
                 pygame.quit()
                 sys.exit()
             
-            elif event.key == pygame.K_3:
-                inputData = 6.8
-
-            elif event.key == pygame.K_4:
-                inputData = 3.8
-
         # set instrument 1 and 2 via mouse position
         elif event.type == pygame.MOUSEMOTION:
             # the factor 107: k = (1400-1) / (12-1)
