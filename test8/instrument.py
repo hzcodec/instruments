@@ -10,31 +10,6 @@ yPos = 300
 # import all defines
 from defines import *
 
-class Indicator:
-    def __init__(self, screen):
-        self.screen = screen
-        self.turn_off_indicator()
-
-    def turn_on_indicator(self, instNr):
-        if instNr == 1:
-            pygame.draw.circle(self.screen, RED, FIRST_INDICATOR_MID_POINT, INDICATOR-INDICATOR_THICKNESS, 0)
-        elif instNr == 2:
-            pygame.draw.circle(self.screen, BLUE, SECOND_INDICATOR_MID_POINT, INDICATOR-INDICATOR_THICKNESS, 0)
-        elif instNr == 3:
-            pygame.draw.circle(self.screen, GREEN, THIRD_INDICATOR_MID_POINT, INDICATOR-INDICATOR_THICKNESS, 0)
-        elif instNr == 4:
-            pygame.draw.circle(self.screen, YELLOW,  FOURTH_INDICATOR_MID_POINT, INDICATOR-INDICATOR_THICKNESS, 0)
-
-    def turn_off_indicator(self):
-        pygame.draw.circle(self.screen, BLACK,   FIRST_INDICATOR_MID_POINT, INDICATOR, 0)
-        pygame.draw.circle(self.screen, WHITE,   FIRST_INDICATOR_MID_POINT, INDICATOR, INDICATOR_THICKNESS)
-        pygame.draw.circle(self.screen, BLACK,   SECOND_INDICATOR_MID_POINT, INDICATOR, 0)
-        pygame.draw.circle(self.screen, WHITE,   SECOND_INDICATOR_MID_POINT, INDICATOR, INDICATOR_THICKNESS)
-        pygame.draw.circle(self.screen, BLACK,   THIRD_INDICATOR_MID_POINT, INDICATOR, 0)
-        pygame.draw.circle(self.screen, WHITE,   THIRD_INDICATOR_MID_POINT, INDICATOR, INDICATOR_THICKNESS)
-        pygame.draw.circle(self.screen, BLACK,   FOURTH_INDICATOR_MID_POINT, INDICATOR, 0)
-        pygame.draw.circle(self.screen, WHITE,   FOURTH_INDICATOR_MID_POINT, INDICATOR, INDICATOR_THICKNESS)
-
 
 class Instrument:
     """
@@ -57,9 +32,6 @@ class Instrument:
         self.angle               = 0
         self.rpm                 = 0                      # number of rpm, used for test purpose
         self.mousePressed        = False                  # flag indicating when mouse is pressed
-        self.offsetX             = 19                     # offset for needle, x-position
-        self.offsetY             = 19                     # offset for needle, y-position
-        self.indicator           = Indicator(self.screen) # create an Indicator instance
         self.scale               = scale                  # set scale of needle, default = IMAGE_SCALE
 
     def reset_parameters(self):
@@ -69,7 +41,6 @@ class Instrument:
         self.angle         = 0
         self.rpm           = 0  
         self.mousePressed  = False
-        self.indicator.turn_off_indicator()
 
     def set_flag(self, flag):
         """
@@ -109,10 +80,10 @@ class Instrument:
             # clear flag when instrument has reached final position
             if (int(self.angle) == rotation):
                 self.mousePressed = False
-                self.indicator.turn_on_indicator(self.instrumentIndex)
 
         # rotate needle
-        self.image = pygame.transform.rotozoom(self.needleImage, self.angle, self.scale)
+        #self.image = pygame.transform.rotozoom(self.needleImage, self.angle, self.scale)
+        self.image = pygame.transform.rotate(self.needleImage, self.angle)
 
         # reset the center
         self.rect = self.image.get_rect()
@@ -126,9 +97,12 @@ class Instrument:
         """
         self.rotate(degAngle)
 
-        self.rect.center += np.asarray(self.instrumentMidPoint)
-        self.rect.center += np.array([np.cos(math.radians(self.angle)) * self.offsetX,
-                                      -np.sin(math.radians(self.angle)) * self.offsetY])
+        #self.rect.center += np.asarray(self.instrumentMidPoint)
+        self.rect.center = self.instrumentMidPoint
+        print 'Angle:',self.angle,'   -  Midpoint Rect:',self.rect
+        self.rect.center += np.array([np.cos(math.radians(self.angle)) * OFFSET_X,
+                                      -np.sin(math.radians(self.angle)) * OFFSET_Y])
+        print 'Rect:',self.rect
 
         self.blit_needle()
 

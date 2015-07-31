@@ -17,21 +17,17 @@ RIGHT = 3
 # define mid point for left and right instrument
 FIRST_INSTRUMENT_MID_POINT   = (250, 150)
 SECOND_INSTRUMENT_MID_POINT  = (500, 150)
-THIRD_INSTRUMENT_MID_POINT   = (750, 150)
-FOURTH_INSTRUMENT_MID_POINT  = (1000, 150)
 
 # define mid point for indicators
 FIRST_INDICATOR_MID_POINT   = (250, 300)
 SECOND_INDICATOR_MID_POINT  = (500, 300)
-THIRD_INDICATOR_MID_POINT   = (750, 300)
-FOURTH_INDICATOR_MID_POINT  = (1000, 300)
 
 # size of scale factor
 IMAGE_SCALE = 1
 
-# thickness of indicator out ring
-INDICATOR_THICKNESS = 1
-INDICATOR = 12
-
 # test
-TEST_ROT_SPEED = 4
+TEST_ROT_SPEED = 2
+
+# offset of needle
+OFFSET_X = 40
+OFFSET_Y = 40

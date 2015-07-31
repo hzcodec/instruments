@@ -52,8 +52,6 @@ idx2 = indexFont.render("2", 0, BLACK)
 idx3 = indexFont.render("3", 0, BLACK)
 instrument1 = indexFont.render("Mouse X-pos", 0, RED)
 instrument2 = indexFont.render("Mouse Y-pos", 0, GREEN)
-#instrument3 = indexFont.render("Position 3", 0, WHITE)
-#instrument4 = indexFont.render("Position 4", 0, WHITE)
 
 # load instrument image and get rectangle size
 background = pygame.image.load("../pic/tripple.png")
@@ -62,22 +60,16 @@ bgRect     = background.get_rect()
 # generate instances for all instruments
 # input parameters: surface name, image, mid point, instrument index, speed
 firstInstrument  = Instrument(screen, '../pic/small_red_needle.png', FIRST_INSTRUMENT_MID_POINT,  1, TEST_ROT_SPEED)
-secondInstrument = Instrument(screen, '../pic/small_red_needle.png', SECOND_INSTRUMENT_MID_POINT, 2, 2)
-#thirdInstrument  = Instrument(screen, '../pic/small_red_needle.png', THIRD_INSTRUMENT_MID_POINT,  3, 1)
-#fourthInstrument = Instrument(screen, '../pic/small_red_needle.png', FOURTH_INSTRUMENT_MID_POINT, 4, 1)
+#secondInstrument = Instrument(screen, '../pic/small_red_needle.png', SECOND_INSTRUMENT_MID_POINT, 2, 2)
 
 # initalize variables
 firstInstrumentdegAngle  = 0
 secondInstrumentdegAngle = 0.0
-#thirdInstrumentdegAngle  = 0.0
-#fourthInstrumentdegAngle = 0.0
 
 # set instrument at start position
 degAngle = -20.0
 firstInstrument.set_needle_position(degAngle)
-secondInstrument.set_needle_position(degAngle)
-#thirdInstrument.set_needle_position(degAngle)
-#fourthInstrument.set_needle_position(degAngle)
+#secondInstrument.set_needle_position(degAngle)
 
 # input data that will set the final position of needle
 inputData  = 0.0
@@ -85,13 +77,12 @@ mouseDataX = 0.0
 mouseDataY = 0.0
 
 while 1:
- 
     # update each instrument
     screen.blit(background, bgRect)
     firstInstrument.instrument_update(firstInstrumentdegAngle)
-    secondInstrument.instrument_update(secondInstrumentdegAngle)
-    #thirdInstrument.instrument_update(thirdInstrumentdegAngle)
-    #fourthInstrument.instrument_update(fourthInstrumentdegAngle)
+    #secondInstrument.instrument_update(secondInstrumentdegAngle)
+    pygame.draw.circle(screen, RED, (250,150), 15, 0)
+    pygame.draw.circle(screen, BLACK, (250,150), 5, 0)
     blit_idx()
 
     # check for events, [quit, mouse click]
@@ -104,9 +95,7 @@ while 1:
         elif event.type == pygame.MOUSEBUTTONDOWN and event.button == RIGHT:
             print 'Restart'
             firstInstrument.reset_parameters()
-            secondInstrument.reset_parameters()
-            #thirdInstrument.reset_parameters()
-            #fourthInstrument.reset_parameters()
+            #secondInstrument.reset_parameters()
 
         # trig the instruments
         elif event.type == pygame.KEYDOWN:
@@ -116,14 +105,10 @@ while 1:
                 sys.exit()
             
             elif event.key == pygame.K_3:
-                #thirdInstrument.set_flag(True)
                 inputData = 6.8
-                thirdInstrumentdegAngle = -20*inputData + 220
 
             elif event.key == pygame.K_4:
-                #fourthInstrument.set_flag(True)
                 inputData = 3.8
-                fourthInstrumentdegAngle = -20*inputData + 220
 
         # set instrument 1 and 2 via mouse position
         elif event.type == pygame.MOUSEMOTION:
@@ -140,10 +125,10 @@ while 1:
             elif mouseDataX > 12.0:
                 mouseDataX = 12.0
 
-            if mouseDataY < 1.0:
-                mouseDataY = 1.0
-            elif mouseDataY > 12.0:
-                mouseDataY = 12.0
+#            if mouseDataY < 1.0:
+#                mouseDataY = 1.0
+#            elif mouseDataY > 12.0:
+#                mouseDataY = 12.0
 
             #print float("{0:.1f}".format(mouseDataX))
             #print float("{0:.1f}".format(mouseDataY))
@@ -153,9 +138,9 @@ while 1:
             firstInstrumentdegAngle = int(-20*inputData + 220)
             print '1st angle:',firstInstrumentdegAngle
 
-            secondInstrument.set_flag(True)
-            inputData = float("{0:.1f}".format(mouseDataY))
-            secondInstrumentdegAngle = -20*inputData + 220
+#            secondInstrument.set_flag(True)
+#            inputData = float("{0:.1f}".format(mouseDataY))
+#            secondInstrumentdegAngle = -20*inputData + 220
 
     pygame.display.update()
     fpsClock.tick(30)
