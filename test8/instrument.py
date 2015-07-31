@@ -65,13 +65,13 @@ class Instrument:
             # rotate instrument counter clock wise
             if int(self.angle) < rotation:
                 if (abs(self.angle-rotation) < TEST_ROT_SPEED):
-                    self.angle += 2
+                    self.angle += 1
                 self.angle += self.speed
 
-            # rotate leftInstrument clock wise
+            # rotate instrument clock wise
             elif int(self.angle) > rotation:
                 if (abs(self.angle-rotation) > TEST_ROT_SPEED):
-                    self.angle -= 2
+                    self.angle -= 1
                 self.angle -= self.speed
 
             else:
@@ -82,12 +82,10 @@ class Instrument:
                 self.mousePressed = False
 
         # rotate needle
-        #self.image = pygame.transform.rotozoom(self.needleImage, self.angle, self.scale)
         self.image = pygame.transform.rotate(self.needleImage, self.angle)
 
         # reset the center
         self.rect = self.image.get_rect()
-        self.rect.center = (0, 0)
 
     def blit_needle(self):
         self.screen.blit(self.image, self.rect)
@@ -97,7 +95,6 @@ class Instrument:
         """
         self.rotate(degAngle)
 
-        #self.rect.center += np.asarray(self.instrumentMidPoint)
         self.rect.center = self.instrumentMidPoint
         print 'Angle:',self.angle,'   -  Midpoint Rect:',self.rect
         self.rect.center += np.array([np.cos(math.radians(self.angle)) * OFFSET_X,
@@ -105,5 +102,4 @@ class Instrument:
         print 'Rect:',self.rect
 
         self.blit_needle()
-
 

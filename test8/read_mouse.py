@@ -47,9 +47,9 @@ fpsClock = pygame.time.Clock()
 
 # define font
 indexFont = pygame.font.SysFont("None",28)
-idx1 = indexFont.render("1", 0, BLACK)
-idx2 = indexFont.render("2", 0, BLACK)
-idx3 = indexFont.render("3", 0, BLACK)
+idx1 = indexFont.render("0", 0, BLACK)
+idx2 = indexFont.render("1", 0, BLACK)
+idx3 = indexFont.render("2", 0, BLACK)
 instrument1 = indexFont.render("Mouse X-pos", 0, RED)
 instrument2 = indexFont.render("Mouse Y-pos", 0, GREEN)
 
@@ -81,7 +81,7 @@ while 1:
     screen.blit(background, bgRect)
     firstInstrument.instrument_update(firstInstrumentdegAngle)
     #secondInstrument.instrument_update(secondInstrumentdegAngle)
-    pygame.draw.circle(screen, RED1, (250,150), 15, 0)
+    pygame.draw.circle(screen, RED1,  (250,150), 15, 0)
     pygame.draw.circle(screen, BLACK, (250,150), 5, 0)
     blit_idx()
 
