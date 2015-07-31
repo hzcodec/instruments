@@ -61,13 +61,13 @@ bgRect     = background.get_rect()
  
 # generate instances for all instruments
 # input parameters: surface name, image, mid point, instrument index, speed
-firstInstrument  = Instrument(screen, '../pic/small_red_needle.png', FIRST_INSTRUMENT_MID_POINT,  1, 2)
+firstInstrument  = Instrument(screen, '../pic/small_red_needle.png', FIRST_INSTRUMENT_MID_POINT,  1, TEST_ROT_SPEED)
 secondInstrument = Instrument(screen, '../pic/small_red_needle.png', SECOND_INSTRUMENT_MID_POINT, 2, 2)
 thirdInstrument  = Instrument(screen, '../pic/small_red_needle.png', THIRD_INSTRUMENT_MID_POINT,  3, 1)
 fourthInstrument = Instrument(screen, '../pic/small_red_needle.png', FOURTH_INSTRUMENT_MID_POINT, 4, 1)
 
 # initalize variables
-firstInstrumentdegAngle  = 0.0
+firstInstrumentdegAngle  = 0
 secondInstrumentdegAngle = 0.0
 thirdInstrumentdegAngle  = 0.0
 fourthInstrumentdegAngle = 0.0
@@ -145,12 +145,13 @@ while 1:
             elif mouseDataY > 12.0:
                 mouseDataY = 12.0
 
-            print float("{0:.1f}".format(mouseDataX))
-            print float("{0:.1f}".format(mouseDataY))
+            #print float("{0:.1f}".format(mouseDataX))
+            #print float("{0:.1f}".format(mouseDataY))
 
             firstInstrument.set_flag(True)
             inputData = float("{0:.1f}".format(mouseDataX))
-            firstInstrumentdegAngle = -20*inputData + 220
+            firstInstrumentdegAngle = int(-20*inputData + 220)
+            print '1st angle:',firstInstrumentdegAngle
 
             secondInstrument.set_flag(True)
             inputData = float("{0:.1f}".format(mouseDataY))

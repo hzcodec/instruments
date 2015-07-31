@@ -91,12 +91,16 @@ class Instrument:
             # increment loop counter, used for debug purpose
             self.rpm += 1
 
-            # rotate leftInstrument counter clock wise
+            # rotate instrument counter clock wise
             if int(self.angle) < rotation:
+                if (abs(self.angle-rotation) < TEST_ROT_SPEED):
+                    self.angle += 2
                 self.angle += self.speed
 
             # rotate leftInstrument clock wise
             elif int(self.angle) > rotation:
+                if (abs(self.angle-rotation) > TEST_ROT_SPEED):
+                    self.angle -= 2
                 self.angle -= self.speed
 
             else:

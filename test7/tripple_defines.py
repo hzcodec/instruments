@@ -32,3 +32,6 @@ IMAGE_SCALE = 1
 # thickness of indicator out ring
 INDICATOR_THICKNESS = 1
 INDICATOR = 12
+
+# test
+TEST_ROT_SPEED = 4
