@@ -4,9 +4,6 @@ import pygame.locals
 import sys
 import math
 
-xPos = 210
-yPos = 300
-
 # import all defines
 from defines import *
 
@@ -88,15 +85,20 @@ class Instrument:
         self.rect = self.image.get_rect()
 
     def blit_needle(self):
+        """
+        Blit needle onto screen.
+        """
         self.screen.blit(self.image, self.rect)
 
     def instrument_update(self, degAngle):
         """
+        Calculate new position of needle.
+        Input parameters:
+          degAngle - Angle of rotation in degrees.
         """
         self.rotate(degAngle)
 
         self.rect.center = self.instrumentMidPoint
-        print 'Angle:',self.angle,'   -  Midpoint Rect:',self.rect
         self.rect.center += np.array([np.cos(math.radians(self.angle)) * OFFSET_X,
                                       -np.sin(math.radians(self.angle)) * OFFSET_Y])
         print 'Rect:',self.rect
