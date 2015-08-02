@@ -7,11 +7,12 @@ import math
 # Rotate => boundary rectangle change => center change
 
 # define colors
-RED   = (255, 0, 0)
-GREEN = (0, 255, 0)
-BLUE  = (0, 0, 255)
-BLACK = (0, 0, 0)
-WHITE = (255, 255, 255)
+RED         = (255, 0, 0)
+GREEN       = (0, 255, 0)
+BLUE        = (0, 0, 255)
+LIGHT_BLUE  = (0, 255, 255)
+BLACK       = (0, 0, 0)
+WHITE       = (255, 255, 255)
 
 RIGHT = 3
 
@@ -69,9 +70,11 @@ while True:
     rotatedImageRectangle = rotatedImage.get_rect()
 
     radAngle = math.radians(angle)
-    xPos = math.cos(radAngle)
-    yPos = math.sin(radAngle)
-    print 'xPos:',xPos*offsetX,'  -  yPos:',yPos*offsetY
+    xPos = math.cos(radAngle)*offsetX
+    yPos = math.sin(radAngle)*offsetY
+
+    print '-'*60
+    print 'xPos:',xPos,'  -  yPos:',yPos
 
     rotatedImageRectangle.center = (320,180)
 
@@ -80,13 +83,19 @@ while True:
                                    rotatedImageRectangle[1],
                                    rotatedImageRectangle[2],
                                    rotatedImageRectangle[3]), 1)
-    #print 'Green rectangle before update:',rotatedImageRectangle
+    print '  Green rectangle before update:',rotatedImageRectangle
+    print '  New x:',rotatedImageRectangle[0]+xPos
+    print '  New y:',rotatedImageRectangle[1]-yPos
+    pygame.draw.line(screen, LIGHT_BLUE, (0,0), (rotatedImageRectangle[0],rotatedImageRectangle[1]), 2)
     
-    # move rectangle according to the angle
+
+    # ------------------------------------------------------------------------------------------------------
+    # Now compensate rectangle due to the angle
+    # ------------------------------------------------------------------------------------------------------
     rotatedImageRectangle.center += np.array([np.cos(math.radians(angle)) * offsetX,
                                    -np.sin(math.radians(angle)) * offsetY])
 
-    #print '  Red rectangle after update:',rotatedImageRectangle
+    print '  Red rectangle after update:',rotatedImageRectangle
 
     # blit rotated image
     screen.blit(rotatedImage, rotatedImageRectangle)
@@ -96,6 +105,8 @@ while True:
                                    rotatedImageRectangle[1],
                                    rotatedImageRectangle[2],
                                    rotatedImageRectangle[3]), 1)
+
+    pygame.draw.line(screen, LIGHT_BLUE, (0,0), (rotatedImageRectangle[0],rotatedImageRectangle[1]), 2)
 
     pygame.display.update()
     pygame.time.delay(2)
