@@ -13,11 +13,12 @@ import os
 # define constants related to window size and button positions
 X_DIAL_COORD   = 200 
 Y_DIAL_COORD   = 100 
-X_NEEDLE_COORD = 280 
-Y_NEEDLE_COORD = 100 
+X_NEEDLE_COORD = 365 
+Y_NEEDLE_COORD = 280 
 
 (WIDTH, HEIGHT) = (800, 600)
 BLACK = (0,0,0)
+RED   = (255,0,0)
 
 # setup button positions
 DIAL_POS   = (X_DIAL_COORD, Y_DIAL_COORD)
@@ -30,8 +31,8 @@ pygame.init()
 screen = pygame.display.set_mode((WIDTH,HEIGHT), 0, 32)
 
 # load button images, if convert() is used then the background is affected
-dial = pygame.image.load('instrument0-9.png') #.convert()
-needle = pygame.image.load('needle.png') #.convert()
+dial   = pygame.image.load('instrument0-9.png') #.convert()
+needle = pygame.image.load('needle2.png')
 
 # fix background
 background = pygame.Surface(screen.get_size())
@@ -41,6 +42,10 @@ screen.blit(background,(0, 0))
 # blit dial on the screen
 screen.blit(dial,(DIAL_POS))
 screen.blit(needle,(NEEDLE_POS))
+
+# draw help line
+#pygame.draw.line(screen, RED, (10,300), (790,300))
+#pygame.draw.line(screen, RED, (400,10), (400,590))
 
 pygame.display.flip()
 
