@@ -116,7 +116,7 @@ class Instrument:
 
         # reset the center
         self.rect = self.image.get_rect()
-        self.rect.center = (0, 0)
+#        self.rect.center = (0, 0)
 
     def blit_needle(self):
         self.screen.blit(self.image, self.rect)
