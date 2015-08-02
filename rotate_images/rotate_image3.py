@@ -4,7 +4,8 @@
 # Reference   : -
 # Description : Rotate the loaded image at an offset position.
 #               The position is set by offsetX and offsetY.
-#               The rotation is controlled by left mouse button.
+#               Same as rotation_image2 but now rotating without mouse controll.
+#               Instead the rotation speed is set by TIME_DELAY_IN_MS.
 #
 # Python ver : 2.7.3 (gcc 4.6.3)
 
@@ -21,6 +22,8 @@ BLUE        = (0, 0, 255)
 LIGHT_BLUE  = (0, 255, 255)
 BLACK       = (0, 0, 0)
 WHITE       = (255, 255, 255)
+
+TIME_DELAY_IN_MS = 200
 
 RIGHT = 3
 
@@ -57,17 +60,13 @@ while True:
             pygame.quit()
             sys.exit()
 
-        elif event.type == pygame.MOUSEBUTTONUP and event.button == RIGHT:
-            angle += 10
-            if angle > 360:
-                angle = 0
-          
-            print 'angle:',angle
-
         elif event.type == KEYDOWN and event.key == pygame.K_ESCAPE:
             pygame.quit()
             sys.exit()
 
+    angle += 10
+    if angle > 360:
+        angle = 0
 
     screen.fill(BLACK)
 
@@ -82,7 +81,7 @@ while True:
     yPos = math.sin(radAngle)*offsetY
 
     print '-'*60
-    print 'xPos:',xPos,'  -  yPos:',yPos
+    print 'angle:',angle,'  -  xPos:',xPos,'  -  yPos:',yPos
 
     rotatedImageRectangle.center = (320,180)
 
@@ -118,5 +117,5 @@ while True:
     pygame.draw.line(screen, LIGHT_BLUE, (0,0), (rotatedImageRectangle[0],rotatedImageRectangle[1]), 2)
 
     pygame.display.update()
-    pygame.time.delay(2)
+    pygame.time.delay(TIME_DELAY_IN_MS)
 
