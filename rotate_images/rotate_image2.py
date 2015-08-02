@@ -8,6 +8,7 @@ import math
 
 # define colors
 RED   = (255, 0, 0)
+GREEN = (0, 255, 0)
 BLUE  = (0, 0, 255)
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
@@ -50,6 +51,10 @@ while True:
 
         elif event.type == pygame.MOUSEBUTTONUP and event.button == RIGHT:
             angle += 10
+            if angle > 360:
+                angle = 0
+          
+            print 'angle:',angle
 
         elif event.type == KEYDOWN and event.key == pygame.K_ESCAPE:
             pygame.quit()
@@ -62,13 +67,25 @@ while True:
     pygame.draw.line(screen, BLUE, (320,10), (320,350), 2)
 
     rotatedImage = pygame.transform.rotate(image, angle)
-    #rotatedImage = pygame.transform.rotozoom(image, angle, 0.5)
     rotatedImageRectangle = rotatedImage.get_rect()
 
+    radAngle = math.radians(angle)
+    xPos = math.cos(radAngle)
+    yPos = math.sin(radAngle)
+#    print 'xPos:',xPos,'  -  yPos:',yPos
+
     rotatedImageRectangle.center = (320,180)
+    pygame.draw.rect(screen, GREEN, (rotatedImageRectangle[0],
+                                   rotatedImageRectangle[1],
+                                   rotatedImageRectangle[2],
+                                   rotatedImageRectangle[3]), 1)
+    print 'Green rectangle before update:',rotatedImageRectangle
+    
+    # move rectangle according to the angle
     rotatedImageRectangle.center += np.array([np.cos(math.radians(angle)) * offsetX,
                                    -np.sin(math.radians(angle)) * offsetY])
-    print 'Rectangle:',rotatedImageRectangle
+    print '  Red rectangle after update:',rotatedImageRectangle
+
 
     screen.blit(rotatedImage, rotatedImageRectangle)
 

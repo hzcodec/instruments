@@ -56,8 +56,8 @@ while True:
     rotatedImage = pygame.transform.rotate(image, angle)
     rotatedImageRectangle = rotatedImage.get_rect()
 
-    #rotatedImageRectangle.center = (mousePos[0],mousePos[1])
-    rotatedImageRectangle.center = (320,180)
+    rotatedImageRectangle.center = (mousePos[0],mousePos[1])
+    #rotatedImageRectangle.center = (320,180)
 
     screen.blit(rotatedImage, rotatedImageRectangle)
 
