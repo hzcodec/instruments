@@ -87,12 +87,14 @@ while True:
 
     # draw a rectangle before compensation of the angle
     pygame.draw.rect(screen, GREEN, (rotatedImageRectangle[0],
-                                   rotatedImageRectangle[1],
-                                   rotatedImageRectangle[2],
-                                   rotatedImageRectangle[3]), 1)
+                                     rotatedImageRectangle[1],
+                                     rotatedImageRectangle[2],
+                                     rotatedImageRectangle[3]), 1)
+
     print '  Green rectangle before update:',rotatedImageRectangle
     print '  New x:',rotatedImageRectangle[0]+xPos
     print '  New y:',rotatedImageRectangle[1]-yPos
+
     pygame.draw.line(screen, LIGHT_BLUE, (0,0), (rotatedImageRectangle[0],rotatedImageRectangle[1]), 2)
     
 
@@ -112,7 +114,8 @@ while True:
     pygame.draw.rect(screen, RED, (rotatedImageRectangle[0],
                                    rotatedImageRectangle[1],
                                    rotatedImageRectangle[2],
-                                   rotatedImageRectangle[3]), 1)
+                                   rotatedImageRectangle[3]),
+                                   1)
 
     pygame.draw.line(screen, LIGHT_BLUE, (0,0), (rotatedImageRectangle[0],rotatedImageRectangle[1]), 2)
 
