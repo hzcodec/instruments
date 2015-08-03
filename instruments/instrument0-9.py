@@ -3,6 +3,7 @@
 # File        : instrument0-9.py
 # Reference   : -
 # Description : Just loading one image of a dial.
+#               N.B!! For some reason this pgm does not work.
 #
 # Python ver : 2.7.3 (gcc 4.6.3)
 
