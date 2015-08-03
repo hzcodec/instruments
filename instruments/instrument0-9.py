@@ -21,6 +21,7 @@ Y_NEEDLE_COORD = 300
 (WIDTH, HEIGHT) = (800, 600)
 BLACK = (0,0,0)
 RED   = (255,0,0)
+GREEN = (0,255,0)
 BLUE  = (0,0,255)
 
 # setup button positions
@@ -35,7 +36,6 @@ screen = pygame.display.set_mode((WIDTH,HEIGHT), 0, 32)
 
 # load button images, if convert() is used then the background is affected
 dial   = pygame.image.load('instrument0-9.png') #.convert()
-#dial   = pygame.image.load('instrument1.png') #.convert()
 needle = pygame.image.load('needle2.png')
 
 # fix background
@@ -46,13 +46,23 @@ screen.blit(background,(0, 0))
 # blit dial on the screen
 screen.blit(dial,(DIAL_POS))
 
-offsetX = 0
-offsetY = 0
-angle   = 60
-rotatedNeedle = pygame.transform.rotate(needle, angle)
+imageRectangle = needle.get_rect()
+center = imageRectangle.center
 
+offsetX = 50
+offsetY = 50
+angle   = 50
+
+rotatedNeedle     = pygame.transform.rotate(needle, angle)
 rotatedNeedleRect = rotatedNeedle.get_rect()
+
 rotatedNeedleRect.center = (NEEDLE_POS)
+pygame.draw.rect(screen, RED, (rotatedNeedleRect[0],
+                                 rotatedNeedleRect[1],
+                                 rotatedNeedleRect[2],
+                                 rotatedNeedleRect[3]),
+                                 1)
+
 rotatedNeedleRect.center += np.array([np.cos(math.radians(angle)) * offsetX,
                            -np.sin(math.radians(angle)) * offsetY])
 

@@ -38,6 +38,7 @@ screen = pygame.display.set_mode((640, 360), 0, 32)
 screen_rect = screen.get_rect()
 
 image = pygame.image.load('green_car.png')
+#image = pygame.image.load('../instruments/needle2.png')
 
 # if convert() is added then the green rectangle is partly hidden by the red rectangle
 #image = pygame.image.load('green_car.png').convert()
