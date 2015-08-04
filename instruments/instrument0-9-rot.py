@@ -22,8 +22,6 @@ BLACK       = (0, 0, 0)
 WHITE       = (255, 255, 255)
 STEEL       = (0, 100, 100)
 
-TIME_DELAY_IN_MS = 200
-
 WIDTH          = 800
 HEIGHT         = 600
 X_DIAL_COORD   = 200 
@@ -101,12 +99,11 @@ while True:
     screen.blit(rotatedImage, rotatedImageRectangle)
 
     # draw help line for test purpose
-    pygame.draw.line(screen, RED, (10,300), (790,300))
-    pygame.draw.line(screen, RED, (400,10), (400,590))
+    #pygame.draw.line(screen, RED, (10,Y_NEEDLE_COORD), (790,Y_NEEDLE_COORD))
+    #pygame.draw.line(screen, RED, (X_NEEDLE_COORD,10), (X_NEEDLE_COORD,590))
 
-    # draw middle circle at needle
-    pygame.draw.circle(screen, BLACK, (400,300), 23, 0)
+    # draw a black middle circle at needle
+    pygame.draw.circle(screen, BLACK, (X_NEEDLE_COORD,Y_NEEDLE_COORD), 23, 0)
 
     pygame.display.update()
-    pygame.time.delay(TIME_DELAY_IN_MS)
 
