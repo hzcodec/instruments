@@ -1,8 +1,8 @@
 # Auther      : Heinz Samuelsson
 # Date        : 2015-08-02
-# File        : instrument0-9_steel.py
+# File        : instrument0-9_rot.py
 # Reference   : -
-# Description : Rotating a needle.
+# Description : Instrument is incremented by 'z' and decremented by 'x'.
 #
 # Python ver : 2.7.3 (gcc 4.6.3)
 
@@ -57,7 +57,7 @@ background = pygame.Surface(screen.get_size())
 background = background.convert()
 
 inputData = 0
-# set at 0
+# set at 0 position
 angle = 270
 
 while True:
@@ -82,12 +82,6 @@ while True:
                 inputData = 0
             angle = int(-36*inputData + 270)
  
-
-#    angle += ROTATION_SPEED
-
-    if angle > 360:
-        angle = 0
-
     screen.fill(STEEL)
     screen.blit(dial, (DIAL_POS))
 
