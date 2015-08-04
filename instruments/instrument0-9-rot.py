@@ -106,6 +106,8 @@ while True:
     #pygame.draw.line(screen, RED, (10,280), (790,280))
     #pygame.draw.line(screen, RED, (380,10), (380,590))
 
+    pygame.draw.circle(screen, BLACK, (400,300), 23, 0)
+
     pygame.display.update()
     pygame.time.delay(TIME_DELAY_IN_MS)
 
