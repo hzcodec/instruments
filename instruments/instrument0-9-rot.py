@@ -101,11 +101,10 @@ while True:
     screen.blit(rotatedImage, rotatedImageRectangle)
 
     # draw help line for test purpose
-    #pygame.draw.line(screen, RED, (10,300), (790,300))
-    #pygame.draw.line(screen, RED, (400,10), (400,590))
-    #pygame.draw.line(screen, RED, (10,280), (790,280))
-    #pygame.draw.line(screen, RED, (380,10), (380,590))
+    pygame.draw.line(screen, RED, (10,300), (790,300))
+    pygame.draw.line(screen, RED, (400,10), (400,590))
 
+    # draw middle circle at needle
     pygame.draw.circle(screen, BLACK, (400,300), 23, 0)
 
     pygame.display.update()

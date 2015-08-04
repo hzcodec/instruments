@@ -91,6 +91,9 @@ while True:
     # blit rotated image
     screen.blit(rotatedImage, rotatedImageRectangle)
 
+    # draw middle circle at needle
+    pygame.draw.circle(screen, BLACK, (400,300), 23, 0)
+
     pygame.display.update()
     pygame.time.delay(TIME_DELAY_IN_MS)
 
