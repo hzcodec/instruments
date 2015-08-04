@@ -54,6 +54,8 @@ image = pygame.image.load('needle2.png')
 background = pygame.Surface(screen.get_size())
 background = background.convert()
 
+pygame.mouse.set_visible(False)
+
 inputData = 0
 # set at 0 position
 angle = 270
@@ -104,6 +106,7 @@ while True:
 
     # draw a black middle circle at needle
     pygame.draw.circle(screen, BLACK, (X_NEEDLE_COORD,Y_NEEDLE_COORD), 23, 0)
+    pygame.draw.circle(screen, WHITE, (X_NEEDLE_COORD,Y_NEEDLE_COORD), 5, 0)
 
     pygame.display.update()
 
