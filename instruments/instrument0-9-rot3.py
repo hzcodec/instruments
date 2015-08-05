@@ -53,17 +53,15 @@ def instruction():
     Set up instruction.
     """
     instructionFont = pygame.font.SysFont("None",28)
-    instr1 = instructionFont.render("Use -> to increment", 0, BLACK)
-    instr2 = instructionFont.render("Use <- to decrement", 0, BLACK)
-    return instr1, instr2
+    instr1 = instructionFont.render("Use keys 0 - 9 to move needle", 0, BLACK)
+    return instr1
 
 
 def scan_keyboard():
    """
    Scan keyboard and set requested angle.
    Escape key => application quit
-   Right key  => increment
-   Left key   => decrement
+   key  0-9   => Change instrument reading
    """
    requestedAngle = 0
 
@@ -81,22 +79,34 @@ def scan_keyboard():
            sys.exit()
 
        elif event.type == KEYDOWN and event.key == pygame.K_0:
-           #scan_keyboard.inputData += 1
-           #if scan_keyboard.inputData > 9:
-           #    scan_keyboard.inputData = 9
            scan_keyboard.inputData = 0
 
        elif event.type == KEYDOWN and event.key == pygame.K_1:
-           #scan_keyboard.inputData += 1
-           #if scan_keyboard.inputData > 9:
-           #    scan_keyboard.inputData = 9
            scan_keyboard.inputData = 1
 
        elif event.type == KEYDOWN and event.key == pygame.K_2:
-           #scan_keyboard.inputData -= 1
-           #if scan_keyboard.inputData < 0:
-           #    scan_keyboard.inputData = 0
            scan_keyboard.inputData = 2
+
+       elif event.type == KEYDOWN and event.key == pygame.K_3:
+           scan_keyboard.inputData = 3
+
+       elif event.type == KEYDOWN and event.key == pygame.K_4:
+           scan_keyboard.inputData = 4
+
+       elif event.type == KEYDOWN and event.key == pygame.K_5:
+           scan_keyboard.inputData = 5
+
+       elif event.type == KEYDOWN and event.key == pygame.K_6:
+           scan_keyboard.inputData = 6
+
+       elif event.type == KEYDOWN and event.key == pygame.K_7:
+           scan_keyboard.inputData = 7
+
+       elif event.type == KEYDOWN and event.key == pygame.K_8:
+           scan_keyboard.inputData = 8
+
+       elif event.type == KEYDOWN and event.key == pygame.K_9:
+           scan_keyboard.inputData = 9
 
    # calculate angle of needle, 270 degrees => '0'
    requestedAngle = int(-36*scan_keyboard.inputData + 270)
@@ -135,7 +145,7 @@ def main():
     pygame.init()
     
     screen = pygame.display.set_mode((WIDTH, HEIGHT), 0, 32)
-    instr1, instr2 = instruction()
+    instr1 = instruction()
 
     instrument = Instrument(screen)
     
@@ -153,27 +163,29 @@ def main():
         requestedAngle = scan_keyboard()
 
         if requestedAngle < currentAngle:
-            print 'Requested less than current - ',requestedAngle,'  -  ',currentAngle
-            instrument.rotate(requestedAngle)
+            currentAngle -= 1
+            if currentAngle == requestedAngle:
+                currentAngle = requestedAngle
+
+            instrument.rotate(currentAngle)
+
         elif requestedAngle > currentAngle:
             instrument.rotate(requestedAngle)
-            print 'Requested larger than current - ',requestedAngle,'  -  ',currentAngle
+            currentAngle += 1
+            if currentAngle == requestedAngle:
+                currentAngle = requestedAngle
+
+            instrument.rotate(currentAngle)
+
         else:
             instrument.rotate(requestedAngle)
-            print 'None - ',requestedAngle,'  -  ',currentAngle
      
-        #currentAngle = requestedAngle
-    
-        # draw help line for test purpose
-        #help_lines(screen)
-    
         # draw a black middle circle at needle
         pygame.draw.circle(screen, BLACK, (X_NEEDLE_COORD,Y_NEEDLE_COORD), 23, 0)
         pygame.draw.circle(screen, WHITE, (X_NEEDLE_COORD,Y_NEEDLE_COORD), 5, 0)
 
         # print out instruction
         screen.blit(instr1, (20, 500))
-        screen.blit(instr2, (20, 530))
     
         pygame.display.update()
 
