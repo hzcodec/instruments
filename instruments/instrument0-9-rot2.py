@@ -138,14 +138,10 @@ def main():
     
     while True:
         requestedAngle = scan_keyboard(currentAngle)
-        currentAngle = requestedAngle
+        currentAngle   = requestedAngle
 
         screen.fill(STEEL)
         instrument.rotate(currentAngle)
-        
-        # print out instruction
-        screen.blit(instr1, (20, 500))
-        screen.blit(instr2, (20, 530))
     
         # draw help line for test purpose
         #help_lines(screen)
@@ -153,6 +149,10 @@ def main():
         # draw a black middle circle at needle
         pygame.draw.circle(screen, BLACK, (X_NEEDLE_COORD,Y_NEEDLE_COORD), 23, 0)
         pygame.draw.circle(screen, WHITE, (X_NEEDLE_COORD,Y_NEEDLE_COORD), 5, 0)
+
+        # print out instruction
+        screen.blit(instr1, (20, 500))
+        screen.blit(instr2, (20, 530))
     
         pygame.display.update()
 
