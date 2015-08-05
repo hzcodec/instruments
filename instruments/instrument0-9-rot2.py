@@ -54,8 +54,8 @@ def scan_keyboard(angle):
    """
    requestedAngle = angle
 
+   # static variable
    if not hasattr(scan_keyboard, "inputData"):
-       print 'shit happens'
        scan_keyboard.inputData = 0
 
    for event in pygame.event.get():
@@ -122,7 +122,7 @@ def main():
     instrument = Instrument(screen)
     
     # make mouse pointer invisible
-    #pygame.mouse.set_visible(False)
+    pygame.mouse.set_visible(False)
     
     # set at 0 position
     angle = 270
@@ -132,8 +132,6 @@ def main():
         requestedAngle = scan_keyboard(currentAngle)
         currentAngle = requestedAngle
 
-        print 'Angle:',requestedAngle
-     
         screen.fill(STEEL)
         instrument.rotate(currentAngle)
     
