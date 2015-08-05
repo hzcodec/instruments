@@ -48,10 +48,16 @@ def help_lines(screen):
     pygame.draw.line(screen, RED, (X_NEEDLE_COORD,10), (X_NEEDLE_COORD,590))
 
 
-def scan_keyboard():
+def scan_keyboard(angle):
    """
    Scan keyboard and set requested angle.
    """
+   requestedAngle = angle
+
+   if not hasattr(scan_keyboard, "inputData"):
+       print 'shit happens'
+       scan_keyboard.inputData = 0
+
    for event in pygame.event.get():
        if event.type == QUIT:
            pygame.quit()
@@ -62,18 +68,18 @@ def scan_keyboard():
            sys.exit()
 
        elif event.type == KEYDOWN and event.key == pygame.K_z:
-           inputData += 1
-           if inputData > 9:
-               inputData = 9
-           requestedAngle = int(-36*inputData + 270)
+           scan_keyboard.inputData += 1
+           if scan_keyboard.inputData > 9:
+               scan_keyboard.inputData = 9
+           requestedAngle = int(-36*scan_keyboard.inputData + 270)
 
        elif event.type == KEYDOWN and event.key == pygame.K_x:
-           inputData -= 1
-           if inputData < 0:
-               inputData = 0
-           requestedAngle = int(-36*inputData + 270)
+           scan_keyboard.inputData -= 1
+           if scan_keyboard.inputData < 0:
+               scan_keyboard.inputData = 0
+           requestedAngle = int(-36*scan_keyboard.inputData + 270)
 
-    return requestedAngle
+   return requestedAngle
 
 
 class Needle():
@@ -118,37 +124,18 @@ def main():
     # make mouse pointer invisible
     #pygame.mouse.set_visible(False)
     
-    inputData = 0
     # set at 0 position
     angle = 270
     currentAngle = 270
-    requestedAngle = 0
     
     while True:
-        requestedAngle = scan_keyboard()
-#        for event in pygame.event.get():
-#            if event.type == QUIT:
-#                pygame.quit()
-#                sys.exit()
-#    
-#            elif event.type == KEYDOWN and event.key == pygame.K_ESCAPE:
-#                pygame.quit()
-#                sys.exit()
-#    
-#            elif event.type == KEYDOWN and event.key == pygame.K_z:
-#                inputData += 1
-#                if inputData > 9:
-#                    inputData = 9
-#                requestedAngle = int(-36*inputData + 270)
-#    
-#            elif event.type == KEYDOWN and event.key == pygame.K_x:
-#                inputData -= 1
-#                if inputData < 0:
-#                    inputData = 0
-#                requestedAngle = int(-36*inputData + 270)
+        requestedAngle = scan_keyboard(currentAngle)
+        currentAngle = requestedAngle
+
+        print 'Angle:',requestedAngle
      
         screen.fill(STEEL)
-        instrument.rotate(99)
+        instrument.rotate(currentAngle)
     
         # draw help line for test purpose
         #help_lines(screen)
