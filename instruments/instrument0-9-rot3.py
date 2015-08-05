@@ -40,20 +40,12 @@ DIAL_POS   = (X_DIAL_COORD, Y_DIAL_COORD)
 NEEDLE_POS = (X_NEEDLE_COORD, Y_NEEDLE_COORD)
 
 
-def help_lines(screen):
-    """
-    Draw help lines in the middle of the screen. Only used for test purpose.
-    """
-    pygame.draw.line(screen, RED, (10,Y_NEEDLE_COORD), (790,Y_NEEDLE_COORD))
-    pygame.draw.line(screen, RED, (X_NEEDLE_COORD,10), (X_NEEDLE_COORD,590))
-
-
 def instruction():
     """
     Set up instruction.
     """
     instructionFont = pygame.font.SysFont("None",28)
-    instr1 = instructionFont.render("Use keys 0 - 9 to move needle", 0, BLACK)
+    instr1 = instructionFont.render("Use keys 0 - 9 to change instrument readings", 0, BLACK)
     return instr1
 
 
@@ -147,12 +139,13 @@ def main():
     screen = pygame.display.set_mode((WIDTH, HEIGHT), 0, 32)
     instr1 = instruction()
 
+    # create instrument instance
     instrument = Instrument(screen)
     
     # make mouse pointer invisible
     pygame.mouse.set_visible(False)
     
-    # set at 0 position
+    # set instrument at 0 position
     currentAngle = 270
     
     while True:
@@ -185,7 +178,7 @@ def main():
         pygame.draw.circle(screen, WHITE, (X_NEEDLE_COORD,Y_NEEDLE_COORD), 5, 0)
 
         # print out instruction
-        screen.blit(instr1, (20, 500))
+        screen.blit(instr1, (20, 530))
     
         pygame.display.update()
 
