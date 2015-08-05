@@ -135,7 +135,11 @@ def main():
     os.environ['SDL_VIDEO_CENTERED'] = '1'
 
     pygame.init()
-    
+    fpsClock = pygame.time.Clock()
+
+    breakFont = pygame.font.SysFont("None",28)
+    startBreak = breakFont.render("Break", 0, BLACK)
+
     screen = pygame.display.set_mode((WIDTH, HEIGHT), 0, 32)
     instr1 = instruction()
 
@@ -143,10 +147,14 @@ def main():
     instrument = Instrument(screen)
     
     # make mouse pointer invisible
-    pygame.mouse.set_visible(False)
+    #pygame.mouse.set_visible(False)
     
     # set instrument at 0 position
     currentAngle = 270
+
+    reduceSpeed = 0.0
+    speed = 1.0
+    divide = 1.0
     
     while True:
 
@@ -156,9 +164,17 @@ def main():
         requestedAngle = scan_keyboard()
 
         if requestedAngle < currentAngle:
-            currentAngle -= 1
-            if currentAngle == requestedAngle:
+
+            currentAngle -= speed - reduceSpeed
+
+            if currentAngle == requestedAngle or ((requestedAngle - currentAngle) > 0):
                 currentAngle = requestedAngle
+                reduceSpeed = 0.0
+
+            # start to slow down needle
+            if (requestedAngle - currentAngle) > -45:
+                screen.blit(startBreak, (20, 560))
+                reduceSpeed += 0.01
 
             instrument.rotate(currentAngle)
 
@@ -181,6 +197,7 @@ def main():
         screen.blit(instr1, (20, 530))
     
         pygame.display.update()
+        fpsClock.tick(30)
 
 
 if __name__ == '__main__':
