@@ -22,22 +22,22 @@ BLACK       = (0, 0, 0)
 WHITE       = (255, 255, 255)
 STEEL       = (0, 100, 100)
 
+# screen size
 WIDTH          = 800
 HEIGHT         = 600
+
 X_DIAL_COORD   = 200 
 Y_DIAL_COORD   = 100 
 X_NEEDLE_COORD = 400 
 Y_NEEDLE_COORD = 300 
 
-ROTATION_SPEED = 2
+# rotation offset
+OFFSET_X = 55
+OFFSET_Y = 55
 
-DIAL_POS       = (X_DIAL_COORD, Y_DIAL_COORD)
-NEEDLE_POS     = (X_NEEDLE_COORD, Y_NEEDLE_COORD)
-
-# set rotation offset
-# if offset = 0 the rotation is around the middle of the image
-offsetX = 55
-offsetY = 55
+# postion of dial and needle
+DIAL_POS   = (X_DIAL_COORD, Y_DIAL_COORD)
+NEEDLE_POS = (X_NEEDLE_COORD, Y_NEEDLE_COORD)
 
 
 def help_lines(screen):
@@ -48,9 +48,22 @@ def help_lines(screen):
     pygame.draw.line(screen, RED, (X_NEEDLE_COORD,10), (X_NEEDLE_COORD,590))
 
 
+def instruction():
+    """
+    Set up instruction.
+    """
+    instructionFont = pygame.font.SysFont("None",28)
+    instr1 = instructionFont.render("Use -> to increment", 0, BLACK)
+    instr2 = instructionFont.render("Use <- to decrement", 0, BLACK)
+    return instr1, instr2
+
+
 def scan_keyboard(angle):
    """
    Scan keyboard and set requested angle.
+   Escape key => application quit
+   Right key  => increment
+   Left key   => decrement
    """
    requestedAngle = angle
 
@@ -67,25 +80,20 @@ def scan_keyboard(angle):
            pygame.quit()
            sys.exit()
 
-       elif event.type == KEYDOWN and event.key == pygame.K_z:
+       elif event.type == KEYDOWN and event.key == pygame.K_RIGHT:
            scan_keyboard.inputData += 1
            if scan_keyboard.inputData > 9:
                scan_keyboard.inputData = 9
-           requestedAngle = int(-36*scan_keyboard.inputData + 270)
 
-       elif event.type == KEYDOWN and event.key == pygame.K_x:
+       elif event.type == KEYDOWN and event.key == pygame.K_LEFT:
            scan_keyboard.inputData -= 1
            if scan_keyboard.inputData < 0:
                scan_keyboard.inputData = 0
-           requestedAngle = int(-36*scan_keyboard.inputData + 270)
 
+   # calculate angle of needle, 270 degrees => '0'
+   requestedAngle = int(-36*scan_keyboard.inputData + 270)
    return requestedAngle
 
-
-class Needle():
-    def __init__(self, screen):
-        needle = pygame.image.load('needle2.png')
-        
 
 class Instrument():
     def __init__(self, screen):
@@ -99,8 +107,8 @@ class Instrument():
     
         # compensate for rotation of needle
         self.rotatedImageRectangle.center = (NEEDLE_POS)
-        self.rotatedImageRectangle.center += np.array([np.cos(math.radians(angle)) * 55,
-                                            -np.sin(math.radians(angle)) * 55])
+        self.rotatedImageRectangle.center += np.array([np.cos(math.radians(angle)) * OFFSET_X,
+                                            -np.sin(math.radians(angle)) * OFFSET_Y])
     
         self.update()
 
@@ -118,6 +126,7 @@ def main():
     pygame.init()
     
     screen = pygame.display.set_mode((WIDTH, HEIGHT), 0, 32)
+    instr1, instr2 = instruction()
 
     instrument = Instrument(screen)
     
@@ -125,7 +134,6 @@ def main():
     pygame.mouse.set_visible(False)
     
     # set at 0 position
-    angle = 270
     currentAngle = 270
     
     while True:
@@ -134,6 +142,10 @@ def main():
 
         screen.fill(STEEL)
         instrument.rotate(currentAngle)
+        
+        # print out instruction
+        screen.blit(instr1, (20, 500))
+        screen.blit(instr2, (20, 530))
     
         # draw help line for test purpose
         #help_lines(screen)
