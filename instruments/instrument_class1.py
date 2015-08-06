@@ -9,7 +9,6 @@
 # Python ver : 2.7.3 (gcc 4.6.3)
 
 # Comments: Move blit of dial to __init__
-# Comments: Move black middle circle to Instrument class
 
 import pygame
 import sys
@@ -115,27 +114,33 @@ def scan_keyboard():
 
 
 class Instrument():
-    def __init__(self, screen, startAngle, dialPos, needlePos):
+    def __init__(self, screen, startAngle, dialPos, needlePos, instrumentNo):
         """
         Define input parameters and load images of dial and needle.
         Input:
-          screen     - Current defined screen.
-          startAngle - Start angle for needle.
-          dialPos    - Position of dial.
-          needlePos  - Position of needle.
+          screen        - Current defined screen.
+          startAngle    - Start angle for needle.
+          dialPos       - Position of dial.
+          needlePos     - Position of needle.
+          instrumentNo  - Instrument number.
         """
-        self.screen     = screen
-        self.startAngle = startAngle
-        self.dialPos    = dialPos
-        self.needlePos  = needlePos
+        self.screen        = screen
+        self.startAngle    = startAngle
+        self.dialPos       = dialPos
+        self.needlePos     = needlePos
+        self.instrumentNo  = instrumentNo
         self.dial   = pygame.image.load('instrument0-9.png')
         self.needle = pygame.image.load('needle2.png')
 
         self.speed           = 1.0  # needle speed
         self.reduceSpeedHiLo = 0.0  # reduce needle speed from hi to lo
         self.reduceSpeedLoHi = 0.0  # reduce needle speed from lo to hi
+        self.requestedAngle  = 0.0  # requested angle from user
 
     def input_angle(self, angle):
+        if angle != self.requestedAngle:
+            print 'New angle requested from instrument [%d]' %(self.instrumentNo)
+
         self.requestedAngle = angle
         self.rotate(self.requestedAngle)
 
@@ -163,6 +168,10 @@ class Instrument():
         self.screen.blit(self.dial, (self.dialPos))
         self.screen.blit(self.rotatedImage, self.rotatedImageRectangle)
 
+        # draw a black middle circle at needle
+        pygame.draw.circle(self.screen, BLACK, (self.needlePos), 23, 0)
+        pygame.draw.circle(self.screen, GREY, (self.needlePos), 5, 0)
+
 
 
 def main():
@@ -180,9 +189,9 @@ def main():
     instr1 = instruction()
 
     # create instrument instances
-    instrument1 = Instrument(screen, 270, DIAL_POS_INSTR1, NEEDLE_POS_INSTR1)
-    instrument2 = Instrument(screen, 270, DIAL_POS_INSTR2, NEEDLE_POS_INSTR2)
-    instrument3 = Instrument(screen, 270, DIAL_POS_INSTR3, NEEDLE_POS_INSTR3)
+    instrument1 = Instrument(screen, 270, DIAL_POS_INSTR1, NEEDLE_POS_INSTR1, INSTRUMENT1)
+    instrument2 = Instrument(screen, 270, DIAL_POS_INSTR2, NEEDLE_POS_INSTR2, INSTRUMENT2)
+    instrument3 = Instrument(screen, 270, DIAL_POS_INSTR3, NEEDLE_POS_INSTR3, INSTRUMENT3)
     
     # make mouse pointer invisible
     pygame.mouse.set_visible(False)
@@ -202,9 +211,8 @@ def main():
         # scan keyboard to get an input value also check if the new value differs
         # from the previous one. If so then reset the reduce speed variables
         requestedAngle, data = scan_keyboard()
-        instrument1.input_angle(180)
-        instrument2.input_angle(100)
-        instrument3.input_angle(40)
+        instrument1.input_angle(requestedAngle)
+        instrument2.input_angle(requestedAngle)
 
 #        if previousValue != requestedAngle:
 #            print '*'*20
@@ -240,10 +248,6 @@ def main():
 #        else:
 #            instrument1.rotate(requestedAngle)
      
-        # draw a black middle circle at needle
-        pygame.draw.circle(screen, BLACK, (X_NEEDLE_COORD_INSTR1,Y_NEEDLE_COORD_INSTR1), 23, 0)
-        pygame.draw.circle(screen, WHITE, (X_NEEDLE_COORD_INSTR1,Y_NEEDLE_COORD_INSTR1), 5, 0)
-
         # print out instruction
         screen.blit(instr1, (20, 530))
         print_input_value_on_screen(screen, data)
