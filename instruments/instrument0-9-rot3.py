@@ -45,8 +45,15 @@ def instruction():
     Set up instruction.
     """
     instructionFont = pygame.font.SysFont("None",28)
-    instr1 = instructionFont.render("Use keys 0 - 9 to change instrument readings", 0, BLACK)
+    instr1 = instructionFont.render("Use keys 0 - 9 or q/w/e/r to change instrument readings", 0, BLACK)
     return instr1
+
+def input_value(screen, value):
+    inputValueFont = pygame.font.SysFont("None",28)
+    inputString = inputValueFont.render("Input data: ", 0, BLACK)
+    inputValue = inputValueFont.render(str(value), 0, BLACK)
+    screen.blit(inputString, (20, 30))
+    screen.blit(inputValue, (130, 30))
 
 
 def scan_keyboard():
@@ -100,9 +107,21 @@ def scan_keyboard():
        elif event.type == KEYDOWN and event.key == pygame.K_9:
            scan_keyboard.inputData = 9
 
+       elif event.type == KEYDOWN and event.key == pygame.K_q:
+           scan_keyboard.inputData = 1.3
+
+       elif event.type == KEYDOWN and event.key == pygame.K_w:
+           scan_keyboard.inputData = 5.7
+
+       elif event.type == KEYDOWN and event.key == pygame.K_e:
+           scan_keyboard.inputData = 8.1
+
+       elif event.type == KEYDOWN and event.key == pygame.K_r:
+           scan_keyboard.inputData = 4.8
+
    # calculate angle of needle, 270 degrees => '0'
    requestedAngle = int(-36*scan_keyboard.inputData + 270)
-   return requestedAngle
+   return requestedAngle, scan_keyboard.inputData
 
 
 class Instrument():
@@ -163,7 +182,9 @@ def main():
 
         # scan keyboard to get an input value also check if the new value differs
         # from the previous one. If so then reset the reduce speed variables
-        requestedAngle = scan_keyboard()
+        requestedAngle, data = scan_keyboard()
+        input_value(screen, data)
+
         if previousValue != requestedAngle:
             print '*'*20
             print '***  New request  ***'
