@@ -167,6 +167,7 @@ def main():
 
             currentAngle -= speed - reduceSpeed
 
+            diff = requestedAngle - currentAngle
             if currentAngle == requestedAngle or ((requestedAngle - currentAngle) > 0):
                 currentAngle = requestedAngle
                 reduceSpeed = 0.0
@@ -178,11 +179,20 @@ def main():
 
             instrument.rotate(currentAngle)
 
+        #
         elif requestedAngle > currentAngle:
-            instrument.rotate(requestedAngle)
-            currentAngle += 1
-            if currentAngle == requestedAngle:
+
+            currentAngle += speed - reduceSpeed
+
+            diff = requestedAngle - currentAngle
+            if currentAngle == requestedAngle or ((requestedAngle - currentAngle) < 0):
                 currentAngle = requestedAngle
+                reduceSpeed = 0.0
+
+            # start to slow down needle
+            if (requestedAngle - currentAngle) < 45:
+                screen.blit(startBreak, (20, 560))
+                reduceSpeed += 0.01
 
             instrument.rotate(currentAngle)
 
