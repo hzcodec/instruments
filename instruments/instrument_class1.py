@@ -137,14 +137,21 @@ class Instrument():
         self.reduceSpeedLoHi = 0.0  # reduce needle speed from lo to hi
         self.requestedAngle  = 0    # requested angle from user
         self.currentAngle    = 270  # current angle of needle
+        self.finalAngle      = 0    # final angle that was requested
 
     def input_angle(self, reqAngle):
-        if self.currentAngle != reqAngle:
+        if self.finalAngle != reqAngle:
             print 'New angle requested from instrument: [%d]' %(self.instrumentNo)
 
-        self.currentAngle = reqAngle
-        self.requestedAngle = reqAngle
-        self.rotate(self.requestedAngle)
+        if reqAngle < self.currentAngle:
+            print 'Lo to Hi'
+            self.currentAngle -= self.speed
+        elif reqAngle > self.currentAngle:
+            print 'Hi to Lo'
+            self.currentAngle += self.speed
+
+        self.finalAngle = reqAngle
+        self.rotate(self.currentAngle)
 
     def rotate(self, angle):
         """
@@ -197,7 +204,7 @@ def main():
     instrument3 = Instrument(screen, 270, DIAL_POS_INSTR3, NEEDLE_POS_INSTR3, INSTRUMENT3)
     
     # make mouse pointer invisible
-    pygame.mouse.set_visible(False)
+    #pygame.mouse.set_visible(False)
     
     reduceSpeedHiLo = 0.0  # reduce needle speed from hi to lo
     reduceSpeedLoHi = 0.0  # reduce needle speed from lo to hi
@@ -208,45 +215,12 @@ def main():
 
         screen.fill(STEEL)
 
-        # scan keyboard to get an input value also check if the new value differs
-        # from the previous one. If so then reset the reduce speed variables
+        # scan keyboard to get an input value and send it to the instrument
         requestedAngle, data = scan_keyboard()
         instrument1.input_angle(requestedAngle)
         instrument2.input_angle(requestedAngle)
+        instrument3.input_angle(requestedAngle)
 
-#        if previousValue != requestedAngle:
-#            print '*'*20
-#            print '***  New request  ***'
-#            print '*'*20
-#            reduceSpeedHiLo = 0.0
-#            reduceSpeedLoHi = 0.0
-#
-#        previousValue = requestedAngle
-#
-#        # rotate from low to hi
-#        if requestedAngle < currentAngle,
-#
-#            currentAngle -= speed - reduceSpeedLoHi
-#
-#            diff = requestedAngle - currentAngle
-#            print '  -  Diff:',diff            
-#
-#            if currentAngle == requestedAngle or ((requestedAngle - currentAngle) > 0):
-#                print 'Low->Hi stopped'
-#                currentAngle = requestedAngle
-#                reduceSpeedLoHi = 0.0
-#                reduceSpeedHiLo = 0.0
-#
-#            # start to slow down needle
-#            if (requestedAngle - currentAngle) > -45:
-#                screen.blit(startBreak, (20, 560))
-#                reduceSpeedLoHi += 0.01
-#
-#            instrument1.rotate(currentAngle)
-#
-#        else:
-#            instrument1.rotate(requestedAngle)
-     
         # print out instruction
         screen.blit(instr1, (20, 530))
         print_input_value_on_screen(screen, data)
