@@ -147,7 +147,7 @@ def main():
     instrument = Instrument(screen)
     
     # make mouse pointer invisible
-    #pygame.mouse.set_visible(False)
+    pygame.mouse.set_visible(False)
     
     # set instrument at 0 position
     currentAngle = 270
@@ -163,12 +163,17 @@ def main():
         # scan keyboard to get an input value
         requestedAngle = scan_keyboard()
 
+        # rotate from low to hi
         if requestedAngle < currentAngle:
+            print 'Low->Hi  -  Requested angle:',requestedAngle,'  -  Current angle:',currentAngle,
 
             currentAngle -= speed - reduceSpeed
 
             diff = requestedAngle - currentAngle
+            print '  -  Diff:',diff            
+
             if currentAngle == requestedAngle or ((requestedAngle - currentAngle) > 0):
+                print 'Low->Hi stopped'
                 currentAngle = requestedAngle
                 reduceSpeed = 0.0
 
@@ -179,13 +184,17 @@ def main():
 
             instrument.rotate(currentAngle)
 
-        #
+        # rotate from hi to low
         elif requestedAngle > currentAngle:
+            print 'Hi->Low  -  Requested angle:',requestedAngle,'  -  Current angle:',currentAngle,
 
             currentAngle += speed - reduceSpeed
 
             diff = requestedAngle - currentAngle
+            print '  -  Diff:',diff            
+
             if currentAngle == requestedAngle or ((requestedAngle - currentAngle) < 0):
+                print 'Hi->Low stopped'
                 currentAngle = requestedAngle
                 reduceSpeed = 0.0
 
