@@ -43,14 +43,17 @@ NEEDLE_POS = (X_NEEDLE_COORD, Y_NEEDLE_COORD)
 
 def instruction():
     """
-    Set up instruction.
+    Print out instructions.
     """
     instructionFont = pygame.font.SysFont("None",28)
-    instr1 = instructionFont.render("Use keys 0 - 9 or q/w/e/r to change instrument readings", 0, BLACK)
+    instr1 = instructionFont.render("Use keys 0 - 9 or q/w/e/r/t/y to change instrument readings", 0, BLACK)
     return instr1
 
 
 def input_value(screen, value):
+    """
+    Print out current input value on the screen.
+    """
     inputValueFont = pygame.font.SysFont("None",28)
     inputString = inputValueFont.render("Input data: ", 0, BLACK)
     inputValue = inputValueFont.render(str(value), 0, BLACK)
@@ -61,8 +64,8 @@ def input_value(screen, value):
 def scan_keyboard():
    """
    Scan keyboard and set requested angle.
-   Escape key => application quit
-   key  0-9   => Change instrument reading
+   Escape key          => application quit
+   key  0-9 or qwerty  => Change instrument reading
    """
    requestedAngle = 0
 
@@ -134,11 +137,21 @@ def scan_keyboard():
 
 class Instrument():
     def __init__(self, screen):
+        """
+        Define current screen and load images of dial and needle.
+        Input:
+          screen  - Current defined screen.
+        """
         self.screen = screen
         self.dial = pygame.image.load('instrument0-9.png')
         self.needle = pygame.image.load('needle2.png')
 
     def rotate(self, angle):
+        """
+        Rotate needle and reposition the needle due to the angle.
+        Input:
+          angle - The rotation angle for the needle.
+        """
         self.rotatedImage = pygame.transform.rotate(self.needle, angle)
         self.rotatedImageRectangle = self.rotatedImage.get_rect()
     
@@ -151,6 +164,9 @@ class Instrument():
         self.update()
 
     def update(self):
+        """
+        Blit dial and needle on the screen.
+        """
         self.screen.blit(self.dial, (DIAL_POS))
         self.screen.blit(self.rotatedImage, self.rotatedImageRectangle)
 
