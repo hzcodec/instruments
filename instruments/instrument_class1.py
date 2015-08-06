@@ -28,15 +28,21 @@ def instruction():
     return instr1
 
 
-def print_input_value_on_screen(screen, value):
+def print_input_value_on_screen(screen, value, value2, value3):
     """
     Print out current input value on the screen.
     """
     inputValueFont = pygame.font.SysFont("None",28)
     inputString = inputValueFont.render("Input data: ", 0, BLACK)
     inputValue = inputValueFont.render(str(value), 0, BLACK)
-    screen.blit(inputString, (20, 30))
-    screen.blit(inputValue, (130, 30))
+    inputValue2 = inputValueFont.render(str(value2), 0, BLACK)
+    inputValue3 = inputValueFont.render(str(value3), 0, BLACK)
+    screen.blit(inputString, (160, 460))
+    screen.blit(inputValue, (270, 460))
+    screen.blit(inputString, (640, 460))
+    screen.blit(inputValue2, (750, 460))
+    screen.blit(inputString, (1100, 460))
+    screen.blit(inputValue3, (1200, 460))
 
 
 def scan_keyboard():
@@ -136,7 +142,7 @@ def scan_keyboard():
    requestedAngle  = int(-36*scan_keyboard.inputData1 + 270)
    requestedAngle2 = int(-36*scan_keyboard.inputData2 + 270)
    requestedAngle3 = int(-36*scan_keyboard.inputData3 + 270)
-   return requestedAngle, requestedAngle2, requestedAngle3, scan_keyboard.inputData1
+   return requestedAngle, requestedAngle2, requestedAngle3, scan_keyboard.inputData1, scan_keyboard.inputData2, scan_keyboard.inputData3
 
 
 class Instrument():
@@ -208,7 +214,6 @@ class Instrument():
         pygame.draw.circle(self.screen, GREY,  (self.needlePos), 5,  0)
 
 
-
 def main():
     
     # center window on monitor
@@ -232,24 +237,19 @@ def main():
     # make mouse pointer invisible
     #pygame.mouse.set_visible(False)
     
-    reduceSpeedHiLo = 0.0  # reduce needle speed from hi to lo
-    reduceSpeedLoHi = 0.0  # reduce needle speed from lo to hi
-    speed           = 1.0  # needle speed
-    previousValue   = 0.0  # temp variable to hold previous value
-    
     while True:
 
         screen.fill(STEEL)
 
         # scan keyboard to get an input value and send it to the instrument
-        requestedAngle, requestedAngle2, requestedAngle3, data = scan_keyboard()
+        requestedAngle, requestedAngle2, requestedAngle3, data, data2, data3 = scan_keyboard()
         instrument1.input_angle(requestedAngle)
         instrument2.input_angle(requestedAngle2)
         instrument3.input_angle(requestedAngle3)
 
         # print out instruction
         screen.blit(instr1, (20, 530))
-        print_input_value_on_screen(screen, data)
+        print_input_value_on_screen(screen, data, data2, data3)
     
         pygame.display.update()
         fpsClock.tick(30)
