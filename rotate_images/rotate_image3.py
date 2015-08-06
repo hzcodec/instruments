@@ -1,11 +1,13 @@
 # Auther      : Heinz Samuelsson
 # Date        : 2015-08-02
-# File        : rotate_image2.py
+# File        : rotate_image3.py
 # Reference   : -
 # Description : Rotate the loaded image at an offset position.
 #               The position is set by offsetX and offsetY.
 #               Same as rotation_image2 but now rotating without mouse controll.
 #               Instead the rotation speed is set by TIME_DELAY_IN_MS.
+#
+#               The offset can be changed by 'q', 'w', 'e' or 'r'.
 #
 # Python ver : 2.7.3 (gcc 4.6.3)
 
@@ -14,6 +16,7 @@ import sys
 from pygame.locals import *
 import numpy as np
 import math
+import os
 
 # define colors
 RED         = (255, 0, 0)
@@ -23,7 +26,7 @@ LIGHT_BLUE  = (0, 255, 255)
 BLACK       = (0, 0, 0)
 WHITE       = (255, 255, 255)
 
-TIME_DELAY_IN_MS = 200
+TIME_DELAY_IN_MS = 100
 
 RIGHT = 3
 
@@ -32,6 +35,9 @@ RIGHT = 3
 # the green/red rectangles will be equal
 offsetX = 30
 offsetY = 30
+
+# center window on monitor
+os.environ['SDL_VIDEO_CENTERED'] = '1'
 
 pygame.init()
 screen = pygame.display.set_mode((640, 360), 0, 32)
@@ -46,8 +52,8 @@ image = pygame.image.load('green_car.png')
 imageRectangle = image.get_rect()
 center = imageRectangle.center
 
-print 'Rectangle:',imageRectangle
-print 'Center:',center
+#print 'Rectangle:',imageRectangle
+#print 'Center:',center
 
 background = pygame.Surface(screen.get_size())
 
@@ -65,7 +71,24 @@ while True:
             pygame.quit()
             sys.exit()
 
-    angle += 10
+        # change offset to the middle of the image
+        elif event.type == KEYDOWN and event.key == pygame.K_q:
+            offsetX = 0
+            offsetY = 0
+
+        elif event.type == KEYDOWN and event.key == pygame.K_w:
+            offsetX = 10
+            offsetY = 10
+
+        elif event.type == KEYDOWN and event.key == pygame.K_e:
+            offsetX = 30
+            offsetY = 30
+
+        elif event.type == KEYDOWN and event.key == pygame.K_r:
+            offsetX = 60
+            offsetY = 60
+
+    angle += 5
     if angle > 360:
         angle = 0
 
@@ -81,8 +104,8 @@ while True:
     xPos = math.cos(radAngle)*offsetX
     yPos = math.sin(radAngle)*offsetY
 
-    print '-'*60
-    print 'angle:',angle,'  -  xPos:',xPos,'  -  yPos:',yPos
+    #print '-'*60
+    #print 'angle:',angle,'  -  xPos:',xPos,'  -  yPos:',yPos
 
     rotatedImageRectangle.center = (320,180)
 
@@ -92,9 +115,9 @@ while True:
                                      rotatedImageRectangle[2],
                                      rotatedImageRectangle[3]), 1)
 
-    print '  Green rectangle before update:',rotatedImageRectangle
-    print '  New x:',rotatedImageRectangle[0]+xPos
-    print '  New y:',rotatedImageRectangle[1]-yPos
+    #print '  Green rectangle before update:',rotatedImageRectangle
+    #print '  New x:',rotatedImageRectangle[0]+xPos
+    #print '  New y:',rotatedImageRectangle[1]-yPos
 
     pygame.draw.line(screen, LIGHT_BLUE, (0,0), (rotatedImageRectangle[0],rotatedImageRectangle[1]), 2)
     
@@ -106,7 +129,7 @@ while True:
     rotatedImageRectangle.center += np.array([np.cos(math.radians(angle)) * offsetX,
                                    -np.sin(math.radians(angle)) * offsetY])
 
-    print '  Red rectangle after update:',rotatedImageRectangle
+    #print '  Red rectangle after update:',rotatedImageRectangle
 
     # blit rotated image
     screen.blit(rotatedImage, rotatedImageRectangle)
