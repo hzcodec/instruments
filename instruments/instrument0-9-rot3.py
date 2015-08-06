@@ -2,7 +2,8 @@
 # Date        : 2015-08-02
 # File        : instrument0-9_rot3.py
 # Reference   : -
-# Description : Instrument is rotated.
+# Description : Instrument is showing different values depending on the input value.
+#               The values are set by key 0-9 or q/w/e/r/t/y.
 #
 # Python ver : 2.7.3 (gcc 4.6.3)
 
@@ -47,6 +48,7 @@ def instruction():
     instructionFont = pygame.font.SysFont("None",28)
     instr1 = instructionFont.render("Use keys 0 - 9 or q/w/e/r to change instrument readings", 0, BLACK)
     return instr1
+
 
 def input_value(screen, value):
     inputValueFont = pygame.font.SysFont("None",28)
@@ -117,7 +119,13 @@ def scan_keyboard():
            scan_keyboard.inputData = 8.1
 
        elif event.type == KEYDOWN and event.key == pygame.K_r:
+           scan_keyboard.inputData = 4.7
+
+       elif event.type == KEYDOWN and event.key == pygame.K_t:
            scan_keyboard.inputData = 4.8
+
+       elif event.type == KEYDOWN and event.key == pygame.K_y:
+           scan_keyboard.inputData = 4.9
 
    # calculate angle of needle, 270 degrees => '0'
    requestedAngle = int(-36*scan_keyboard.inputData + 270)
