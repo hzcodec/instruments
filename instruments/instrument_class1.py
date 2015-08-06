@@ -135,13 +135,15 @@ class Instrument():
         self.speed           = 1.0  # needle speed
         self.reduceSpeedHiLo = 0.0  # reduce needle speed from hi to lo
         self.reduceSpeedLoHi = 0.0  # reduce needle speed from lo to hi
-        self.requestedAngle  = 0.0  # requested angle from user
+        self.requestedAngle  = 0    # requested angle from user
+        self.currentAngle    = 270  # current angle of needle
 
-    def input_angle(self, angle):
-        if angle != self.requestedAngle:
-            print 'New angle requested from instrument [%d]' %(self.instrumentNo)
+    def input_angle(self, reqAngle):
+        if self.currentAngle != reqAngle:
+            print 'New angle requested from instrument: [%d]' %(self.instrumentNo)
 
-        self.requestedAngle = angle
+        self.currentAngle = reqAngle
+        self.requestedAngle = reqAngle
         self.rotate(self.requestedAngle)
 
     def rotate(self, angle):
@@ -161,8 +163,8 @@ class Instrument():
         # blit instrument
         self.blit_images()
 
-    def blit_images(self):
-        """
+    def blit_images(self): 
+        """ 
         Blit dial and needle on the screen.
         """
         self.screen.blit(self.dial, (self.dialPos))
@@ -170,14 +172,15 @@ class Instrument():
 
         # draw a black middle circle at needle
         pygame.draw.circle(self.screen, BLACK, (self.needlePos), 23, 0)
-        pygame.draw.circle(self.screen, GREY, (self.needlePos), 5, 0)
+        pygame.draw.circle(self.screen, GREY,  (self.needlePos), 5,  0)
 
 
 
 def main():
     
     # center window on monitor
-    os.environ['SDL_VIDEO_CENTERED'] = '1'
+    #os.environ['SDL_VIDEO_CENTERED'] = '1'
+    os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" %(10,10)
 
     pygame.init()
     fpsClock = pygame.time.Clock()
@@ -196,9 +199,6 @@ def main():
     # make mouse pointer invisible
     pygame.mouse.set_visible(False)
     
-    # set instrument1 at 0 position
-    currentAngle = 270
-
     reduceSpeedHiLo = 0.0  # reduce needle speed from hi to lo
     reduceSpeedLoHi = 0.0  # reduce needle speed from lo to hi
     speed           = 1.0  # needle speed
@@ -224,8 +224,7 @@ def main():
 #        previousValue = requestedAngle
 #
 #        # rotate from low to hi
-#        if requestedAngle < currentAngle:
-#            print 'Low->Hi  -  Requested angle:',requestedAngle,'  -  Current angle:',currentAngle,
+#        if requestedAngle < currentAngle,
 #
 #            currentAngle -= speed - reduceSpeedLoHi
 #
