@@ -1,7 +1,16 @@
+# Auther      : Heinz Samuelsson
+# Date        : 2015-08-06
+# File        : rotate_arrow3.py
+# Reference   : -
+# Description : Start spinning arrow by hitting right arrow key.
+#
+# Python ver : 2.7.3 (gcc 4.6.3)
+
 import pygame
 import pygame.locals
 import random
 import sys
+import os
  
 # define colors
 WHITE = (255, 255, 255)
@@ -27,7 +36,6 @@ class GenerateAngle():
         self.randomSpinningLaps = random.randrange(30,250,1) 
         print 'Random laps:',self.randomSpinningLaps
         return self.randomSpinningLaps
-
 
 
 class SpinningWheel():
@@ -134,6 +142,7 @@ class SpinningWheel():
 
 
 def main():
+    os.environ['SDL_VIDEO_CENTERED'] = '1' # center window on monitor
     spinningWheel = SpinningWheel()
     spinningWheel.on_execute()
      
