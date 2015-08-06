@@ -152,23 +152,30 @@ def main():
     # set instrument at 0 position
     currentAngle = 270
 
-    reduceSpeedHiLo = 0.0
-    reduceSpeedLoHi = 0.0
-    speed = 1.0
-    divide = 1.0
+    reduceSpeedHiLo = 0.0  # reduce needle speed from hi to lo
+    reduceSpeedLoHi = 0.0  # reduce needle speed from lo to hi
+    speed           = 1.0  # needle speed
+    previousValue   = 0.0  # temp variable to hold previous value
     
     while True:
 
         screen.fill(STEEL)
 
-        # scan keyboard to get an input value
+        # scan keyboard to get an input value also check if the new value differs
+        # from the previous one. If so then reset the reduce speed variables
         requestedAngle = scan_keyboard()
+        if previousValue != requestedAngle:
+            print '*'*20
+            print '***  New request  ***'
+            print '*'*20
+            reduceSpeedHiLo = 0.0
+            reduceSpeedLoHi = 0.0
+
+        previousValue = requestedAngle
 
         # rotate from low to hi
         if requestedAngle < currentAngle:
             print 'Low->Hi  -  Requested angle:',requestedAngle,'  -  Current angle:',currentAngle,
-            if reduceSpeedLoHi > 0:
-                reduceSpeedLoHi = 0.0
 
             currentAngle -= speed - reduceSpeedLoHi
 
@@ -191,8 +198,6 @@ def main():
         # rotate from hi to low
         elif requestedAngle > currentAngle:
             print 'Hi->Low  -  Requested angle:',requestedAngle,'  -  Current angle:',currentAngle,
-            if reduceSpeedHiLo > 0:
-                reduceSpeedHiLo = 0.0
 
             currentAngle += speed - reduceSpeedHiLo
 
