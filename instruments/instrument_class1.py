@@ -48,8 +48,10 @@ def scan_keyboard():
    requestedAngle = 0
 
    # static variable
-   if not hasattr(scan_keyboard, "inputData"):
-       scan_keyboard.inputData = 0
+   if not hasattr(scan_keyboard, "inputData1"):
+       scan_keyboard.inputData1 = 0
+   if not hasattr(scan_keyboard, "inputData2"):
+       scan_keyboard.inputData2 = 0
 
    for event in pygame.event.get():
        if event.type == QUIT:
@@ -61,56 +63,61 @@ def scan_keyboard():
            sys.exit()
 
        elif event.type == KEYDOWN and event.key == pygame.K_0:
-           scan_keyboard.inputData = 0
+           scan_keyboard.inputData1 = 0
+           scan_keyboard.inputData2 = 0
 
        elif event.type == KEYDOWN and event.key == pygame.K_1:
-           scan_keyboard.inputData = 1
+           scan_keyboard.inputData1 = 1
+           scan_keyboard.inputData2 = 3
 
        elif event.type == KEYDOWN and event.key == pygame.K_2:
-           scan_keyboard.inputData = 2
+           scan_keyboard.inputData1 = 2
+           scan_keyboard.inputData2 = 4
 
        elif event.type == KEYDOWN and event.key == pygame.K_3:
-           scan_keyboard.inputData = 3
+           scan_keyboard.inputData1 = 3
+           scan_keyboard.inputData2 = 7
 
        elif event.type == KEYDOWN and event.key == pygame.K_4:
-           scan_keyboard.inputData = 4
+           scan_keyboard.inputData1 = 4
 
        elif event.type == KEYDOWN and event.key == pygame.K_5:
-           scan_keyboard.inputData = 5
+           scan_keyboard.inputData1 = 5
 
        elif event.type == KEYDOWN and event.key == pygame.K_6:
-           scan_keyboard.inputData = 6
+           scan_keyboard.inputData1 = 6
 
        elif event.type == KEYDOWN and event.key == pygame.K_7:
-           scan_keyboard.inputData = 7
+           scan_keyboard.inputData1 = 7
 
        elif event.type == KEYDOWN and event.key == pygame.K_8:
-           scan_keyboard.inputData = 8
+           scan_keyboard.inputData1 = 8
 
        elif event.type == KEYDOWN and event.key == pygame.K_9:
-           scan_keyboard.inputData = 9
+           scan_keyboard.inputData1 = 9
 
        elif event.type == KEYDOWN and event.key == pygame.K_q:
-           scan_keyboard.inputData = 1.3
+           scan_keyboard.inputData1 = 1.3
 
        elif event.type == KEYDOWN and event.key == pygame.K_w:
-           scan_keyboard.inputData = 5.7
+           scan_keyboard.inputData1 = 5.7
 
        elif event.type == KEYDOWN and event.key == pygame.K_e:
-           scan_keyboard.inputData = 8.1
+           scan_keyboard.inputData1 = 8.1
 
        elif event.type == KEYDOWN and event.key == pygame.K_r:
-           scan_keyboard.inputData = 4.7
+           scan_keyboard.inputData1 = 4.7
 
        elif event.type == KEYDOWN and event.key == pygame.K_t:
-           scan_keyboard.inputData = 4.8
+           scan_keyboard.inputData1 = 4.8
 
        elif event.type == KEYDOWN and event.key == pygame.K_y:
-           scan_keyboard.inputData = 4.9
+           scan_keyboard.inputData1 = 4.9
 
    # calculate angle of needle, 270 degrees => '0'
-   requestedAngle = int(-36*scan_keyboard.inputData + 270)
-   return requestedAngle, scan_keyboard.inputData
+   requestedAngle  = int(-36*scan_keyboard.inputData1 + 270)
+   requestedAngle2 = int(-36*scan_keyboard.inputData2 + 270)
+   return requestedAngle, requestedAngle2, scan_keyboard.inputData1
 
 
 class Instrument():
@@ -216,9 +223,9 @@ def main():
         screen.fill(STEEL)
 
         # scan keyboard to get an input value and send it to the instrument
-        requestedAngle, data = scan_keyboard()
+        requestedAngle, requestedAngle2, data = scan_keyboard()
         instrument1.input_angle(requestedAngle)
-        instrument2.input_angle(requestedAngle)
+        instrument2.input_angle(requestedAngle2)
         instrument3.input_angle(requestedAngle)
 
         # print out instruction
