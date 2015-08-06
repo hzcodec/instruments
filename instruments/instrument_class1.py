@@ -9,6 +9,7 @@
 # Python ver : 2.7.3 (gcc 4.6.3)
 
 # Comments: Move blit of dial to __init__
+# Comments: Move calc of angle to each instrument from scan key
 
 import pygame
 import sys
@@ -37,11 +38,11 @@ def print_input_value_on_screen(screen, value, value2, value3):
     inputValue = inputValueFont.render(str(value), 0, BLACK)
     inputValue2 = inputValueFont.render(str(value2), 0, BLACK)
     inputValue3 = inputValueFont.render(str(value3), 0, BLACK)
-    screen.blit(inputString, (160, 460))
-    screen.blit(inputValue, (270, 460))
+    screen.blit(inputString, (190, 460))
+    screen.blit(inputValue, (300, 460))
     screen.blit(inputString, (640, 460))
     screen.blit(inputValue2, (750, 460))
-    screen.blit(inputString, (1100, 460))
+    screen.blit(inputString, (1090, 460))
     screen.blit(inputValue3, (1200, 460))
 
 
@@ -176,10 +177,8 @@ class Instrument():
             print 'New angle requested from instrument: [%d]' %(self.instrumentNo)
 
         if reqAngle < self.currentAngle:
-            print 'Lo to Hi'
             self.currentAngle -= self.speed
         elif reqAngle > self.currentAngle:
-            print 'Hi to Lo'
             self.currentAngle += self.speed
 
         self.finalAngle = reqAngle
@@ -204,7 +203,7 @@ class Instrument():
 
     def blit_images(self): 
         """ 
-        Blit dial and needle on the screen.
+        Blit dial, needle and center dot on the screen.
         """
         self.screen.blit(self.dial, (self.dialPos))
         self.screen.blit(self.rotatedImage, self.rotatedImageRectangle)
