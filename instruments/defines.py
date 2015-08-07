@@ -1,5 +1,6 @@
 # ---------------------------------------------------------------------------------
-# change these two parameters in order to position the instruments on the screen
+# You only nedd to change these two parameters in order set the position
+# of the instruments on the screen.
 # ---------------------------------------------------------------------------------
 X_SPACE_BETWEEN_ALL_INSTRUMENTS = 50
 Y_POS_FOR_ALL_INSTRUMENTS       = 50
