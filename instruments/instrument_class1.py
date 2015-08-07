@@ -125,19 +125,19 @@ def scan_keyboard():
            scan_keyboard.inputData1 = 1.3
 
        elif event.type == KEYDOWN and event.key == pygame.K_w:
-           scan_keyboard.inputData1 = 5.7
+           scan_keyboard.inputData2 = 5.7
 
        elif event.type == KEYDOWN and event.key == pygame.K_e:
-           scan_keyboard.inputData1 = 8.1
+           scan_keyboard.inputData3 = 8.1
 
        elif event.type == KEYDOWN and event.key == pygame.K_r:
            scan_keyboard.inputData1 = 4.7
 
        elif event.type == KEYDOWN and event.key == pygame.K_t:
-           scan_keyboard.inputData1 = 4.8
+           scan_keyboard.inputData2 = 4.8
 
        elif event.type == KEYDOWN and event.key == pygame.K_y:
-           scan_keyboard.inputData1 = 4.9
+           scan_keyboard.inputData3 = 4.9
 
    # calculate angle of needle, 270 degrees => '0'
    requestedAngle  = int(-36*scan_keyboard.inputData1 + 270)
@@ -174,7 +174,7 @@ class Instrument():
 
     def input_angle(self, reqAngle):
         if self.finalAngle != reqAngle:
-            print 'New angle requested from instrument: [%d]' %(self.instrumentNo)
+            print 'New angle sent to instrument: [%d]' %(self.instrumentNo)
 
         if reqAngle < self.currentAngle:
             self.currentAngle -= self.speed
