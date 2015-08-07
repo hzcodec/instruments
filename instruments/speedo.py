@@ -35,15 +35,17 @@ def print_input_value_on_screen(screen, value, value2, value3):
     """
     inputValueFont = pygame.font.SysFont("None",28)
     inputString = inputValueFont.render("Input data: ", 0, BLACK)
-    inputValue = inputValueFont.render(str(value), 0, BLACK)
+
+    inputValue1 = inputValueFont.render(str(value), 0, BLACK)
     inputValue2 = inputValueFont.render(str(value2), 0, BLACK)
     inputValue3 = inputValueFont.render(str(value3), 0, BLACK)
-    screen.blit(inputString, (150,  350))
-    screen.blit(inputValue,  (280,  350))
-    screen.blit(inputString, (600,  350))
-    screen.blit(inputValue2, (730,  350))
-    screen.blit(inputString, (1050, 350))
-    screen.blit(inputValue3, (1180, 350))
+
+    screen.blit(inputString, (SPEEDO_DIAL_POS_INSTR1[0]+50,  350))
+    screen.blit(inputValue1, (SPEEDO_DIAL_POS_INSTR1[0]+160, 350))
+    screen.blit(inputString, (SPEEDO_DIAL_POS_INSTR2[0]+50,  350))
+    screen.blit(inputValue2, (SPEEDO_DIAL_POS_INSTR2[0]+160, 350))
+    screen.blit(inputString, (SPEEDO_DIAL_POS_INSTR3[0]+50,  350))
+    screen.blit(inputValue3, (SPEEDO_DIAL_POS_INSTR3[0]+160, 350))
 
 
 def scan_keyboard():
@@ -246,9 +248,9 @@ def main():
     instr1 = instruction()
 
     # create instrument instances
-    instrument1 = Instrument(screen, 270, DIAL_POS_INSTR1, SPEEDO_NEEDLE_POS_INSTR1, INSTRUMENT1)
-    instrument2 = Instrument(screen, 270, DIAL_POS_INSTR2, SPEEDO_NEEDLE_POS_INSTR2, INSTRUMENT2)
-    instrument3 = Instrument(screen, 270, DIAL_POS_INSTR3, SPEEDO_NEEDLE_POS_INSTR3, INSTRUMENT3)
+    instrument1 = Instrument(screen, 220, SPEEDO_DIAL_POS_INSTR1, SPEEDO_NEEDLE_POS_INSTR1, INSTRUMENT1)
+    instrument2 = Instrument(screen, 220, SPEEDO_DIAL_POS_INSTR2, SPEEDO_NEEDLE_POS_INSTR2, INSTRUMENT2)
+    instrument3 = Instrument(screen, 220, SPEEDO_DIAL_POS_INSTR3, SPEEDO_NEEDLE_POS_INSTR3, INSTRUMENT3)
     
     # make mouse pointer invisible
     pygame.mouse.set_visible(False)
