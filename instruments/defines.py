@@ -5,7 +5,7 @@
 X_SPACE_BETWEEN_ALL_INSTRUMENTS = 50
 Y_POS_FOR_ALL_INSTRUMENTS       = 50
 
-X_SPEEDO_SPACE_BETWEEN_ALL_INSTRUMENTS = 33
+X_SPEEDO_SPACE_BETWEEN_ALL_INSTRUMENTS = 38
 # ---------------------------------------------------------------------------------
 
 # screen size
