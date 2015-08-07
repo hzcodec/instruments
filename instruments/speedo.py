@@ -145,7 +145,7 @@ def scan_keyboard():
 
 
 class Instrument():
-    def __init__(self, screen, startAngle, dialPos, needlePos, instrumentNo):
+    def __init__(self, screen, startAngle, dialPos, needlePos, speed, instrumentNo):
         """
         Define input parameters and load images of dial and needle.
         Input:
@@ -153,6 +153,7 @@ class Instrument():
           startAngle    - Start angle for needle.
           dialPos       - Position of dial.
           needlePos     - Position of needle.
+          speed         - Rotation speed of needle.
           instrumentNo  - Instrument number.
         """
         self.screen        = screen
@@ -160,15 +161,17 @@ class Instrument():
         self.dialPos       = dialPos
         self.needlePos     = needlePos
         self.instrumentNo  = instrumentNo
+        self.speed         = speed
         self.dial   = pygame.image.load('speedo2.png')
         self.needle = pygame.image.load('needle3.png')
 
-        self.speed           = 1.0  # needle speed
-        self.reduceSpeedHiLo = 0.0  # reduce needle speed from hi to lo
-        self.reduceSpeedLoHi = 0.0  # reduce needle speed from lo to hi
-        self.requestedAngle  = 0    # requested angle from user
-        self.currentAngle    = 270  # current angle of needle
-        self.finalAngle      = 0    # final angle that was requested
+        self.reduceSpeedHiLo = 0.0   # reduce needle speed from hi to lo
+        self.reduceSpeedLoHi = 0.0   # reduce needle speed from lo to hi
+        self.requestedAngle  = 0     # requested angle from user
+        self.currentAngle    = 270   # current angle of needle
+        self.finalAngle      = 0     # final angle that was requested
+        self.flag1           = False # flag to handle overshoot of needle
+        self.flag2           = False # flag to handle overshoot of needle
 
     def input_data(self, inputData):
        """
@@ -191,13 +194,20 @@ class Instrument():
         Input:
           reqAngle - requested angle in degrees.
         """
+        # clear flags when no data arrives
         if self.finalAngle != reqAngle:
-            print 'New data sent to instrument: [%d]' %(self.instrumentNo)
+            self.flag1 = False
+            self.flag2 = False
 
-        if reqAngle < self.currentAngle:
+        if reqAngle < self.currentAngle and not self.flag2:
+            #print '[1] Requested angle:',reqAngle,'  -  Current angle:',self.currentAngle
             self.currentAngle -= self.speed
-        elif reqAngle > self.currentAngle:
+            self.flag1 = True
+
+        elif reqAngle > self.currentAngle and not self.flag1:
+            #print '[2] Requested angle:',reqAngle,'  -  Current angle:',self.currentAngle
             self.currentAngle += self.speed
+            self.flag2 = True
 
         self.finalAngle = reqAngle
         self._rotate(self.currentAngle)
@@ -248,9 +258,9 @@ def main():
     instr1 = instruction()
 
     # create instrument instances
-    instrument1 = Instrument(screen, 220, SPEEDO_DIAL_POS_INSTR1, SPEEDO_NEEDLE_POS_INSTR1, INSTRUMENT1)
-    instrument2 = Instrument(screen, 220, SPEEDO_DIAL_POS_INSTR2, SPEEDO_NEEDLE_POS_INSTR2, INSTRUMENT2)
-    instrument3 = Instrument(screen, 220, SPEEDO_DIAL_POS_INSTR3, SPEEDO_NEEDLE_POS_INSTR3, INSTRUMENT3)
+    instrument1 = Instrument(screen, 220, SPEEDO_DIAL_POS_INSTR1, SPEEDO_NEEDLE_POS_INSTR1, 1.0, INSTRUMENT1)
+    instrument2 = Instrument(screen, 220, SPEEDO_DIAL_POS_INSTR2, SPEEDO_NEEDLE_POS_INSTR2, 2.0, INSTRUMENT2)
+    instrument3 = Instrument(screen, 220, SPEEDO_DIAL_POS_INSTR3, SPEEDO_NEEDLE_POS_INSTR3, 3.0, INSTRUMENT3)
     
     # make mouse pointer invisible
     pygame.mouse.set_visible(False)
