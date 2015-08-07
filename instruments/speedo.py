@@ -1,6 +1,6 @@
 # Auther      : Heinz Samuelsson
 # Date        : 2015-08-02
-# File        : instrument_class2.py
+# File        : speedo.py
 # Reference   : -
 # Description : Instrument is showing different values depending on the input value.
 #               The values are set by key 0-9 or q/w/e/r/t/y.
@@ -179,7 +179,6 @@ class Instrument():
        if inputData > 55:
            requestedAngle  = int(-5.1*inputData + 472)
        else:
-           print 'Less than 54'
            requestedAngle  = int(-0.5*inputData + 220)
 
        self.input_angle(requestedAngle)
@@ -225,9 +224,9 @@ class Instrument():
         self.screen.blit(self.dial, (self.dialPos))
         self.screen.blit(self.rotatedImage, self.rotatedImageRectangle)
 
-        # draw a black middle circle at needle
-#        pygame.draw.circle(self.screen, BLACK, (self.needlePos), 10, 0)
-#        pygame.draw.circle(self.screen, GREY,  (self.needlePos), 3,  0)
+        # draw circle at needle
+        pygame.draw.circle(self.screen, GREY, (self.needlePos), 14, 0)
+        pygame.draw.circle(self.screen, BLACK,  (self.needlePos), 3,  0)
 
 
 def main():
