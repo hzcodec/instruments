@@ -175,12 +175,11 @@ class Instrument():
 
     def input_data(self, inputData):
        """
-       Input data to instrument.
+       Calculate the angle with respect to the input data. N.B! Since the scale is 
+       not linear from 0 - 100 we need to split the calculation. Under the value 55 or above.
        Input:
-         inputData - input data.
+         inputData - Input value. Between 0 - 100.
        """
-
-       # since the scale is not linear from 0 - 100 we need to split the calculation
        if inputData > 55:
            requestedAngle  = int(-5.1*inputData + 472)
        else:
@@ -192,9 +191,9 @@ class Instrument():
         """
         Increment/decrement the angle until the requested angle is reached.
         Input:
-          reqAngle - requested angle in degrees.
+          reqAngle - Requested angle in degrees.
         """
-        # clear flags when no data arrives
+        # clear flags when new data arrives
         if self.finalAngle != reqAngle:
             self.flag1 = False
             self.flag2 = False
@@ -244,7 +243,6 @@ class Instrument():
 def main():
     
     # center window on monitor
-    #os.environ['SDL_VIDEO_CENTERED'] = '1'
     os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" %(10,10)
 
     pygame.init()
