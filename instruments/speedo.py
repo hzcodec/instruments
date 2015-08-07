@@ -259,6 +259,7 @@ def main():
     instrument1 = Instrument(screen, 220, SPEEDO_DIAL_POS_INSTR1, SPEEDO_NEEDLE_POS_INSTR1, 1.0, INSTRUMENT1)
     instrument2 = Instrument(screen, 220, SPEEDO_DIAL_POS_INSTR2, SPEEDO_NEEDLE_POS_INSTR2, 2.0, INSTRUMENT2)
     instrument3 = Instrument(screen, 220, SPEEDO_DIAL_POS_INSTR3, SPEEDO_NEEDLE_POS_INSTR3, 3.0, INSTRUMENT3)
+    instrument4 = Instrument(screen, 220, SPEEDO_DIAL_POS_INSTR4, SPEEDO_NEEDLE_POS_INSTR4, 4.0, INSTRUMENT4)
     
     # make mouse pointer invisible
     pygame.mouse.set_visible(False)
@@ -272,6 +273,7 @@ def main():
         instrument1.input_data(data1)
         instrument2.input_data(data2)
         instrument3.input_data(data3)
+        instrument4.input_data(data1)
 
         # print out instruction
         screen.blit(instr1, (20, 530))
