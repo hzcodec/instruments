@@ -1,3 +1,10 @@
+# ---------------------------------------------------------------------------------
+# change these two parameters in order to position the instruments on the screen
+# ---------------------------------------------------------------------------------
+X_SPACE_BETWEEN_ALL_INSTRUMENTS = 50
+Y_POS_FOR_ALL_INSTRUMENTS       = 50
+# ---------------------------------------------------------------------------------
+
 # screen size
 WIDTH          = 1400
 HEIGHT         = 600
@@ -12,19 +19,20 @@ WHITE       = (255, 255, 255)
 STEEL       = (0, 100, 100)
 GREY        = (85,85,85)
 
+
 # define position of dials and needles
-X_DIAL_COORD_INSTR1   = 50 
-Y_DIAL_COORD_INSTR1   = 50 
+X_DIAL_COORD_INSTR1   = X_SPACE_BETWEEN_ALL_INSTRUMENTS 
+Y_DIAL_COORD_INSTR1   = Y_POS_FOR_ALL_INSTRUMENTS 
 X_NEEDLE_COORD_INSTR1 = X_DIAL_COORD_INSTR1+200 
 Y_NEEDLE_COORD_INSTR1 = Y_DIAL_COORD_INSTR1+200 
 
-X_DIAL_COORD_INSTR2   = 500 
-Y_DIAL_COORD_INSTR2   = 50 
+X_DIAL_COORD_INSTR2   = X_SPACE_BETWEEN_ALL_INSTRUMENTS*10
+Y_DIAL_COORD_INSTR2   = Y_POS_FOR_ALL_INSTRUMENTS 
 X_NEEDLE_COORD_INSTR2 = X_DIAL_COORD_INSTR2+200 
 Y_NEEDLE_COORD_INSTR2 = Y_DIAL_COORD_INSTR2+200 
 
-X_DIAL_COORD_INSTR3   = 950 
-Y_DIAL_COORD_INSTR3   = 50 
+X_DIAL_COORD_INSTR3   = X_SPACE_BETWEEN_ALL_INSTRUMENTS*19 
+Y_DIAL_COORD_INSTR3   = Y_POS_FOR_ALL_INSTRUMENTS 
 X_NEEDLE_COORD_INSTR3 = X_DIAL_COORD_INSTR3+200 
 Y_NEEDLE_COORD_INSTR3 = Y_DIAL_COORD_INSTR3+200 
 
