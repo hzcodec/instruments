@@ -1,6 +1,6 @@
 # Auther      : Heinz Samuelsson
 # Date        : 2015-08-02
-# File        : instrument_class1.py
+# File        : instrument_class2.py
 # Reference   : -
 # Description : Instrument is showing different values depending on the input value.
 #               The values are set by key 0-9 or q/w/e/r/t/y.
@@ -179,8 +179,13 @@ class Instrument():
        self._input_angle(requestedAngle)
 
     def _input_angle(self, reqAngle):
+        """
+        Increment/decrement the angle until the requested angle is reached.
+        Input:
+          reqAngle - requested angle in degrees.
+        """
         if self.finalAngle != reqAngle:
-            print 'New angle sent to instrument: [%d]' %(self.instrumentNo)
+            print 'New data sent to instrument: [%d]' %(self.instrumentNo)
 
         if reqAngle < self.currentAngle:
             self.currentAngle -= self.speed
@@ -204,12 +209,12 @@ class Instrument():
         self.rotatedImageRectangle.center += np.array([np.cos(math.radians(angle)) * OFFSET_X,
                                             -np.sin(math.radians(angle)) * OFFSET_Y])
     
-        # blit instrument
+        # blit images
         self._blit_images()
 
     def _blit_images(self): 
         """ 
-        Blit dial, needle and center dot on the screen.
+        Blit dial, needle and draw center dot for the instrument.
         """
         self.screen.blit(self.dial, (self.dialPos))
         self.screen.blit(self.rotatedImage, self.rotatedImageRectangle)
@@ -241,7 +246,7 @@ def main():
     instrument3 = Instrument(screen, 270, DIAL_POS_INSTR3, NEEDLE_POS_INSTR3, INSTRUMENT3)
     
     # make mouse pointer invisible
-    #pygame.mouse.set_visible(False)
+    pygame.mouse.set_visible(False)
     
     while True:
 
@@ -257,6 +262,7 @@ def main():
         screen.blit(instr1, (20, 530))
         print_input_value_on_screen(screen, data1, data2, data3)
     
+        # now, get everything visible on the screen
         pygame.display.update()
         fpsClock.tick(30)
 
