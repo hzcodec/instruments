@@ -79,67 +79,50 @@ def scan_keyboard():
            scan_keyboard.inputData3 = 0
 
        elif event.type == KEYDOWN and event.key == pygame.K_1:
-           scan_keyboard.inputData1 = 55
-           scan_keyboard.inputData2 = 70
-           scan_keyboard.inputData3 = 90
+           scan_keyboard.inputData1 = 1
+           scan_keyboard.inputData2 = 2
+           scan_keyboard.inputData3 = 3
 
        elif event.type == KEYDOWN and event.key == pygame.K_2:
-           scan_keyboard.inputData1 = 60
-           scan_keyboard.inputData2 = 80
-           scan_keyboard.inputData3 = 65
+           scan_keyboard.inputData1 = 2
+           scan_keyboard.inputData2 = 3
+           scan_keyboard.inputData3 = 4
 
        elif event.type == KEYDOWN and event.key == pygame.K_3:
-           scan_keyboard.inputData1 = 65
-           scan_keyboard.inputData2 = 65
-           scan_keyboard.inputData3 = 65
+           scan_keyboard.inputData1 = 3
+           scan_keyboard.inputData2 = 4
+           scan_keyboard.inputData3 = 5
 
        elif event.type == KEYDOWN and event.key == pygame.K_4:
-           scan_keyboard.inputData1 = 70
-           scan_keyboard.inputData2 = 100
-           scan_keyboard.inputData3 = 55
+           scan_keyboard.inputData1 = 4
+           scan_keyboard.inputData2 = 5
+           scan_keyboard.inputData3 = 6
 
        elif event.type == KEYDOWN and event.key == pygame.K_5:
-           scan_keyboard.inputData1 = 100
-           scan_keyboard.inputData2 = 90
-           scan_keyboard.inputData3 = 80
+           scan_keyboard.inputData1 = 5
+           scan_keyboard.inputData2 = 6
+           scan_keyboard.inputData3 = 7
 
        elif event.type == KEYDOWN and event.key == pygame.K_6:
-           scan_keyboard.inputData1 = 80
-           scan_keyboard.inputData2 = 100
-           scan_keyboard.inputData3 = 70
+           scan_keyboard.inputData1 = 6
+           scan_keyboard.inputData2 = 7
+           scan_keyboard.inputData3 = 8
 
        elif event.type == KEYDOWN and event.key == pygame.K_7:
-           scan_keyboard.inputData1 = 85
-           scan_keyboard.inputData2 = 55
-           scan_keyboard.inputData3 = 55
+           scan_keyboard.inputData1 = 7
+           scan_keyboard.inputData2 = 8
+           scan_keyboard.inputData3 = 9
 
        elif event.type == KEYDOWN and event.key == pygame.K_8:
-           scan_keyboard.inputData1 = 90
-           scan_keyboard.inputData2 = 70
-           scan_keyboard.inputData3 = 75
+           scan_keyboard.inputData1 = 8
+           scan_keyboard.inputData2 = 9
+           scan_keyboard.inputData3 = 0
 
        elif event.type == KEYDOWN and event.key == pygame.K_9:
-           scan_keyboard.inputData1 = 95
-           scan_keyboard.inputData2 = 60
-           scan_keyboard.inputData3 = 65
+           scan_keyboard.inputData1 = 9
+           scan_keyboard.inputData2 = 1
+           scan_keyboard.inputData3 = 2
 
-       elif event.type == KEYDOWN and event.key == pygame.K_q:
-           scan_keyboard.inputData1 = 100
-
-       elif event.type == KEYDOWN and event.key == pygame.K_w:
-           scan_keyboard.inputData2 = 55
-
-       elif event.type == KEYDOWN and event.key == pygame.K_e:
-           scan_keyboard.inputData3 = 88
-
-       elif event.type == KEYDOWN and event.key == pygame.K_r:
-           scan_keyboard.inputData1 = 13 
-
-       elif event.type == KEYDOWN and event.key == pygame.K_t:
-           scan_keyboard.inputData2 = 42
-
-       elif event.type == KEYDOWN and event.key == pygame.K_y:
-           scan_keyboard.inputData3 = 36
 
    return scan_keyboard.inputData1, scan_keyboard.inputData2, scan_keyboard.inputData3
 
@@ -162,13 +145,13 @@ class Instrument():
         self.needlePos     = needlePos
         self.instrumentNo  = instrumentNo
         self.speed         = speed
-        self.dial   = pygame.image.load('speedo2.png')
-        self.needle = pygame.image.load('needle3.png')
+        self.dial   = pygame.image.load('temp1.png')
+        self.needle = pygame.image.load('needle_long.png')
 
         self.reduceSpeedHiLo = 0.0   # reduce needle speed from hi to lo
         self.reduceSpeedLoHi = 0.0   # reduce needle speed from lo to hi
         self.requestedAngle  = 0     # requested angle from user
-        self.currentAngle    = 270   # current angle of needle
+        self.currentAngle    = startAngle   # current angle of needle
         self.finalAngle      = 0     # final angle that was requested
         self.flag1           = False # flag to handle overshoot of needle
         self.flag2           = False # flag to handle overshoot of needle
@@ -180,10 +163,7 @@ class Instrument():
        Input:
          inputData - Input value. Between 0 - 100.
        """
-       if inputData > 55:
-           requestedAngle  = int(-5.1*inputData + 472)
-       else:
-           requestedAngle  = int(-0.5*inputData + 220)
+       requestedAngle  = int(-20*inputData + 180)
 
        self.input_angle(requestedAngle)
 
@@ -236,7 +216,7 @@ class Instrument():
         self.screen.blit(self.rotatedImage, self.rotatedImageRectangle)
 
         # draw circle at needle
-        pygame.draw.circle(self.screen, GREY, (self.needlePos), 14, 0)
+        pygame.draw.circle(self.screen, LIGHT_GREY, (self.needlePos), 25, 0)
         pygame.draw.circle(self.screen, BLACK,  (self.needlePos), 3,  0)
 
 
@@ -256,30 +236,32 @@ def main():
     instr1 = instruction()
 
     # create instrument instances
-    instrument1 = Instrument(screen, 220, SPEEDO_DIAL_POS_INSTR1, SPEEDO_NEEDLE_POS_INSTR1, 1.0, INSTRUMENT1)
-    instrument2 = Instrument(screen, 220, SPEEDO_DIAL_POS_INSTR2, SPEEDO_NEEDLE_POS_INSTR2, 2.0, INSTRUMENT2)
-    instrument3 = Instrument(screen, 220, SPEEDO_DIAL_POS_INSTR3, SPEEDO_NEEDLE_POS_INSTR3, 3.0, INSTRUMENT3)
-    instrument4 = Instrument(screen, 220, SPEEDO_DIAL_POS_INSTR4, SPEEDO_NEEDLE_POS_INSTR4, 0.5, INSTRUMENT4)
+    instrument1 = Instrument(screen, 180, SPEEDO_DIAL_POS_INSTR1, SPEEDO_NEEDLE_POS_INSTR1, 1.0, INSTRUMENT1)
+    instrument2 = Instrument(screen, 180, SPEEDO_DIAL_POS_INSTR2, SPEEDO_NEEDLE_POS_INSTR2, 2.0, INSTRUMENT2)
+    instrument3 = Instrument(screen, 180, SPEEDO_DIAL_POS_INSTR3, SPEEDO_NEEDLE_POS_INSTR3, 3.0, INSTRUMENT3)
     
     # make mouse pointer invisible
-    pygame.mouse.set_visible(False)
+    #pygame.mouse.set_visible(False)
     
     while True:
 
-        screen.fill(STEEL)
+        screen.fill(BLACK)
 
         # scan keyboard to get an input value and send it to the instrument
         data1, data2, data3 = scan_keyboard()
         instrument1.input_data(data1)
         instrument2.input_data(data2)
         instrument3.input_data(data3)
-        instrument4.input_data(data1)
 
         # print out instruction
         screen.blit(instr1, (20, 530))
         print_input_value_on_screen(screen, data1, data2, data3)
     
         # now, get everything visible on the screen
+        #pygame.draw.line(screen, RED, (94,30), (94, 300))
+        #pygame.draw.line(screen, RED, (394,30), (394, 300))
+        #pygame.draw.line(screen, RED, (244,30), (244, 300))
+        #pygame.draw.line(screen, RED, (40,250), (420, 250))
         pygame.display.update()
         fpsClock.tick(30)
 
