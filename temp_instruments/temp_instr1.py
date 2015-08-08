@@ -127,7 +127,7 @@ def scan_keyboard():
    return scan_keyboard.inputData1, scan_keyboard.inputData2, scan_keyboard.inputData3
 
 
-class Instrument():
+class Temp_Instrument():
     def __init__(self, screen, startAngle, dialPos, needlePos, speed, instrumentNo):
         """
         Define input parameters and load images of dial and needle.
@@ -145,7 +145,100 @@ class Instrument():
         self.needlePos     = needlePos
         self.instrumentNo  = instrumentNo
         self.speed         = speed
-        self.dial   = pygame.image.load('temp1.png')
+        self.tempDial      = pygame.image.load('temp1.png')
+        self.needle        = pygame.image.load('needle_long.png')
+
+        self.reduceSpeedHiLo = 0.0   # reduce needle speed from hi to lo
+        self.reduceSpeedLoHi = 0.0   # reduce needle speed from lo to hi
+        self.requestedAngle  = 0     # requested angle from user
+        self.currentAngle    = startAngle   # current angle of needle
+        self.finalAngle      = 0     # final angle that was requested
+        self.flag1           = False # flag to handle overshoot of needle
+        self.flag2           = False # flag to handle overshoot of needle
+
+    def input_data(self, inputData):
+       """
+       Calculate the angle with respect to the input data. N.B! Since the scale is 
+       not linear from 0 - 100 we need to split the calculation. Under the value 55 or above.
+       Input:
+         inputData - Input value. Between 0 - 100.
+       """
+       requestedAngle  = int(-20*inputData + 180)
+
+       self.input_angle(requestedAngle)
+
+    def input_angle(self, reqAngle):
+        """
+        Increment/decrement the angle until the requested angle is reached.
+        Input:
+          reqAngle - Requested angle in degrees.
+        """
+        # clear flags when new data arrives
+        if self.finalAngle != reqAngle:
+            self.flag1 = False
+            self.flag2 = False
+
+        if reqAngle < self.currentAngle and not self.flag2:
+            #print '[1] Requested angle:',reqAngle,'  -  Current angle:',self.currentAngle
+            self.currentAngle -= self.speed
+            self.flag1 = True
+
+        elif reqAngle > self.currentAngle and not self.flag1:
+            #print '[2] Requested angle:',reqAngle,'  -  Current angle:',self.currentAngle
+            self.currentAngle += self.speed
+            self.flag2 = True
+
+        self.finalAngle = reqAngle
+        self._rotate(self.currentAngle)
+
+    def _rotate(self, angle):
+        """
+        Rotate needle and reposition the needle due to the angle.
+        Input:
+          angle - The rotation angle for the needle.
+        """
+        self.rotatedImage = pygame.transform.rotate(self.needle, angle)
+        self.rotatedImageRectangle = self.rotatedImage.get_rect()
+    
+        # compensate for rotation of needle
+        self.rotatedImageRectangle.center = (self.needlePos)
+        self.rotatedImageRectangle.center += np.array([np.cos(math.radians(angle)) * SPEEDO_OFFSET_X,
+                                            -np.sin(math.radians(angle)) * SPEEDO_OFFSET_Y])
+    
+        # blit images
+        self._blit_images()
+
+    def _blit_images(self): 
+        """ 
+        Blit dials, needle and draw center dot for the instrument.
+        """
+        self.screen.blit(self.tempDial, (self.dialPos))
+        self.screen.blit(self.rotatedImage, self.rotatedImageRectangle)
+
+        # draw circle at needle
+        #pygame.draw.circle(self.screen, LIGHT_GREY, (self.needlePos), 25, 0)
+        #pygame.draw.circle(self.screen, BLACK,  (self.needlePos), 3,  0)
+
+
+class Fuel_Instrument():
+    def __init__(self, screen, startAngle, dialPos, needlePos, speed, instrumentNo):
+        """
+        Define input parameters and load images of dial and needle.
+        Input:
+          screen        - Current defined screen.
+          startAngle    - Start angle for needle.
+          dialPos       - Position of dial.
+          needlePos     - Position of needle.
+          speed         - Rotation speed of needle.
+          instrumentNo  - Instrument number.
+        """
+        self.screen        = screen
+        self.startAngle    = startAngle
+        self.dialPos       = dialPos
+        self.needlePos     = needlePos
+        self.instrumentNo  = instrumentNo
+        self.speed         = speed
+        self.fuelDial   = pygame.image.load('fuel.png')
         self.needle = pygame.image.load('needle_long.png')
 
         self.reduceSpeedHiLo = 0.0   # reduce needle speed from hi to lo
@@ -210,14 +303,14 @@ class Instrument():
 
     def _blit_images(self): 
         """ 
-        Blit dial, needle and draw center dot for the instrument.
+        Blit dials, needle and draw center dot for the instrument.
         """
-        self.screen.blit(self.dial, (self.dialPos))
+        self.screen.blit(self.fuelDial, (self.dialPos))
         self.screen.blit(self.rotatedImage, self.rotatedImageRectangle)
 
         # draw circle at needle
-        pygame.draw.circle(self.screen, LIGHT_GREY, (self.needlePos), 25, 0)
-        pygame.draw.circle(self.screen, BLACK,  (self.needlePos), 3,  0)
+        #pygame.draw.circle(self.screen, LIGHT_GREY, (self.needlePos), 25, 0)
+        #pygame.draw.circle(self.screen, BLACK,  (self.needlePos), 3,  0)
 
 
 def main():
@@ -236,9 +329,9 @@ def main():
     instr1 = instruction()
 
     # create instrument instances
-    instrument1 = Instrument(screen, 180, SPEEDO_DIAL_POS_INSTR1, SPEEDO_NEEDLE_POS_INSTR1, 1.0, INSTRUMENT1)
-    instrument2 = Instrument(screen, 180, SPEEDO_DIAL_POS_INSTR2, SPEEDO_NEEDLE_POS_INSTR2, 2.0, INSTRUMENT2)
-    instrument3 = Instrument(screen, 180, SPEEDO_DIAL_POS_INSTR3, SPEEDO_NEEDLE_POS_INSTR3, 3.0, INSTRUMENT3)
+    instrument1 = Temp_Instrument(screen, 180, SPEEDO_DIAL_POS_INSTR1, SPEEDO_NEEDLE_POS_INSTR1, 1.0, INSTRUMENT1)
+    instrument2 = Fuel_Instrument(screen, 180, SPEEDO_DIAL_POS_INSTR2, SPEEDO_NEEDLE_POS_INSTR2, 2.0, INSTRUMENT2)
+    instrument3 = Temp_Instrument(screen, 180, SPEEDO_DIAL_POS_INSTR3, SPEEDO_NEEDLE_POS_INSTR3, 3.0, INSTRUMENT3)
     
     # make mouse pointer invisible
     #pygame.mouse.set_visible(False)
