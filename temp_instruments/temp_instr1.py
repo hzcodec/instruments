@@ -2,14 +2,13 @@
 # Date        : 2015-08-02
 # File        : speedo.py
 # Reference   : -
-# Description : Instrument is showing different values depending on the input value.
+# Description : Two different instruments are loaded.
 #               The values are set by key 0-9 or q/w/e/r/t/y.
 #               defines.py is used for a lot of defined constants.
 #
 # Python ver : 2.7.3 (gcc 4.6.3)
 
 # Comments: Move blit of dial to __init__
-# Comments: Move calc of angle to each instrument from scan key
 
 import pygame
 import sys
@@ -34,11 +33,11 @@ def print_input_value_on_screen(screen, value, value2, value3):
     Print out current input value on the screen.
     """
     inputValueFont = pygame.font.SysFont("None",28)
-    inputString = inputValueFont.render("Input data: ", 0, BLACK)
+    inputString = inputValueFont.render("Input data: ", 0, WHITE)
 
-    inputValue1 = inputValueFont.render(str(value), 0, BLACK)
-    inputValue2 = inputValueFont.render(str(value2), 0, BLACK)
-    inputValue3 = inputValueFont.render(str(value3), 0, BLACK)
+    inputValue1 = inputValueFont.render(str(value), 0, WHITE)
+    inputValue2 = inputValueFont.render(str(value2), 0, WHITE)
+    inputValue3 = inputValueFont.render(str(value3), 0, WHITE)
 
     screen.blit(inputString, (SPEEDO_DIAL_POS_INSTR1[0]+50,  350))
     screen.blit(inputValue1, (SPEEDO_DIAL_POS_INSTR1[0]+160, 350))
