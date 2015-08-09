@@ -172,7 +172,7 @@ class Instrument_1():
 
     def _blit_images(self): 
         """ 
-        Blit dials, needle and draw center dot for the instrument.
+        Blit dials, needle and input data value
         """
         self.screen.blit(self.tempDial, (self.dialPos))
         self.screen.blit(self.rotatedImage, self.rotatedImageRectangle)
@@ -205,7 +205,8 @@ def main():
         instrument2.input_data(data2)
 
         # now, get everything visible on the screen
-        pygame.display.update()
+        #pygame.display.update()
+        pygame.display.flip()
         fpsClock.tick(30)
 
 
