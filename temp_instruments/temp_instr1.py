@@ -237,8 +237,8 @@ class Fuel_Instrument():
         self.needlePos     = needlePos
         self.instrumentNo  = instrumentNo
         self.speed         = speed
-        self.fuelDial   = pygame.image.load('fuel.png')
-        self.needle = pygame.image.load('needle_long.png')
+        self.fuelDial      = pygame.image.load('fuel.png')
+        self.needle        = pygame.image.load('needle_long.png')
 
         self.reduceSpeedHiLo = 0.0   # reduce needle speed from hi to lo
         self.reduceSpeedLoHi = 0.0   # reduce needle speed from lo to hi
