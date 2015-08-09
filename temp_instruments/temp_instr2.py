@@ -48,11 +48,11 @@ def scan_keyboard():
 
        elif event.type == KEYDOWN and event.key == pygame.K_1:
            scan_keyboard.inputData1 = 1
-           scan_keyboard.inputData2 = 2
+           scan_keyboard.inputData2 = 7.7
 
        elif event.type == KEYDOWN and event.key == pygame.K_2:
            scan_keyboard.inputData1 = 3
-           scan_keyboard.inputData2 = 3
+           scan_keyboard.inputData2 = 8.4
 
        elif event.type == KEYDOWN and event.key == pygame.K_3:
            scan_keyboard.inputData1 = 3.4
@@ -60,19 +60,19 @@ def scan_keyboard():
 
        elif event.type == KEYDOWN and event.key == pygame.K_4:
            scan_keyboard.inputData1 = 4
-           scan_keyboard.inputData2 = 5
+           scan_keyboard.inputData2 = 4
 
        elif event.type == KEYDOWN and event.key == pygame.K_5:
            scan_keyboard.inputData1 = 6.1
-           scan_keyboard.inputData2 = 6
+           scan_keyboard.inputData2 = 5.5
 
        elif event.type == KEYDOWN and event.key == pygame.K_6:
            scan_keyboard.inputData1 = 6.3
-           scan_keyboard.inputData2 = 7
+           scan_keyboard.inputData2 = 2
 
        elif event.type == KEYDOWN and event.key == pygame.K_7:
            scan_keyboard.inputData1 = 6
-           scan_keyboard.inputData2 = 8
+           scan_keyboard.inputData2 = 6.5
 
        elif event.type == KEYDOWN and event.key == pygame.K_8:
            scan_keyboard.inputData1 = 8
