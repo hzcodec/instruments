@@ -189,7 +189,7 @@ def main():
     fpsClock = pygame.time.Clock()
     pygame.display.set_caption('Instrument')
 
-    screen = pygame.display.set_mode((WIDTH, HEIGHT), 0, 32)
+    screen = pygame.display.set_mode((WIDTH-400, HEIGHT), 0, 32)
 
     # create instrument instances
     instrument1 = Instrument_1(screen, 180, SPEEDO_DIAL_POS_INSTR1, SPEEDO_NEEDLE_POS_INSTR1, 1.0, INSTRUMENT1)
@@ -197,7 +197,7 @@ def main():
     
     while True:
 
-        screen.fill((131,131,115))
+        screen.fill((80,80,80))
 
         # scan keyboard to get an input value and send it to the instrument
         data1, data2 = scan_keyboard()
