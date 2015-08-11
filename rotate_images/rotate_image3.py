@@ -119,6 +119,11 @@ while True:
             offsetY = 90
             newOffset = True
 
+        elif event.type == KEYDOWN and event.key == pygame.K_6:
+            offsetX = 120
+            offsetY = 120
+            newOffset = True
+
     if hit == True or hit2 == True:
         if rotateDir:
             angle += 5
@@ -155,6 +160,8 @@ while True:
         print '  Green rectangle before update:',rotatedImageRectangle
         print '  New x:',rotatedImageRectangle[0]+xPos
         print '  New y:',rotatedImageRectangle[1]-yPos
+        print '  Rect width:',rotatedImageRectangle.width
+        print '  Rect height:',rotatedImageRectangle.height
 
     pygame.draw.line(screen, LIGHT_BLUE, (0,0), (rotatedImageRectangle[0],rotatedImageRectangle[1]), 2)
     
@@ -162,8 +169,17 @@ while True:
     # Now compensate rectangle due to the angle.
     # Only indexes [0] and [1] in rotatedImageRectangle are updated.
     # ------------------------------------------------------------------------------------------------------
-    rotatedImageRectangle.center += np.array([np.cos(math.radians(angle)) * offsetX,
-                                   -np.sin(math.radians(angle)) * offsetY])
+
+    # if nympy is out of option then use the 2nd method
+    # *** 1st method
+    #rotatedImageRectangle.center += np.array([np.cos(math.radians(angle)) * offsetX,
+    #                               -np.sin(math.radians(angle)) * offsetY])
+
+    # *** 2nd method
+    # either use centerx/centery or center
+    #rotatedImageRectangle.centerx = (rotatedImageRectangle[0]+xPos)
+    #rotatedImageRectangle.centery = (rotatedImageRectangle[1]+yPos)
+    rotatedImageRectangle.center = (320+xPos, 180-yPos)
 
     
     if newAngle != oldAngle or newOffset:
