@@ -129,8 +129,10 @@ while True:
             angle += 5
         else:
             angle -= 5
-        if angle > 360:
-            angle = 0
+
+        # make sure angle is between 0-360
+        angle = angle%360
+        # remove flag and update new angle
         hit = False
         newAngle = angle
 
