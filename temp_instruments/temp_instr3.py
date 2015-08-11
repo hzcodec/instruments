@@ -11,7 +11,6 @@
 import pygame
 import sys
 from pygame.locals import *
-import numpy as np
 import math
 import os
 from defines import *
