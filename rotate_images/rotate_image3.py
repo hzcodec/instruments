@@ -63,6 +63,7 @@ hit2      = False  # if 'c' is typed => continously rotation
 newOffset = False  # if 1-5 is typed 
 newAngle  = 0
 oldAngle  = 99
+rotateDir = False
 
 while True:
     for event in pygame.event.get():
@@ -77,6 +78,12 @@ while True:
         # rotate in increments
         elif event.type == KEYDOWN and event.key == pygame.K_r:
             hit = True
+            rotateDir = True
+
+        # rotate in increments
+        elif event.type == KEYDOWN and event.key == pygame.K_t:
+            hit = True
+            rotateDir = False
 
         # rotate in continously
         elif event.type == KEYDOWN and event.key == pygame.K_c:
@@ -113,7 +120,10 @@ while True:
             newOffset = True
 
     if hit == True or hit2 == True:
-        angle += 5
+        if rotateDir:
+            angle += 5
+        else:
+            angle -= 5
         if angle > 360:
             angle = 0
         hit = False
@@ -148,7 +158,6 @@ while True:
 
     pygame.draw.line(screen, LIGHT_BLUE, (0,0), (rotatedImageRectangle[0],rotatedImageRectangle[1]), 2)
     
-
     # ------------------------------------------------------------------------------------------------------
     # Now compensate rectangle due to the angle.
     # Only indexes [0] and [1] in rotatedImageRectangle are updated.
@@ -156,6 +165,7 @@ while True:
     rotatedImageRectangle.center += np.array([np.cos(math.radians(angle)) * offsetX,
                                    -np.sin(math.radians(angle)) * offsetY])
 
+    
     if newAngle != oldAngle or newOffset:
         print '  Red rectangle after update:',rotatedImageRectangle
         newOffset = False
