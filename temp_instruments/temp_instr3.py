@@ -2,9 +2,7 @@
 # Date        : 2015-08-02
 # File        : temp_instr3.py
 # Reference   : -
-# Description : Two different instruments are loaded.
-#               The values are set by key 0-9 or q/w/e/r/t/y.
-#               defines.py is used for a lot of defined constants.
+# Description : Same as temp_instr2.py but without using numpy.
 #
 # Python ver : 2.7.3 (gcc 4.6.3)
 
@@ -164,8 +162,11 @@ class Instrument_1():
     
         # compensate for rotation of needle
         self.rotatedImageRectangle.center = (self.needlePos)
-        self.rotatedImageRectangle.center += np.array([np.cos(math.radians(angle)) * INSTR2_OFFSET_X,
-                                            -np.sin(math.radians(angle)) * INSTR2_OFFSET_Y])
+
+        radAngle = math.radians(angle)
+        xPos = math.cos(radAngle)*INSTR2_OFFSET_X
+        yPos = math.sin(radAngle)*INSTR2_OFFSET_Y
+        self.rotatedImageRectangle.center = (self.needlePos[0]+xPos, self.needlePos[1]-yPos)
 
         # blit images
         self._blit_images()
