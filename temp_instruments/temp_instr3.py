@@ -206,7 +206,6 @@ def main():
         instrument2.input_data(data2)
 
         # now, get everything visible on the screen
-        #pygame.display.update()
         pygame.display.flip()
         fpsClock.tick(30)
 
