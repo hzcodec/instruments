@@ -56,7 +56,8 @@ pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT), 0, 32)
 screen_rect = screen.get_rect()
 
-image = pygame.image.load('green_car.png')
+#image = pygame.image.load('green_car.png')
+image = pygame.image.load('red_box_100x100.png')
 
 # if convert() is added then the green rectangle is partly hidden by the red rectangle
 #image = pygame.image.load('green_car.png').convert()
@@ -116,16 +117,26 @@ while True:
             newOffset = True
 
         elif event.type == KEYDOWN and event.key == pygame.K_3:
+            offsetX = 20
+            offsetY = 20
+            newOffset = True
+
+        elif event.type == KEYDOWN and event.key == pygame.K_4:
             offsetX = 30
             offsetY = 30
             newOffset = True
 
-        elif event.type == KEYDOWN and event.key == pygame.K_4:
-            offsetX = 60
-            offsetY = 60
+        elif event.type == KEYDOWN and event.key == pygame.K_5:
+            offsetX = 40
+            offsetY = 40
             newOffset = True
 
-        elif event.type == KEYDOWN and event.key == pygame.K_5:
+        elif event.type == KEYDOWN and event.key == pygame.K_6:
+            offsetX = 50
+            offsetY = 50
+            newOffset = True
+
+        elif event.type == KEYDOWN and event.key == pygame.K_7:
             offsetX = 90
             offsetY = 90
             newOffset = True
@@ -149,7 +160,6 @@ while True:
         newAngle  = angle
 
     screen.fill(BLACK)
-    draw_cross_line()
 
     rotatedImage = pygame.transform.rotate(image, angle)
     rotatedImageRectangle = rotatedImage.get_rect()
@@ -213,6 +223,7 @@ while True:
 
     # draw a line from SCREEN_ORIGO to the upper left rectangle
     pygame.draw.line(screen, LIGHT_BLUE, (0,0), (rotatedImageRectangle[0],rotatedImageRectangle[1]), 2)
+    draw_cross_line()
 
     pygame.display.update()
     pygame.time.delay(TIME_DELAY_IN_MS)
