@@ -31,6 +31,16 @@ BLACK       = (0, 0, 0)
 WHITE       = (255, 255, 255)
 
 TIME_DELAY_IN_MS = 100
+WIDTH        = 640
+HEIGHT       = 360
+SCREEN_ORIGO = (0,0)
+LINE_WIDTH   = 2
+
+
+def draw_cross_line():
+    pygame.draw.line(screen, BLUE, (10,HEIGHT/2), (WIDTH-10,HEIGHT/2), 2)
+    pygame.draw.line(screen, BLUE, (WIDTH/2,10), (WIDTH/2,WIDTH-10), 2)
+
 
 # set rotation offset
 # if offset = 0 the rotation is around the middle of the image
@@ -42,7 +52,7 @@ offsetY = 0
 os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" %(800,100)
 
 pygame.init()
-screen = pygame.display.set_mode((640, 360), 0, 32)
+screen = pygame.display.set_mode((WIDTH, HEIGHT), 0, 32)
 screen_rect = screen.get_rect()
 
 image = pygame.image.load('green_car.png')
@@ -58,8 +68,8 @@ background = pygame.Surface(screen.get_size())
 background = background.convert()
 
 angle     = 0
-hit       = False  # if 'r' is typed => rotate one step
-hit2      = False  # if 'c' is typed => continously rotation
+rKeyTyped = False  # if 'r' is typed => rotate one step
+cKeyTyped = False  # if 'c' is typed => continously rotation
 newOffset = False  # if 1-5 is typed 
 newAngle  = 0
 oldAngle  = 99
@@ -77,21 +87,21 @@ while True:
 
         # rotate in increments
         elif event.type == KEYDOWN and event.key == pygame.K_r:
-            hit = True
+            rKeyTyped = True
             rotateDir = True
 
         # rotate in increments
         elif event.type == KEYDOWN and event.key == pygame.K_t:
-            hit = True
+            rKeyTyped = True
             rotateDir = False
 
         # rotate in continously
         elif event.type == KEYDOWN and event.key == pygame.K_c:
-            hit2 = True
+            cKeyTyped = True
 
         # stop continously rotation
         elif event.type == KEYDOWN and event.key == pygame.K_s:
-            hit2 = False
+            cKeyTyped = False
 
         # change offset to the middle of the image
         elif event.type == KEYDOWN and event.key == pygame.K_1:
@@ -124,7 +134,8 @@ while True:
             offsetY = 120
             newOffset = True
 
-    if hit == True or hit2 == True:
+    # check if key is typed and act upon that 
+    if rKeyTyped == True or cKeyTyped == True:
         if rotateDir:
             angle += 5
         else:
@@ -133,13 +144,11 @@ while True:
         # make sure angle is between 0-360
         angle = angle%360
         # remove flag and update new angle
-        hit = False
-        newAngle = angle
+        rKeyTyped = False
+        newAngle  = angle
 
     screen.fill(BLACK)
-
-    pygame.draw.line(screen, BLUE, (10,180), (630,180), 2)
-    pygame.draw.line(screen, BLUE, (320,10), (320,350), 2)
+    draw_cross_line()
 
     rotatedImage = pygame.transform.rotate(image, angle)
     rotatedImageRectangle = rotatedImage.get_rect()
@@ -148,7 +157,7 @@ while True:
     xPos = math.cos(radAngle)*offsetX
     yPos = math.sin(radAngle)*offsetY
 
-    rotatedImageRectangle.center = (320,180)
+    rotatedImageRectangle.center = (WIDTH/2, HEIGHT/2)
 
     # draw a rectangle before compensation of the angle
     pygame.draw.rect(screen, GREEN, (rotatedImageRectangle[0],
@@ -165,7 +174,8 @@ while True:
         print '  Rect width:',rotatedImageRectangle.width
         print '  Rect height:',rotatedImageRectangle.height
 
-    pygame.draw.line(screen, LIGHT_BLUE, (0,0), (rotatedImageRectangle[0],rotatedImageRectangle[1]), 2)
+    # draw a line from SCREEN_ORIGO to the upper left rectangle
+    pygame.draw.line(screen, LIGHT_BLUE, SCREEN_ORIGO, (rotatedImageRectangle[0],rotatedImageRectangle[1]), LINE_WIDTH)
     
     # ------------------------------------------------------------------------------------------------------
     # Now compensate rectangle due to the angle.
@@ -181,7 +191,7 @@ while True:
     # either use centerx/centery or center
     #rotatedImageRectangle.centerx = (rotatedImageRectangle[0]+xPos)
     #rotatedImageRectangle.centery = (rotatedImageRectangle[1]+yPos)
-    rotatedImageRectangle.center = (320+xPos, 180-yPos)
+    rotatedImageRectangle.center = (WIDTH/2+xPos, HEIGHT/2-yPos)
 
     
     if newAngle != oldAngle or newOffset:
@@ -200,6 +210,7 @@ while True:
                                    rotatedImageRectangle[3]),
                                    1)
 
+    # draw a line from SCREEN_ORIGO to the upper left rectangle
     pygame.draw.line(screen, LIGHT_BLUE, (0,0), (rotatedImageRectangle[0],rotatedImageRectangle[1]), 2)
 
     pygame.display.update()
