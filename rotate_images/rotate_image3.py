@@ -4,7 +4,7 @@
 # Reference   : -
 # Description : Rotate the loaded image at an offset position.
 #               The position is set by offsetX and offsetY.
-#               Same as rotation_image2 but now rotating without mouse controll.
+#               Same as rotation_image2 but now rotating without mouse control.
 #               Instead the rotation speed is set by TIME_DELAY_IN_MS.
 #
 #               The offset can be changed by 1-5.
@@ -182,7 +182,7 @@ while True:
     # Only indexes [0] and [1] in rotatedImageRectangle are updated.
     # ------------------------------------------------------------------------------------------------------
 
-    # if nympy is out of option then use the 2nd method
+    # if numpy, 1st method, is out of option then use the 2nd method
     # *** 1st method
     #rotatedImageRectangle.center += np.array([np.cos(math.radians(angle)) * offsetX,
     #                               -np.sin(math.radians(angle)) * offsetY])
