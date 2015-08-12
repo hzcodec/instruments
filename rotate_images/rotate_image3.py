@@ -31,12 +31,13 @@ BLACK       = (0, 0, 0)
 WHITE       = (255, 255, 255)
 
 TIME_DELAY_IN_MS = 100
-WIDTH        = 640
-HEIGHT       = 360
-SCREEN_ORIGO = (0,0)
-LINE_WIDTH   = 2
+WIDTH            = 640      # screen width
+HEIGHT           = 360      # screen height
+SCREEN_ORIGO     = (0,0)    # screen origo, upper left corner
+LINE_WIDTH       = 2        # line width
 
 
+# draw a crossing line in the middle of the screen
 def draw_cross_line():
     pygame.draw.line(screen, BLUE, (10,HEIGHT/2), (WIDTH-10,HEIGHT/2), 2)
     pygame.draw.line(screen, BLUE, (WIDTH/2,10), (WIDTH/2,WIDTH-10), 2)
