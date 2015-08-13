@@ -1,6 +1,6 @@
 # Auther      : Heinz Samuelsson
 # Date        : 2015-08-02
-# File        : temp_instr3.py
+# File        : flight_instr.py
 # Reference   : -
 # Description : Two different instruments are loaded.
 #               The values are set by key 0-9 or q/w/e/r/t/y.
@@ -30,8 +30,8 @@ def scan_keyboard():
    # static variable
    if not hasattr(scan_keyboard, "inputData1"):
        scan_keyboard.inputData1 = 0 
-   if not hasattr(scan_keyboard, "inputData2"):
-       scan_keyboard.inputData2 = 0
+
+   print 'inputData1:',80+scan_keyboard.inputData1
 
    for event in pygame.event.get():
        if event.type == QUIT:
@@ -42,48 +42,34 @@ def scan_keyboard():
            pygame.quit()
            sys.exit()
 
-       elif event.type == KEYDOWN and event.key == pygame.K_0:
-           scan_keyboard.inputData1 = 0
-           scan_keyboard.inputData2 = 0
-
        elif event.type == KEYDOWN and event.key == pygame.K_1:
-           scan_keyboard.inputData1 = 1
-           scan_keyboard.inputData2 = 7.7
+           scan_keyboard.inputData1 -= 1
 
        elif event.type == KEYDOWN and event.key == pygame.K_2:
-           scan_keyboard.inputData1 = 3
-           scan_keyboard.inputData2 = 8.4
+           scan_keyboard.inputData1 = 60
 
        elif event.type == KEYDOWN and event.key == pygame.K_3:
-           scan_keyboard.inputData1 = 3.4
-           scan_keyboard.inputData2 = 4
+           scan_keyboard.inputData1 = 65
 
        elif event.type == KEYDOWN and event.key == pygame.K_4:
-           scan_keyboard.inputData1 = 4
-           scan_keyboard.inputData2 = 4
+           scan_keyboard.inputData1 = 60
 
        elif event.type == KEYDOWN and event.key == pygame.K_5:
-           scan_keyboard.inputData1 = 6.1
-           scan_keyboard.inputData2 = 5.5
+           scan_keyboard.inputData1 = 55
 
        elif event.type == KEYDOWN and event.key == pygame.K_6:
-           scan_keyboard.inputData1 = 6.3
-           scan_keyboard.inputData2 = 2
+           scan_keyboard.inputData1 = 50
 
        elif event.type == KEYDOWN and event.key == pygame.K_7:
            scan_keyboard.inputData1 = 6
-           scan_keyboard.inputData2 = 6.5
 
        elif event.type == KEYDOWN and event.key == pygame.K_8:
            scan_keyboard.inputData1 = 8
-           scan_keyboard.inputData2 = 9
 
        elif event.type == KEYDOWN and event.key == pygame.K_9:
            scan_keyboard.inputData1 = 9
-           scan_keyboard.inputData2 = 1
 
-
-   return scan_keyboard.inputData1, scan_keyboard.inputData2
+   return scan_keyboard.inputData1
 
 
 class AirSpeedInstrument():
@@ -104,7 +90,7 @@ class AirSpeedInstrument():
         self.needlePos     = needlePos
         self.instrumentNo  = instrumentNo
         self.speed         = speed
-        self.tempDial      = pygame.image.load('airspeed360px.jpg')
+        self.tempDial      = pygame.image.load('airspeed360px.png')
         self.needle        = pygame.image.load('needle_long.png')
 
         self.reduceSpeedHiLo = 0.0         # reduce needle speed from hi to lo
@@ -115,7 +101,6 @@ class AirSpeedInstrument():
         self.flag1           = False       # flag to handle overshoot of needle
         self.flag2           = False       # flag to handle overshoot of needle
         self.inputData       = 0.0         # input data
-        self.inputValFont    = pygame.font.SysFont("None",38)
 
     def input_data(self, inputData):
        """
@@ -164,8 +149,8 @@ class AirSpeedInstrument():
     
         # compensate for rotation of needle
         self.rotatedImageRectangle.center = (self.needlePos)
-        self.rotatedImageRectangle.center += np.array([np.cos(math.radians(angle)) * INSTR2_OFFSET_X,
-                                            -np.sin(math.radians(angle)) * INSTR2_OFFSET_Y])
+        self.rotatedImageRectangle.center += np.array([np.cos(math.radians(angle)) * NEEDLE_OFFSET_X,
+                                            -np.sin(math.radians(angle)) * NEEDLE_OFFSET_Y])
 
         # blit images
         self._blit_images()
@@ -176,8 +161,6 @@ class AirSpeedInstrument():
         """
         self.screen.blit(self.tempDial, (self.dialPos))
         self.screen.blit(self.rotatedImage, self.rotatedImageRectangle)
-        inputValue = self.inputValFont.render(str(self.inputData), 0 , BLACK)
-        self.screen.blit(inputValue, (self.needlePos[0]-10,197))
 
 
 def main():
@@ -194,16 +177,23 @@ def main():
 
     screen = pygame.display.set_mode((WIDTH-400, HEIGHT), 0, 32)
 
-    # create instrument instances
-    airSpeedInstrument = AirSpeedInstrument(screen, startAngle, SPEEDO_DIAL_POS_INSTR1, SPEEDO_NEEDLE_POS_INSTR1, airSpeedNeedleSpeed, INSTRUMENT1)
+    # create instrument instance
+    airSpeedInstrument = AirSpeedInstrument(screen, 
+                                            startAngle, 
+                                            SPEEDO_DIAL_POS_INSTR1, 
+                                            SPEEDO_NEEDLE_POS_INSTR1,
+                                            airSpeedNeedleSpeed, 
+                                            INSTRUMENT1)
     
     while True:
 
         screen.fill(BACKGR_GREY)
 
         # scan keyboard to get an input value and send it to the instrument
-        data1, data2 = scan_keyboard()
-        airSpeedInstrument.input_data(data1)
+        data1 = scan_keyboard()
+        airSpeedInstrument.input_angle(80+data1)
+#        airSpeedInstrument.input_data(data1)
+#        airSpeedInstrument.input_angle(data1)
 
         # now, get everything visible on the screen
         #pygame.display.update()
