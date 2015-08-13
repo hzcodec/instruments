@@ -29,9 +29,7 @@ def scan_keyboard():
 
    # static variable
    if not hasattr(scan_keyboard, "inputData1"):
-       scan_keyboard.inputData1 = 0 
-
-   print 'inputData1:',80+scan_keyboard.inputData1
+       scan_keyboard.inputData1 = 30
 
    for event in pygame.event.get():
        if event.type == QUIT:
@@ -43,28 +41,28 @@ def scan_keyboard():
            sys.exit()
 
        elif event.type == KEYDOWN and event.key == pygame.K_1:
-           scan_keyboard.inputData1 -= 1
+           scan_keyboard.inputData1 = 30
 
        elif event.type == KEYDOWN and event.key == pygame.K_2:
-           scan_keyboard.inputData1 = 60
+           scan_keyboard.inputData1 = 40
 
        elif event.type == KEYDOWN and event.key == pygame.K_3:
-           scan_keyboard.inputData1 = 65
+           scan_keyboard.inputData1 = 50
 
        elif event.type == KEYDOWN and event.key == pygame.K_4:
            scan_keyboard.inputData1 = 60
 
        elif event.type == KEYDOWN and event.key == pygame.K_5:
-           scan_keyboard.inputData1 = 55
+           scan_keyboard.inputData1 = 70
 
        elif event.type == KEYDOWN and event.key == pygame.K_6:
-           scan_keyboard.inputData1 = 50
+           scan_keyboard.inputData1 = 80
 
        elif event.type == KEYDOWN and event.key == pygame.K_7:
-           scan_keyboard.inputData1 = 6
+           scan_keyboard.inputData1 = 90
 
        elif event.type == KEYDOWN and event.key == pygame.K_8:
-           scan_keyboard.inputData1 = 8
+           scan_keyboard.inputData1 = 100
 
        elif event.type == KEYDOWN and event.key == pygame.K_9:
            scan_keyboard.inputData1 = 9
@@ -110,7 +108,7 @@ class AirSpeedInstrument():
          inputData - Input value. Between 0 - 100.
        """
        self.inputData = inputData
-       requestedAngle  = int(-20*inputData + 180)
+       requestedAngle  = int(-1.5*inputData + 118)
 
        self.input_angle(requestedAngle)
 
@@ -170,7 +168,7 @@ def main():
 
     pygame.init()
     fpsClock = pygame.time.Clock()
-    pygame.display.set_caption(85*' '+'--- HzFlyer Instruments ---')
+    pygame.display.set_caption(85*' '+'--- HzFlyer Flight Instruments ---')
 
     startAngle = 180 # start angle of needle
     airSpeedNeedleSpeed = 1.0 # rotation speed for needle, instrument1
@@ -191,9 +189,7 @@ def main():
 
         # scan keyboard to get an input value and send it to the instrument
         data1 = scan_keyboard()
-        airSpeedInstrument.input_angle(80+data1)
-#        airSpeedInstrument.input_data(data1)
-#        airSpeedInstrument.input_angle(data1)
+        airSpeedInstrument.input_data(data1)
 
         # now, get everything visible on the screen
         #pygame.display.update()
