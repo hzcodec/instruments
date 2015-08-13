@@ -189,15 +189,19 @@ def main():
     fpsClock = pygame.time.Clock()
     pygame.display.set_caption('Instrument')
 
+    startAngle  = 180 # start angle of needle
+    speedInstr1 = 1.0 # rotation speed for needle, instrument1
+    speedInstr2 = 1.0 # rotation speed for needle, instrument2
+
     screen = pygame.display.set_mode((WIDTH-400, HEIGHT), 0, 32)
 
     # create instrument instances
-    instrument1 = Instrument_1(screen, 180, SPEEDO_DIAL_POS_INSTR1, SPEEDO_NEEDLE_POS_INSTR1, 1.0, INSTRUMENT1)
-    instrument2 = Instrument_1(screen, 180, SPEEDO_DIAL_POS_INSTR2, SPEEDO_NEEDLE_POS_INSTR2, 2.0, INSTRUMENT2)
+    instrument1 = Instrument_1(screen, startAngle, SPEEDO_DIAL_POS_INSTR1, SPEEDO_NEEDLE_POS_INSTR1, speedInstr1, INSTRUMENT1)
+    instrument2 = Instrument_1(screen, startAngle, SPEEDO_DIAL_POS_INSTR2, SPEEDO_NEEDLE_POS_INSTR2, speedInstr2, INSTRUMENT2)
     
     while True:
 
-        screen.fill((80,80,80))
+        screen.fill(BACKGR_GREY)
 
         # scan keyboard to get an input value and send it to the instrument
         data1, data2 = scan_keyboard()
