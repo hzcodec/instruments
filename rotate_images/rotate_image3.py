@@ -56,6 +56,8 @@ pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT), 0, 32)
 screen_rect = screen.get_rect()
 
+pygame.display.set_caption(50*' '+'--- Rotate image ---')
+
 #image = pygame.image.load('green_car.png')
 image = pygame.image.load('red_box_100x100.png')
 

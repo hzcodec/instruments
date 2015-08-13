@@ -187,7 +187,7 @@ def main():
 
     pygame.init()
     fpsClock = pygame.time.Clock()
-    pygame.display.set_caption('Instrument')
+    pygame.display.set_caption(85*' '+'--- HzFlyer Instruments ---')
 
     startAngle  = 180 # start angle of needle
     speedInstr1 = 1.0 # rotation speed for needle, instrument1
