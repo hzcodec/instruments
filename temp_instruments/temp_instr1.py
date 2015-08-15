@@ -312,7 +312,7 @@ class Fuel_Instrument():
         #pygame.draw.circle(self.screen, BLACK,  (self.needlePos), 3,  0)
 
 
-def main():
+def main(argv):
     
     # center window on monitor
     os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" %(10,10)
@@ -359,4 +359,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    main(sys.argv[1:])

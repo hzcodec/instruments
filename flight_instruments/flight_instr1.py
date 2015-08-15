@@ -40,6 +40,9 @@ def scan_keyboard():
            pygame.quit()
            sys.exit()
 
+       elif event.type == KEYDOWN and event.key == pygame.K_0:
+           scan_keyboard.inputData1 = 130
+
        elif event.type == KEYDOWN and event.key == pygame.K_1:
            scan_keyboard.inputData1 = 30
 
@@ -65,7 +68,10 @@ def scan_keyboard():
            scan_keyboard.inputData1 = 100
 
        elif event.type == KEYDOWN and event.key == pygame.K_9:
-           scan_keyboard.inputData1 = 9
+           scan_keyboard.inputData1 = 10
+
+       elif event.type == KEYDOWN and event.key == pygame.K_q:
+           scan_keyboard.inputData1 = -40
 
    return scan_keyboard.inputData1
 
@@ -88,8 +94,15 @@ class AirSpeedInstrument():
         self.needlePos     = needlePos
         self.instrumentNo  = instrumentNo
         self.speed         = speed
-        self.tempDial      = pygame.image.load('airspeed360px.png')
-        self.needle        = pygame.image.load('needle_long.png')
+        self.dial          = pygame.image.load('airspeed2.png')
+        #self.needle        = pygame.image.load('white_needle.png')
+        self.needle        = pygame.image.load('airspeed_needle2.png')
+        self.nail          = pygame.image.load('grey_nail.png')
+
+        self.dialRectangle  = self.dial.get_rect().size
+        print 'Size of Airspeed image:',self.dialRectangle
+        self.nailRectangle  = self.nail.get_rect().size
+        print 'Size of Nail image:',self.nailRectangle
 
         self.reduceSpeedHiLo = 0.0         # reduce needle speed from hi to lo
         self.reduceSpeedLoHi = 0.0         # reduce needle speed from lo to hi
@@ -144,11 +157,19 @@ class AirSpeedInstrument():
         """
         self.rotatedImage = pygame.transform.rotate(self.needle, angle)
         self.rotatedImageRectangle = self.rotatedImage.get_rect()
-    
+
+        self.rotatedNail = pygame.transform.rotate(self.nail, angle)
+        self.rotatedNailRectangle = self.rotatedNail.get_rect()
+
         # compensate for rotation of needle
         self.rotatedImageRectangle.center = (self.needlePos)
         self.rotatedImageRectangle.center += np.array([np.cos(math.radians(angle)) * NEEDLE_OFFSET_X,
                                             -np.sin(math.radians(angle)) * NEEDLE_OFFSET_Y])
+
+        self.rotatedNailRectangle.center = (self.needlePos)
+        self.rotatedNailRectangle.center += np.array([np.cos(math.radians(angle)) * 0,
+                                            -np.sin(math.radians(angle)) * 0])
+
 
         # blit images
         self._blit_images()
@@ -157,8 +178,13 @@ class AirSpeedInstrument():
         """ 
         Blit dials, needle and input data value
         """
-        self.screen.blit(self.tempDial, (self.dialPos))
+        self.screen.blit(self.dial, (self.dialPos))
         self.screen.blit(self.rotatedImage, self.rotatedImageRectangle)
+#        self.screen.blit(self.rotatedNail, self.rotatedNailRectangle)
+
+       # draw circle at needle
+       # pygame.draw.circle(self.screen, GREY, (self.needlePos), 14, 0)
+       # pygame.draw.circle(self.screen, BLACK,  (self.needlePos), 3,  0)
 
 class AltimeterInstrument():
     def __init__(self, screen, startAngle, dialPos, needlePos, speed, instrumentNo):
@@ -178,7 +204,7 @@ class AltimeterInstrument():
         self.needlePos     = needlePos
         self.instrumentNo  = instrumentNo
         self.speed         = speed
-        self.tempDial      = pygame.image.load('altimeter.png')
+        self.dial          = pygame.image.load('altimeter.png')
         self.needle        = pygame.image.load('needle_long.png')
 
         self.reduceSpeedHiLo = 0.0         # reduce needle speed from hi to lo
@@ -247,7 +273,7 @@ class AltimeterInstrument():
         """ 
         Blit dials, needle and input data value
         """
-        self.screen.blit(self.tempDial, (self.dialPos))
+        self.screen.blit(self.dial, (self.dialPos))
         self.screen.blit(self.rotatedImage, self.rotatedImageRectangle)
 
 def main():
@@ -281,18 +307,20 @@ def main():
     
     while True:
 
-        screen.fill(BACKGR_GREY)
+        screen.fill(BLACK)
 
         # scan keyboard to get an input value and send it to the instrument
         data1 = scan_keyboard()
         airSpeedInstrument.input_data(data1)
-        altimeterInstrument.input_data(data1)
+#        altimeterInstrument.input_data(data1)
+
+        pygame.draw.line(screen, WHITE, (30,200),(500,200) , 1)  # horizontal line
+        pygame.draw.line(screen, WHITE, (200,40),(200,500) , 1)  # vertical line
 
         # now, get everything visible on the screen
         #pygame.display.update()
         pygame.display.flip()
         fpsClock.tick(30)
-
 
 if __name__ == '__main__':
     main()

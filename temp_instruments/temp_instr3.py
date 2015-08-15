@@ -180,7 +180,7 @@ class Instrument_1():
         self.screen.blit(inputValue, (self.needlePos[0]-10,197))
 
 
-def main():
+def main(arg):
     
     # center window on monitor
     os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" %(10,10)
@@ -214,4 +214,5 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    # input argv can be used for test purpose 
+    main(sys.argv[1:])
