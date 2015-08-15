@@ -295,6 +295,8 @@ def main(argv):
 
     pygame.init()
     fpsClock = pygame.time.Clock()
+
+    background = pygame.image.load('background.png')
     pygame.display.set_caption(85*' '+'--- HzFlyer Flight Instruments ---')
 
     startAngle = 180 # start angle of needle
@@ -319,7 +321,7 @@ def main(argv):
     
     while True:
 
-        screen.fill(LIGHT_GREY)
+        screen.blit(background, (0,0))
 
         # scan keyboard to get an input value and send it to the instrument
         data1 = scan_keyboard()
@@ -330,7 +332,6 @@ def main(argv):
             draw_help_lines(screen)
 
         # now, get everything visible on the screen
-        #pygame.display.update()
         pygame.display.flip()
         fpsClock.tick(30)
 
