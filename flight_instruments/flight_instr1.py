@@ -319,7 +319,7 @@ def main(argv):
     
     while True:
 
-        screen.fill(STEEL)
+        screen.fill(LIGHT_GREY)
 
         # scan keyboard to get an input value and send it to the instrument
         data1 = scan_keyboard()
