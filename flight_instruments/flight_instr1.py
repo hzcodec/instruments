@@ -75,6 +75,19 @@ def scan_keyboard():
 
    return scan_keyboard.inputData1
 
+def draw_help_lines(screen):
+        # horizontal line
+        pygame.draw.line(screen, WHITE, 
+                        (10, Y_POS_FOR_ALL_INSTRUMENTS+200), # 200 is from size of Airspeed rectangle /2
+                        (WIDTH-10, Y_POS_FOR_ALL_INSTRUMENTS+200)
+                        ,1)
+
+        # vertical line
+        pygame.draw.line(screen, WHITE, 
+                         (X_SPACE_BETWEEN_ALL_INSTRUMENTS+200, 10),
+                         (X_SPACE_BETWEEN_ALL_INSTRUMENTS+200, HEIGHT-10)
+                         ,1)
+
 
 class AirSpeedInstrument():
     def __init__(self, screen, startAngle, dialPos, needlePos, speed, instrumentNo):
@@ -95,15 +108,11 @@ class AirSpeedInstrument():
         self.instrumentNo  = instrumentNo
         self.speed         = speed
         self.dial          = pygame.image.load('airspeed2.png')
-        #self.needle        = pygame.image.load('white_needle.png')
         self.needle        = pygame.image.load('airspeed_needle2.png')
         self.nail          = pygame.image.load('grey_nail.png')
 
         self.dialRectangle  = self.dial.get_rect().size
-        print 'Size of Airspeed image:',self.dialRectangle
         self.nailRectangle  = self.nail.get_rect().size
-        print 'Size of Nail image:',self.nailRectangle
-
         self.reduceSpeedHiLo = 0.0         # reduce needle speed from hi to lo
         self.reduceSpeedLoHi = 0.0         # reduce needle speed from lo to hi
         self.requestedAngle  = 0           # requested angle from user
@@ -180,11 +189,7 @@ class AirSpeedInstrument():
         """
         self.screen.blit(self.dial, (self.dialPos))
         self.screen.blit(self.rotatedImage, self.rotatedImageRectangle)
-#        self.screen.blit(self.rotatedNail, self.rotatedNailRectangle)
 
-       # draw circle at needle
-       # pygame.draw.circle(self.screen, GREY, (self.needlePos), 14, 0)
-       # pygame.draw.circle(self.screen, BLACK,  (self.needlePos), 3,  0)
 
 class AltimeterInstrument():
     def __init__(self, screen, startAngle, dialPos, needlePos, speed, instrumentNo):
@@ -276,8 +281,15 @@ class AltimeterInstrument():
         self.screen.blit(self.dial, (self.dialPos))
         self.screen.blit(self.rotatedImage, self.rotatedImageRectangle)
 
-def main():
-    
+def main(argv):
+ 
+    test = False
+
+    # argv - hidden in arguments used for test purpose
+    # 1 => draw help lines at instrument to find center point
+    if len(argv) > 0:
+        test = True
+ 
     # center window on monitor
     os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" %(10,10)
 
@@ -288,7 +300,7 @@ def main():
     startAngle = 180 # start angle of needle
     airSpeedNeedleSpeed = 1.0 # rotation speed for needle, instrument1
 
-    screen = pygame.display.set_mode((WIDTH-400, HEIGHT), 0, 32)
+    screen = pygame.display.set_mode((WIDTH, HEIGHT), 0, 32)
 
     # create instrument instance
     airSpeedInstrument = AirSpeedInstrument(screen, 
@@ -307,20 +319,21 @@ def main():
     
     while True:
 
-        screen.fill(BLACK)
+        screen.fill(STEEL)
 
         # scan keyboard to get an input value and send it to the instrument
         data1 = scan_keyboard()
         airSpeedInstrument.input_data(data1)
 #        altimeterInstrument.input_data(data1)
 
-        pygame.draw.line(screen, WHITE, (30,200),(500,200) , 1)  # horizontal line
-        pygame.draw.line(screen, WHITE, (200,40),(200,500) , 1)  # vertical line
+        if test:
+            draw_help_lines(screen)
 
         # now, get everything visible on the screen
         #pygame.display.update()
         pygame.display.flip()
         fpsClock.tick(30)
 
+
 if __name__ == '__main__':
-    main()
+    main(sys.argv[1:])
