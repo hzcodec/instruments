@@ -281,6 +281,10 @@ class AltimeterInstrument():
         self.screen.blit(self.dial, (self.dialPos))
         self.screen.blit(self.rotatedImage, self.rotatedImageRectangle)
 
+
+# --------------------------------------------------------------------------------- 
+#  Main
+# --------------------------------------------------------------------------------- 
 def main(argv):
  
     test = False
@@ -290,14 +294,14 @@ def main(argv):
     if len(argv) > 0:
         test = True
  
-    # center window on monitor
+    # position window on monitor
     os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" %(10,10)
 
     pygame.init()
     fpsClock = pygame.time.Clock()
 
     background = pygame.image.load('background.png')
-    pygame.display.set_caption(85*' '+'--- HzFlyer Flight Instruments ---')
+    pygame.display.set_caption(120*' '+'--- HzFlyer Flight Instruments ---')
 
     startAngle = 180 # start angle of needle
     airSpeedNeedleSpeed = 1.0 # rotation speed for needle, instrument1
