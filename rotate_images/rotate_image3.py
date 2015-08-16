@@ -65,8 +65,8 @@ def scan_keyboard():
         scan_keyboard.offsetY = 0
 
     rKeyTyped = False
-    rotateDir = 3
-    newOffset = False
+    rotateDir = 3     # rotation direction 1=LEFT, 2=RIGHT, 3=dummy
+    newOffset = False # offset of needle (key 1-7)
 
     for event in pygame.event.get():
         if event.type == QUIT:
@@ -179,7 +179,6 @@ def main(arg):
     
     angle     = 0
     rKeyTyped = False  # if 'r' is typed => rotate one step
-    newOffset = False  # if 1-5 is typed 
     newAngle  = 0
     oldAngle  = 99
     dirTemp   = 1      # temp variable to hold direction
@@ -190,7 +189,7 @@ def main(arg):
         newOffset, offsetX, offsetY, rotateDir, rKeyTyped, cKeyTyped = scan_keyboard()
     
         # check if key is typed and act upon that 
-        if rKeyTyped == True: # or cKeyTyped == True:
+        if rKeyTyped == True:
             if rotateDir == 1:
                 angle += 5
                 dirTemp = rotateDir
@@ -208,11 +207,11 @@ def main(arg):
             else:
                pass
       
-            # make sure angle is between 0-360
-            angle = angle%360
-            # remove flag and update new angle
-            rKeyTyped = False
-            newAngle  = angle
+        # make sure angle is between 0-360
+        angle = angle%360
+        # remove flag and update new angle
+        rKeyTyped = False
+        newAngle  = angle
     
         screen.fill(BLACK)
     
