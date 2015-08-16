@@ -1,11 +1,11 @@
 # ---------------------------------------------------------------------------------
-# You only nedd to change these two parameters in order set the position
-# of the instruments on the screen.
+# You only nedd to change these parameters
 # ---------------------------------------------------------------------------------
 X_SPACE_BETWEEN_ALL_INSTRUMENTS = 40
-SIZE_OF_INSTRUMENT_1 = (400, 400)
-SIZE_OF_INSTRUMENT_2 = (300, 300)
-Y_POS_FOR_ALL_INSTRUMENTS = 20
+SIZE_OF_INSTRUMENT_1            = (400, 400)
+SIZE_OF_INSTRUMENT_2            = (300, 300)
+Y_POS_FOR_ALL_INSTRUMENTS       = 20
+SPEED_OF_NEEDLE                 = 1.0
 # ---------------------------------------------------------------------------------
 
 # screen size

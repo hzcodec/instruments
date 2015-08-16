@@ -75,6 +75,7 @@ def scan_keyboard():
 
    return scan_keyboard.inputData1
 
+
 def draw_help_lines(screen):
         # horizontal line
         pygame.draw.line(screen, WHITE, 
@@ -89,8 +90,8 @@ def draw_help_lines(screen):
                          ,1)
 
 
-class AirSpeedInstrument():
-    def __init__(self, screen, startAngle, dialPos, needlePos, speed, instrumentNo):
+class Instrument():
+    def __init__(self, screen, startAngle, dialPos, needlePos, instrumentNo):
         """
         Define input parameters and load images of dial and needle.
         Input:
@@ -98,7 +99,6 @@ class AirSpeedInstrument():
           startAngle    - Start angle for needle.
           dialPos       - Position of dial.
           needlePos     - Position of needle.
-          speed         - Rotation speed of needle.
           instrumentNo  - Instrument number.
         """
         self.screen        = screen
@@ -106,15 +106,11 @@ class AirSpeedInstrument():
         self.dialPos       = dialPos
         self.needlePos     = needlePos
         self.instrumentNo  = instrumentNo
-        self.speed         = speed
+        self.speed         = SPEED_OF_NEEDLE 
         self.dial          = pygame.image.load('airspeed2.png')
         self.needle        = pygame.image.load('airspeed_needle2.png')
         self.nail          = pygame.image.load('grey_nail.png')
 
-        self.dialRectangle  = self.dial.get_rect().size
-        self.nailRectangle  = self.nail.get_rect().size
-        self.reduceSpeedHiLo = 0.0         # reduce needle speed from hi to lo
-        self.reduceSpeedLoHi = 0.0         # reduce needle speed from lo to hi
         self.requestedAngle  = 0           # requested angle from user
         self.currentAngle    = startAngle  # current angle of needle
         self.finalAngle      = 0           # final angle that was requested
@@ -123,16 +119,10 @@ class AirSpeedInstrument():
         self.inputData       = 0.0         # input data
 
     def input_data(self, inputData):
-       """
-       Calculate the angle with respect to the input data. N.B! Since the scale is 
-       not linear from 0 - 100 we need to split the calculation. Under the value 55 or above.
-       Input:
-         inputData - Input value. Between 0 - 100.
-       """
-       self.inputData = inputData
-       requestedAngle  = int(-1.5*inputData + 118)
-
-       self.input_angle(requestedAngle)
+       #"""
+       # User must implement its own calculation of the angle for each instrument.
+       #"""
+       pass
 
     def input_angle(self, reqAngle):
         """
@@ -179,7 +169,6 @@ class AirSpeedInstrument():
         self.rotatedNailRectangle.center += np.array([np.cos(math.radians(angle)) * 0,
                                             -np.sin(math.radians(angle)) * 0])
 
-
         # blit images
         self._blit_images()
 
@@ -191,35 +180,9 @@ class AirSpeedInstrument():
         self.screen.blit(self.rotatedImage, self.rotatedImageRectangle)
 
 
-class AltimeterInstrument():
-    def __init__(self, screen, startAngle, dialPos, needlePos, speed, instrumentNo):
-        """
-        Define input parameters and load images of dial and needle.
-        Input:
-          screen        - Current defined screen.
-          startAngle    - Start angle for needle.
-          dialPos       - Position of dial.
-          needlePos     - Position of needle.
-          speed         - Rotation speed of needle.
-          instrumentNo  - Instrument number.
-        """
-        self.screen        = screen
-        self.startAngle    = startAngle
-        self.dialPos       = dialPos
-        self.needlePos     = needlePos
-        self.instrumentNo  = instrumentNo
-        self.speed         = speed
-        self.dial          = pygame.image.load('altimeter.png')
-        self.needle        = pygame.image.load('needle_long.png')
-
-        self.reduceSpeedHiLo = 0.0         # reduce needle speed from hi to lo
-        self.reduceSpeedLoHi = 0.0         # reduce needle speed from lo to hi
-        self.requestedAngle  = 0           # requested angle from user
-        self.currentAngle    = startAngle  # current angle of needle
-        self.finalAngle      = 0           # final angle that was requested
-        self.flag1           = False       # flag to handle overshoot of needle
-        self.flag2           = False       # flag to handle overshoot of needle
-        self.inputData       = 0.0         # input data
+class AirSpeedInstrument(Instrument):
+    def __init__(self, screen, startAngle, dialPos, needlePos, instrumentNo):
+        Instrument.__init__(self, screen, startAngle, dialPos, needlePos, instrumentNo)
 
     def input_data(self, inputData):
        """
@@ -233,53 +196,22 @@ class AltimeterInstrument():
 
        self.input_angle(requestedAngle)
 
-    def input_angle(self, reqAngle):
-        """
-        Increment/decrement the angle until the requested angle is reached.
-        Input:
-          reqAngle - Requested angle in degrees.
-        """
-        # clear flags when new data arrives
-        if self.finalAngle != reqAngle:
-            self.flag1 = False
-            self.flag2 = False
 
-        if reqAngle < self.currentAngle and not self.flag2:
-            #print '[1] Requested angle:',reqAngle,'  -  Current angle:',self.currentAngle
-            self.currentAngle -= self.speed
-            self.flag1 = True
+class AltimeterInstrument(Instrument):
+    def __init__(self, screen, startAngle, dialPos, needlePos, instrumentNo):
+        Instrument.__init__(self, screen, startAngle, dialPos, needlePos, instrumentNo)
 
-        elif reqAngle > self.currentAngle and not self.flag1:
-            #print '[2] Requested angle:',reqAngle,'  -  Current angle:',self.currentAngle
-            self.currentAngle += self.speed
-            self.flag2 = True
+    def input_data(self, inputData):
+       """
+       Calculate the angle with respect to the input data. N.B! Since the scale is 
+       not linear from 0 - 100 we need to split the calculation. Under the value 55 or above.
+       Input:
+         inputData - Input value. Between 0 - 100.
+       """
+       self.inputData = inputData
+       requestedAngle  = int(-1.5*inputData + 118)
 
-        self.finalAngle = reqAngle
-        self._rotate(self.currentAngle)
-
-    def _rotate(self, angle):
-        """
-        Rotate needle and reposition the needle due to the angle.
-        Input:
-          angle - The rotation angle for the needle.
-        """
-        self.rotatedImage = pygame.transform.rotate(self.needle, angle)
-        self.rotatedImageRectangle = self.rotatedImage.get_rect()
-    
-        # compensate for rotation of needle
-        self.rotatedImageRectangle.center = (self.needlePos)
-        self.rotatedImageRectangle.center += np.array([np.cos(math.radians(angle)) * NEEDLE_OFFSET_X,
-                                            -np.sin(math.radians(angle)) * NEEDLE_OFFSET_Y])
-
-        # blit images
-        self._blit_images()
-
-    def _blit_images(self): 
-        """ 
-        Blit dials, needle and input data value
-        """
-        self.screen.blit(self.dial, (self.dialPos))
-        self.screen.blit(self.rotatedImage, self.rotatedImageRectangle)
+       self.input_angle(requestedAngle)
 
 
 # --------------------------------------------------------------------------------- 
@@ -302,10 +234,7 @@ def main(argv):
 
     background = pygame.image.load('background.png')
     pygame.display.set_caption(120*' '+'--- HzFlyer Flight Instruments ---')
-
     startAngle = 180 # start angle of needle
-    airSpeedNeedleSpeed = 1.0 # rotation speed for needle, instrument1
-
     screen = pygame.display.set_mode((WIDTH, HEIGHT), 0, 32)
 
     # create instrument instance
@@ -313,14 +242,12 @@ def main(argv):
                                             startAngle, 
                                             SPEEDO_DIAL_POS_INSTR1, 
                                             SPEEDO_NEEDLE_POS_INSTR1,
-                                            airSpeedNeedleSpeed, 
                                             INSTRUMENT1)
 
     altimeterInstrument = AltimeterInstrument(screen, 
                                               startAngle, 
                                               SPEEDO_DIAL_POS_INSTR2, 
                                               SPEEDO_NEEDLE_POS_INSTR2,
-                                              airSpeedNeedleSpeed, 
                                               INSTRUMENT2)
     
     while True:
@@ -337,7 +264,7 @@ def main(argv):
 
         # now, get everything visible on the screen
         pygame.display.flip()
-        fpsClock.tick(30)
+        fpsClock.tick(60)
 
 
 if __name__ == '__main__':
