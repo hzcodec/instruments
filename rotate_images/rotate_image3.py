@@ -14,14 +14,17 @@
 #               Type 'esc' to exit application.
 #
 #               Using rotozoom() instead of rotate() gives a better result.
+#
+#               If numpy is not installed then there is a possibility to use
+#               a more conventional method. See comments below.
 # Python ver : 2.7.3 (gcc 4.6.3)
 
 import pygame
 import sys
-from pygame.locals import *
-import numpy as np
 import math
 import os
+from pygame.locals import *  # remember to comment this and the next line if numpy is not used
+import numpy as np
 
 # define colors
 RED         = (255, 0, 0)
@@ -216,6 +219,7 @@ def main(arg):
         rotatedImage = pygame.transform.rotozoom(image, angle, 1)
         rotatedImageRectangle = rotatedImage.get_rect()
     
+        # these calculations are used when numpy is *not* used
         radAngle = math.radians(angle)
         xPos = math.cos(radAngle)*offsetX
         yPos = math.sin(radAngle)*offsetY
@@ -246,11 +250,11 @@ def main(arg):
         # ------------------------------------------------------------------------------------------------------
     
         # if numpy, 1st method, is out of option then use the 2nd method
-        # *** 1st method
+        # *** 1st method ***
         rotatedImageRectangle.center += np.array([np.cos(math.radians(angle)) * offsetX,
                                        -np.sin(math.radians(angle)) * offsetY])
     
-        # *** 2nd method
+        # *** 2nd method ***
         # either use centerx/centery or center
         #rotatedImageRectangle.centerx = (rotatedImageRectangle[0]+xPos)
         #rotatedImageRectangle.centery = (rotatedImageRectangle[1]+yPos)
