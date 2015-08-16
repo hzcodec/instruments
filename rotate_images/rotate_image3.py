@@ -146,11 +146,12 @@ def scan_keyboard():
 
 # ---------------------------------------------------------------------------
 # main()
+# input parameter 'arg' can be used for test purpose
 # ---------------------------------------------------------------------------
 def main(arg):
 
     # set rotation offset
-    # if offset = 0 the rotation is around the middle of the image
+    # if offset = 0 the rotation is around the center of the image
     # the green/red rectangles will be equal
     offsetX = 0
     offsetY = 0
@@ -164,12 +165,14 @@ def main(arg):
     
     pygame.display.set_caption(50*' '+'--- Rotate image ---')
     
+    # choose among these images for rotation
     #image = pygame.image.load('green_car.png')
     image = pygame.image.load('white_needle1.png')
     #image = pygame.image.load('red_box_100x100.png')
     
     # if convert() is added then the green rectangle is partly hidden by the red rectangle
-    #image = pygame.image.load('green_car.png').convert()
+    # when using the convert function the alignment of the needle got a lot worse!
+    #image = pygame.image.load('white_needle1.png').convert()
     
     imageRectangle = image.get_rect()
     center = imageRectangle.center
