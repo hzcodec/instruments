@@ -91,23 +91,22 @@ def draw_help_lines(screen):
 
 
 class Instrument():
-    def __init__(self, screen, startAngle, dialPos, needlePos, instrumentNo):
+    def __init__(self, screen, dialName, startAngle, dialPos, needlePos):
         """
         Define input parameters and load images of dial and needle.
         Input:
           screen        - Current defined screen.
+          dialName      - Name of the dial.
           startAngle    - Start angle for needle.
           dialPos       - Position of dial.
           needlePos     - Position of needle.
-          instrumentNo  - Instrument number.
         """
         self.screen        = screen
         self.startAngle    = startAngle
         self.dialPos       = dialPos
         self.needlePos     = needlePos
-        self.instrumentNo  = instrumentNo
         self.speed         = SPEED_OF_NEEDLE 
-        self.dial          = pygame.image.load('airspeed2.png')
+        self.dial          = pygame.image.load(dialName)
         self.needle        = pygame.image.load('airspeed_needle2.png')
         self.nail          = pygame.image.load('grey_nail.png')
 
@@ -181,8 +180,8 @@ class Instrument():
 
 
 class AirSpeedInstrument(Instrument):
-    def __init__(self, screen, startAngle, dialPos, needlePos, instrumentNo):
-        Instrument.__init__(self, screen, startAngle, dialPos, needlePos, instrumentNo)
+    def __init__(self, screen, dialName, startAngle, dialPos, needlePos):
+        Instrument.__init__(self, screen, dialName, startAngle, dialPos, needlePos)
 
     def input_data(self, inputData):
        """
@@ -198,8 +197,8 @@ class AirSpeedInstrument(Instrument):
 
 
 class AltimeterInstrument(Instrument):
-    def __init__(self, screen, startAngle, dialPos, needlePos, instrumentNo):
-        Instrument.__init__(self, screen, startAngle, dialPos, needlePos, instrumentNo)
+    def __init__(self, screen, dialName, startAngle, dialPos, needlePos):
+        Instrument.__init__(self, screen, dialName, startAngle, dialPos, needlePos)
 
     def input_data(self, inputData):
        """
@@ -209,7 +208,7 @@ class AltimeterInstrument(Instrument):
          inputData - Input value. Between 0 - 100.
        """
        self.inputData = inputData
-       requestedAngle  = int(-1.5*inputData + 118)
+       requestedAngle  = int(-2.5*inputData + 218)
 
        self.input_angle(requestedAngle)
 
@@ -239,16 +238,18 @@ def main(argv):
 
     # create instrument instance
     airSpeedInstrument = AirSpeedInstrument(screen, 
+                                            'airspeed2.png',
                                             startAngle, 
                                             SPEEDO_DIAL_POS_INSTR1, 
-                                            SPEEDO_NEEDLE_POS_INSTR1,
-                                            INSTRUMENT1)
+                                            SPEEDO_NEEDLE_POS_INSTR1
+                                            )
 
     altimeterInstrument = AltimeterInstrument(screen, 
+                                              'altimeter.png',
                                               startAngle, 
                                               SPEEDO_DIAL_POS_INSTR2, 
-                                              SPEEDO_NEEDLE_POS_INSTR2,
-                                              INSTRUMENT2)
+                                              SPEEDO_NEEDLE_POS_INSTR2
+                                              )
     
     while True:
 

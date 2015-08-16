@@ -26,9 +26,8 @@ BACKGR_GREY = (80,80,80)
 
 
 #----------------------------------------------------------------------------------------------------------
-# defines for speedo
+# misc defines for flight instruments
 #----------------------------------------------------------------------------------------------------------
-
 NEEDLE_OFFSET_X = 60
 NEEDLE_OFFSET_Y = 60
 
@@ -55,7 +54,3 @@ SPEEDO_NEEDLE_POS_INSTR2 = (X_SPEED_NEEDLE_COORD_INSTR2, Y_SPEED_NEEDLE_COORD_IN
 #SPEEDO_DIAL_POS_INSTR3   = (X_SPEEDO_DIAL_COORD_INSTR3,   Y_SPEEDO_DIAL_COORD_INSTR3)
 #SPEEDO_NEEDLE_POS_INSTR3 = (X_SPEEDO_NEEDLE_COORD_INSTR3, Y_SPEEDO_NEEDLE_COORD_INSTR3)
 
-# instrument number
-INSTRUMENT1 = 1
-INSTRUMENT2 = 2
-INSTRUMENT3 = 3
