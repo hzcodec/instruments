@@ -190,7 +190,7 @@ class Instrument():
         Input:
           angle - The rotation angle for the needle.
         """
-        self.rotatedImage = pygame.transform.rotate(self.needle, angle)
+        self.rotatedImage = pygame.transform.rotozoom(self.needle, angle, 1)
         self.rotatedImageRectangle = self.rotatedImage.get_rect()
     
         # compensate for rotation of needle

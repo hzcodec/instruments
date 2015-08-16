@@ -253,7 +253,7 @@ def main(argv):
     
     while True:
 
-        screen.blit(background, (0,0))
+        screen.blit(background, SCREEN_ORIGO)
 
         # scan keyboard to get an input value and send it to the instrument
         data1 = scan_keyboard()
@@ -265,7 +265,7 @@ def main(argv):
 
         # now, get everything visible on the screen
         pygame.display.flip()
-        fpsClock.tick(60)
+        fpsClock.tick(FPS)
 
 
 if __name__ == '__main__':
