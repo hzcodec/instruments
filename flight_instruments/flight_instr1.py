@@ -5,10 +5,10 @@
 # Description : Two different instruments are loaded.
 #               The values are set by key 0-9 or q/w/e/r/t/y.
 #               defines.py is used for a lot of defined constants.
+#               N.B! Using rotozoom() instead of rotate() made the alignment
+#               of the needle much better.
 #
 # Python ver : 2.7.3 (gcc 4.6.3)
-
-# Comments: Move blit of dial to __init__
 
 import pygame
 import sys
@@ -164,7 +164,7 @@ class AirSpeedInstrument():
         Input:
           angle - The rotation angle for the needle.
         """
-        self.rotatedImage = pygame.transform.rotate(self.needle, angle)
+        self.rotatedImage = pygame.transform.rotozoom(self.needle, angle, 1.0)
         self.rotatedImageRectangle = self.rotatedImage.get_rect()
 
         self.rotatedNail = pygame.transform.rotate(self.nail, angle)
@@ -330,7 +330,7 @@ def main(argv):
         # scan keyboard to get an input value and send it to the instrument
         data1 = scan_keyboard()
         airSpeedInstrument.input_data(data1)
-#        altimeterInstrument.input_data(data1)
+        altimeterInstrument.input_data(data1)
 
         if test:
             draw_help_lines(screen)
