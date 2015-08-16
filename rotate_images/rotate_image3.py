@@ -66,6 +66,7 @@ def scan_keyboard():
 
     rKeyTyped = False
     rotateDir = 3
+    newOffset = False
 
     for event in pygame.event.get():
         if event.type == QUIT:
@@ -140,7 +141,7 @@ def scan_keyboard():
             scan_keyboard.offsetY = 160
             newOffset = True
 
-    return scan_keyboard.offsetX, scan_keyboard.offsetY, rotateDir, rKeyTyped, scan_keyboard.cKeyTyped
+    return newOffset, scan_keyboard.offsetX, scan_keyboard.offsetY, rotateDir, rKeyTyped, scan_keyboard.cKeyTyped
 
 
 # ---------------------------------------------------------------------------
@@ -186,7 +187,7 @@ def main(arg):
     while True:
     
         # scan keyboard
-        offsetX, offsetY, rotateDir, rKeyTyped, cKeyTyped = scan_keyboard()
+        newOffset, offsetX, offsetY, rotateDir, rKeyTyped, cKeyTyped = scan_keyboard()
     
         # check if key is typed and act upon that 
         if rKeyTyped == True: # or cKeyTyped == True:
