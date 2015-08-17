@@ -9,7 +9,7 @@ SPEED_OF_NEEDLE                 = 1.0
 # position of the instruments, the coordinates are pointing at the upper left corner
 #----------------------------------------------------------------------------------------------------------
 DIAL_POS_INSTR1   = (40, 40)  # position for instrument 1
-DIAL_POS_INSTR2   = (540, 40) # position for instrument 2
+DIAL_POS_INSTR2   = (740, 40) # position for instrument 2
 
 
 #----------------------------------------------------------------------------------------------------------

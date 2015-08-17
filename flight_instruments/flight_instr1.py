@@ -79,23 +79,15 @@ def scan_keyboard():
 def draw_help_lines(screen):
         # horizontal line
         pygame.draw.line(screen, WHITE, 
-                        (10, SIZE_OF_INSTRUMENT_1[0]/2), # 200 is from size of Airspeed rectangle /2
-                        (WIDTH-10, SIZE_OF_INSTRUMENT_1[0]/2),
+                        (10, SIZE_OF_INSTRUMENT_1[0]/2 + DIAL_POS_INSTR1[1]),
+                        (WIDTH-10, SIZE_OF_INSTRUMENT_1[0]/2 + DIAL_POS_INSTR1[1]),
                          1)
-        ##pygame.draw.line(screen, WHITE, 
-        ##                (10, 200),
-        ##                (WIDTH-10, 200)
-        ##                ,1)
 
         # vertical line
-        #pygame.draw.line(screen, WHITE, 
-        #                 (X_SPACE_BETWEEN_ALL_INSTRUMENTS+200, 10),
-        #                 (X_SPACE_BETWEEN_ALL_INSTRUMENTS+200, HEIGHT-10)
-        #                 ,1)
         pygame.draw.line(screen, WHITE, 
-                         (200, 10),
-                         (200, HEIGHT-10)
-                         ,1)
+                         (SIZE_OF_INSTRUMENT_1[0]/2 + DIAL_POS_INSTR1[0], 10),
+                         (SIZE_OF_INSTRUMENT_1[0]/2 + DIAL_POS_INSTR1[0], HEIGHT-10),
+                          1)
 
 
 class Instrument():
