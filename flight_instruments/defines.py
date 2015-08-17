@@ -1,5 +1,5 @@
 #----------------------------------------------------------------------------------------------------------
-# size of the instruments
+# size of the instruments in pixels and speed of needle
 #----------------------------------------------------------------------------------------------------------
 SIZE_OF_INSTRUMENT_1            = (400, 400)
 SIZE_OF_INSTRUMENT_2            = (400, 400)
@@ -13,7 +13,7 @@ DIAL_POS_INSTR2   = (740, 40) # position for instrument 2
 
 
 #----------------------------------------------------------------------------------------------------------
-# position of the needles and the offsets
+# position of the needles and the offsets of the needle
 #----------------------------------------------------------------------------------------------------------
 NEEDLE_POS_INSTR1 = (SIZE_OF_INSTRUMENT_1[0]/2 + DIAL_POS_INSTR1[0],SIZE_OF_INSTRUMENT_1[1]/2 + DIAL_POS_INSTR1[1])
 NEEDLE_POS_INSTR2 = (SIZE_OF_INSTRUMENT_2[0]/2 + DIAL_POS_INSTR2[0],SIZE_OF_INSTRUMENT_2[1]/2 + DIAL_POS_INSTR2[1])
@@ -27,10 +27,10 @@ NEEDLE_OFFSET_Y = 60
 #----------------------------------------------------------------------------------------------------------
 WIDTH        = 1400
 HEIGHT       = 600
-SCREEN_ORIGO = (0,0)
-WINDOW_POS   = 10,30    # position of window,upper left corner
+SCREEN_ORIGO = (0,0)    # screen origo upper left corner
+WINDOW_POS   = 10,30    # position of window, coordinate => upper left corner
 WINDOW_STYLE = 0        # no flag is set
-COLOR_DEPTH  = 32
+COLOR_DEPTH  = 32       # color depth
 
 
 #----------------------------------------------------------------------------------------------------------
@@ -53,3 +53,6 @@ GREY        = (85,85,85)
 LIGHT_GREY  = (150,150,150)
 BACKGR_GREY = (80,80,80)
 
+#----------------------------------------------------------------------------------------------------------
+# End of File
+#----------------------------------------------------------------------------------------------------------
