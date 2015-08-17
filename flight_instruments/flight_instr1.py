@@ -79,14 +79,22 @@ def scan_keyboard():
 def draw_help_lines(screen):
         # horizontal line
         pygame.draw.line(screen, WHITE, 
-                        (10, Y_POS_FOR_ALL_INSTRUMENTS+200), # 200 is from size of Airspeed rectangle /2
-                        (WIDTH-10, Y_POS_FOR_ALL_INSTRUMENTS+200)
-                        ,1)
+                        (10, SIZE_OF_INSTRUMENT_1[0]/2), # 200 is from size of Airspeed rectangle /2
+                        (WIDTH-10, SIZE_OF_INSTRUMENT_1[0]/2),
+                         1)
+        ##pygame.draw.line(screen, WHITE, 
+        ##                (10, 200),
+        ##                (WIDTH-10, 200)
+        ##                ,1)
 
         # vertical line
+        #pygame.draw.line(screen, WHITE, 
+        #                 (X_SPACE_BETWEEN_ALL_INSTRUMENTS+200, 10),
+        #                 (X_SPACE_BETWEEN_ALL_INSTRUMENTS+200, HEIGHT-10)
+        #                 ,1)
         pygame.draw.line(screen, WHITE, 
-                         (X_SPACE_BETWEEN_ALL_INSTRUMENTS+200, 10),
-                         (X_SPACE_BETWEEN_ALL_INSTRUMENTS+200, HEIGHT-10)
+                         (200, 10),
+                         (200, HEIGHT-10)
                          ,1)
 
 
@@ -156,17 +164,17 @@ class Instrument():
         self.rotatedImage = pygame.transform.rotozoom(self.needle, angle, 1.0)
         self.rotatedImageRectangle = self.rotatedImage.get_rect()
 
-        self.rotatedNail = pygame.transform.rotate(self.nail, angle)
-        self.rotatedNailRectangle = self.rotatedNail.get_rect()
+#        self.rotatedNail = pygame.transform.rotate(self.nail, angle)
+#        self.rotatedNailRectangle = self.rotatedNail.get_rect()
 
         # compensate for rotation of needle
         self.rotatedImageRectangle.center = (self.needlePos)
         self.rotatedImageRectangle.center += np.array([np.cos(math.radians(angle)) * NEEDLE_OFFSET_X,
                                             -np.sin(math.radians(angle)) * NEEDLE_OFFSET_Y])
 
-        self.rotatedNailRectangle.center = (self.needlePos)
-        self.rotatedNailRectangle.center += np.array([np.cos(math.radians(angle)) * 0,
-                                            -np.sin(math.radians(angle)) * 0])
+#        self.rotatedNailRectangle.center = (self.needlePos)
+#        self.rotatedNailRectangle.center += np.array([np.cos(math.radians(angle)) * 0,
+#                                            -np.sin(math.radians(angle)) * 0])
 
         # blit images
         self._blit_images()
@@ -206,7 +214,7 @@ class AltimeterInstrument(Instrument):
          inputData - Input data value.
        """
        self.inputData = inputData
-       requestedAngle  = int(-2.5*inputData + 218)
+       requestedAngle  = int(-1.5*inputData + 118)
 
        self.input_angle(requestedAngle)
 
@@ -239,16 +247,16 @@ def main(argv):
                                             'airspeed2.png',
                                             'airspeed_needle2.png',
                                             startAngle, 
-                                            SPEEDO_DIAL_POS_INSTR1, 
-                                            SPEEDO_NEEDLE_POS_INSTR1
+                                            DIAL_POS_INSTR1,
+                                            NEEDLE_POS_INSTR1
                                             )
 
     altimeterInstrument = AltimeterInstrument(screen, 
-                                              'altimeter.png',
-                                              'white_needle.png',
+                                              'airspeed2.png',
+                                              'airspeed_needle2.png',
                                               startAngle, 
-                                              SPEEDO_DIAL_POS_INSTR2, 
-                                              SPEEDO_NEEDLE_POS_INSTR2
+                                              DIAL_POS_INSTR2,
+                                              NEEDLE_POS_INSTR2
                                               )
     
     while True:
