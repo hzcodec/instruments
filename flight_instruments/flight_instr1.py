@@ -91,7 +91,7 @@ def draw_help_lines(screen):
 
 
 class Instrument():
-    def __init__(self, screen, dialName, startAngle, dialPos, needlePos):
+    def __init__(self, screen, dialName, needleName, startAngle, dialPos, needlePos):
         """
         Define input parameters and load images of dial and needle.
         Input:
@@ -102,12 +102,12 @@ class Instrument():
           needlePos     - Position of needle.
         """
         self.screen        = screen
-        self.startAngle    = startAngle
         self.dialPos       = dialPos
         self.needlePos     = needlePos
         self.speed         = SPEED_OF_NEEDLE 
         self.dial          = pygame.image.load(dialName)
-        self.needle        = pygame.image.load('airspeed_needle2.png')
+        #self.needle        = pygame.image.load('airspeed_needle2.png')
+        self.needle        = pygame.image.load(needleName)
         self.nail          = pygame.image.load('grey_nail.png')
 
         self.requestedAngle  = 0           # requested angle from user
@@ -180,15 +180,14 @@ class Instrument():
 
 
 class AirSpeedInstrument(Instrument):
-    def __init__(self, screen, dialName, startAngle, dialPos, needlePos):
-        Instrument.__init__(self, screen, dialName, startAngle, dialPos, needlePos)
+    def __init__(self, screen, dialName, needleName, startAngle, dialPos, needlePos):
+        Instrument.__init__(self, screen, dialName, needleName, startAngle, dialPos, needlePos)
 
     def input_data(self, inputData):
        """
-       Calculate the angle with respect to the input data. N.B! Since the scale is 
-       not linear from 0 - 100 we need to split the calculation. Under the value 55 or above.
+       Calculate the angle with respect to the input data.
        Input:
-         inputData - Input value. Between 0 - 100.
+         inputData - Input data value.
        """
        self.inputData = inputData
        requestedAngle  = int(-1.5*inputData + 118)
@@ -197,15 +196,14 @@ class AirSpeedInstrument(Instrument):
 
 
 class AltimeterInstrument(Instrument):
-    def __init__(self, screen, dialName, startAngle, dialPos, needlePos):
-        Instrument.__init__(self, screen, dialName, startAngle, dialPos, needlePos)
+    def __init__(self, screen, dialName, needleName, startAngle, dialPos, needlePos):
+        Instrument.__init__(self, screen, dialName, needleName, startAngle, dialPos, needlePos)
 
     def input_data(self, inputData):
        """
-       Calculate the angle with respect to the input data. N.B! Since the scale is 
-       not linear from 0 - 100 we need to split the calculation. Under the value 55 or above.
+       Calculate the angle with respect to the input data.
        Input:
-         inputData - Input value. Between 0 - 100.
+         inputData - Input data value.
        """
        self.inputData = inputData
        requestedAngle  = int(-2.5*inputData + 218)
@@ -239,6 +237,7 @@ def main(argv):
     # create instrument instance
     airSpeedInstrument = AirSpeedInstrument(screen, 
                                             'airspeed2.png',
+                                            'airspeed_needle2.png',
                                             startAngle, 
                                             SPEEDO_DIAL_POS_INSTR1, 
                                             SPEEDO_NEEDLE_POS_INSTR1
@@ -246,6 +245,7 @@ def main(argv):
 
     altimeterInstrument = AltimeterInstrument(screen, 
                                               'altimeter.png',
+                                              'white_needle.png',
                                               startAngle, 
                                               SPEEDO_DIAL_POS_INSTR2, 
                                               SPEEDO_NEEDLE_POS_INSTR2
@@ -256,9 +256,9 @@ def main(argv):
         screen.blit(background, SCREEN_ORIGO)
 
         # scan keyboard to get an input value and send it to the instrument
-        data1 = scan_keyboard()
-        airSpeedInstrument.input_data(data1)
-        altimeterInstrument.input_data(data1)
+        inputData = scan_keyboard()
+        airSpeedInstrument.input_data(inputData)
+        altimeterInstrument.input_data(inputData)
 
         if test:
             draw_help_lines(screen)
