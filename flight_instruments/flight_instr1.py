@@ -224,7 +224,7 @@ def main(argv):
         test = True
  
     # position window on monitor
-    os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" %(10,10)
+    os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" %(WINDOW_POS)
 
     pygame.init()
     fpsClock = pygame.time.Clock()
@@ -232,7 +232,7 @@ def main(argv):
     background = pygame.image.load('background.png')
     pygame.display.set_caption(120*' '+'--- HzFlyer Flight Instruments ---')
     startAngle = 180 # start angle of needle
-    screen = pygame.display.set_mode((WIDTH, HEIGHT), 0, 32)
+    screen = pygame.display.set_mode((WIDTH, HEIGHT), WINDOW_STYLE, COLOR_DEPTH)
 
     # create instrument instance
     airSpeedInstrument = AirSpeedInstrument(screen, 

@@ -14,6 +14,9 @@ SPEED_OF_NEEDLE                 = 1.0
 WIDTH        = 1400
 HEIGHT       = 600
 SCREEN_ORIGO = (0,0)
+WINDOW_POS   = 10,30    # position of window,upper left corner
+WINDOW_STYLE = 0        # no flag is set
+COLOR_DEPTH  = 32
 
 
 #----------------------------------------------------------------------------------------------------------
