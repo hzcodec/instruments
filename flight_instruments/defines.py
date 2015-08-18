@@ -1,19 +1,19 @@
 #----------------------------------------------------------------------------------------------------------
 # parameter for instrument 1
 #----------------------------------------------------------------------------------------------------------
-SIZE_OF_INSTRUMENT_1            = (400, 400)
-DIAL_POS_INSTR1   = (40, 40)  # position for instrument 1
-NEEDLE_POS_INSTR1 = (SIZE_OF_INSTRUMENT_1[0]/2 + DIAL_POS_INSTR1[0],SIZE_OF_INSTRUMENT_1[1]/2 + DIAL_POS_INSTR1[1])
-NEEDLE_OFFSET_X = 60
-NEEDLE_OFFSET_Y = 60
+SIZE_OF_INSTRUMENT_1  = (400, 400)
+DIAL_POS_INSTR1       = (40, 40)  # position for instrument 1
+NEEDLE_POS_INSTR1     = (SIZE_OF_INSTRUMENT_1[0]/2 + DIAL_POS_INSTR1[0],SIZE_OF_INSTRUMENT_1[1]/2 + DIAL_POS_INSTR1[1])
+NEEDLE_OFFSET_INSTR1  = (60,60)
 
 
 #----------------------------------------------------------------------------------------------------------
 # parameter for instrument 2
 #----------------------------------------------------------------------------------------------------------
-SIZE_OF_INSTRUMENT_2            = (400, 400)
-DIAL_POS_INSTR2   = (740, 40) # position for instrument 2
-NEEDLE_POS_INSTR2 = (SIZE_OF_INSTRUMENT_2[0]/2 + DIAL_POS_INSTR2[0],SIZE_OF_INSTRUMENT_2[1]/2 + DIAL_POS_INSTR2[1])
+SIZE_OF_INSTRUMENT_2  = (400, 400)
+DIAL_POS_INSTR2       = (740, 40) # position for instrument 2
+NEEDLE_POS_INSTR2     = (SIZE_OF_INSTRUMENT_2[0]/2 + DIAL_POS_INSTR2[0],SIZE_OF_INSTRUMENT_2[1]/2 + DIAL_POS_INSTR2[1])
+NEEDLE_OFFSET_INSTR2  = (70,70)
 
 
 #----------------------------------------------------------------------------------------------------------
@@ -33,6 +33,7 @@ WINDOW_STYLE  = 0     # no flag is set
 COLOR_DEPTH   = 32    # color depth
 X_INDENT_LINE = 10    # vertical line indentation
 Y_INDENT_LINE = 10    # vertical line indentation
+
 
 #----------------------------------------------------------------------------------------------------------
 # frames per second

@@ -1,6 +1,6 @@
 # Auther      : Heinz Samuelsson
 # Date        : 2015-08-02
-# File        : flight_instr.py
+# File        : flight_instr1.py
 # Reference   : -
 # Description : Two different instruments are loaded.
 #               The values are set by key 0-9 or q/w/e/r/t/y.
@@ -96,7 +96,7 @@ def draw_help_lines(screen):
 
 
 class Instrument():
-    def __init__(self, screen, dialName, needleName, startAngle, dialPos, needlePos):
+    def __init__(self, screen, dialName, needleName, startAngle, dialPos, needlePos, needleOffset):
         """
         Define input parameters and load images of dial and needle.
         Input:
@@ -106,6 +106,7 @@ class Instrument():
           startAngle    - Start angle for needle.
           dialPos       - Position of dial.
           needlePos     - Position of needle.
+          needleOffset  - Offset position for needle, this is setting the rotation point
         """
         self.screen        = screen
         self.dialPos       = dialPos
@@ -114,6 +115,7 @@ class Instrument():
         self.dial          = pygame.image.load(dialName)
         self.needle        = pygame.image.load(needleName)
         self.nail          = pygame.image.load('grey_nail.png')
+        self.needleOffset  = needleOffset
 
         self.requestedAngle  = 0           # requested angle from user
         self.currentAngle    = startAngle  # current angle of needle
@@ -161,17 +163,10 @@ class Instrument():
         self.rotatedImage = pygame.transform.rotozoom(self.needle, angle, 1.0)
         self.rotatedImageRectangle = self.rotatedImage.get_rect()
 
-#        self.rotatedNail = pygame.transform.rotate(self.nail, angle)
-#        self.rotatedNailRectangle = self.rotatedNail.get_rect()
-
         # compensate for rotation of needle
         self.rotatedImageRectangle.center = (self.needlePos)
-        self.rotatedImageRectangle.center += np.array([np.cos(math.radians(angle)) * NEEDLE_OFFSET_X,
-                                            -np.sin(math.radians(angle)) * NEEDLE_OFFSET_Y])
-
-#        self.rotatedNailRectangle.center = (self.needlePos)
-#        self.rotatedNailRectangle.center += np.array([np.cos(math.radians(angle)) * 0,
-#                                            -np.sin(math.radians(angle)) * 0])
+        self.rotatedImageRectangle.center += np.array([np.cos(math.radians(angle)) * self.needleOffset[0],
+                                            -np.sin(math.radians(angle)) * self.needleOffset[1]])
 
         # blit images
         self._blit_images()
@@ -185,8 +180,8 @@ class Instrument():
 
 
 class AirSpeedInstrument(Instrument):
-    def __init__(self, screen, dialName, needleName, startAngle, dialPos, needlePos):
-        Instrument.__init__(self, screen, dialName, needleName, startAngle, dialPos, needlePos)
+    def __init__(self, screen, dialName, needleName, startAngle, dialPos, needlePos, needleOffset):
+        Instrument.__init__(self, screen, dialName, needleName, startAngle, dialPos, needlePos, needleOffset)
 
     def input_data(self, inputData):
        """
@@ -201,8 +196,8 @@ class AirSpeedInstrument(Instrument):
 
 
 class AltimeterInstrument(Instrument):
-    def __init__(self, screen, dialName, needleName, startAngle, dialPos, needlePos):
-        Instrument.__init__(self, screen, dialName, needleName, startAngle, dialPos, needlePos)
+    def __init__(self, screen, dialName, needleName, startAngle, dialPos, needlePos, needleOffset):
+        Instrument.__init__(self, screen, dialName, needleName, startAngle, dialPos, needlePos, needleOffset)
 
     def input_data(self, inputData):
        """
@@ -245,7 +240,8 @@ def main(argv):
                                             'airspeed_needle2.png',
                                             startAngle, 
                                             DIAL_POS_INSTR1,
-                                            NEEDLE_POS_INSTR1
+                                            NEEDLE_POS_INSTR1,
+                                            NEEDLE_OFFSET_INSTR1
                                             )
 
     altimeterInstrument = AltimeterInstrument(screen, 
@@ -253,7 +249,8 @@ def main(argv):
                                               'airspeed_needle2.png',
                                               startAngle, 
                                               DIAL_POS_INSTR2,
-                                              NEEDLE_POS_INSTR2
+                                              NEEDLE_POS_INSTR2,
+                                              NEEDLE_OFFSET_INSTR2
                                               )
     
     while True:
