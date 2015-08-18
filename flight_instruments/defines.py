@@ -11,9 +11,9 @@ NEEDLE_OFFSET_INSTR1  = (60,60)
 # parameter for instrument 2
 #----------------------------------------------------------------------------------------------------------
 SIZE_OF_INSTRUMENT_2  = (400, 400)
-DIAL_POS_INSTR2       = (740, 40) # position for instrument 2
+DIAL_POS_INSTR2       = (460, 40) # position for instrument 2
 NEEDLE_POS_INSTR2     = (SIZE_OF_INSTRUMENT_2[0]/2 + DIAL_POS_INSTR2[0],SIZE_OF_INSTRUMENT_2[1]/2 + DIAL_POS_INSTR2[1])
-NEEDLE_OFFSET_INSTR2  = (70,70)
+NEEDLE_OFFSET_INSTR2  = (40,40)
 
 
 #----------------------------------------------------------------------------------------------------------

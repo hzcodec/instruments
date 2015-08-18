@@ -2,11 +2,7 @@
 # Date        : 2015-08-02
 # File        : flight_instr1.py
 # Reference   : -
-# Description : Two different instruments are loaded.
-#               The values are set by key 0-9 or q/w/e/r/t/y.
-#               defines.py is used for a lot of defined constants.
-#               N.B! Using rotozoom() instead of rotate() made the alignment
-#               of the needle much better.
+# Description : Flight instruments are simulated.
 #
 # Python ver : 2.7.3 (gcc 4.6.3)
 
@@ -78,7 +74,7 @@ def scan_keyboard():
 
 def draw_help_lines(screen):
     """
-    Draw help lines to show center position. The reference is the first instrument's position.
+    Draw help lines to show center position.
     Input:
       screen - Current defined screen.
     """
@@ -88,10 +84,20 @@ def draw_help_lines(screen):
                     (WIDTH-X_INDENT_LINE, SIZE_OF_INSTRUMENT_1[0]/2 + DIAL_POS_INSTR1[1]),
                      1)
 
+    pygame.draw.line(screen, WHITE, 
+                    (X_INDENT_LINE, SIZE_OF_INSTRUMENT_2[0]/2 + DIAL_POS_INSTR2[1]),
+                    (WIDTH-X_INDENT_LINE, SIZE_OF_INSTRUMENT_2[0]/2 + DIAL_POS_INSTR2[1]),
+                     1)
+
     # vertical line
     pygame.draw.line(screen, WHITE, 
                      (SIZE_OF_INSTRUMENT_1[0]/2 + DIAL_POS_INSTR1[0], X_INDENT_LINE),
                      (SIZE_OF_INSTRUMENT_1[0]/2 + DIAL_POS_INSTR1[0], HEIGHT-X_INDENT_LINE),
+                      1)
+
+    pygame.draw.line(screen, WHITE, 
+                     (SIZE_OF_INSTRUMENT_2[0]/2 + DIAL_POS_INSTR2[0], X_INDENT_LINE),
+                     (SIZE_OF_INSTRUMENT_2[0]/2 + DIAL_POS_INSTR2[0], HEIGHT-X_INDENT_LINE),
                       1)
 
 
@@ -123,6 +129,14 @@ class Instrument():
         self.flag1           = False       # flag to handle overshoot of needle
         self.flag2           = False       # flag to handle overshoot of needle
         self.inputData       = 0.0         # input data
+
+        self._get_rect_size()
+
+    def _get_rect_size(self):
+        self.dialRect   = self.dial.get_rect()
+        self.needleRect = self.needle.get_rect()
+        print 'Dial rectangle:  ',self.dialRect
+        print 'Needle rectangle:',self.needleRect
 
     def input_data(self, inputData):
        #"""
@@ -206,7 +220,7 @@ class AltimeterInstrument(Instrument):
          inputData - Input data value.
        """
        self.inputData = inputData
-       requestedAngle  = int(-1.5*inputData + 118)
+       requestedAngle  = int(-2.5*inputData + 118)
 
        self.input_angle(requestedAngle)
 
@@ -246,7 +260,7 @@ def main(argv):
 
     altimeterInstrument = AltimeterInstrument(screen, 
                                               'airspeed2.png',
-                                              'airspeed_needle2.png',
+                                              'needle_long.png',
                                               startAngle, 
                                               DIAL_POS_INSTR2,
                                               NEEDLE_POS_INSTR2,
