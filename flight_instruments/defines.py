@@ -1,37 +1,38 @@
 #----------------------------------------------------------------------------------------------------------
-# size of the instruments in pixels and speed of needle
+# parameter for instrument 1
 #----------------------------------------------------------------------------------------------------------
 SIZE_OF_INSTRUMENT_1            = (400, 400)
-SIZE_OF_INSTRUMENT_2            = (400, 400)
-SPEED_OF_NEEDLE                 = 1.0
-
-#----------------------------------------------------------------------------------------------------------
-# position of the instruments, the coordinates are pointing at the upper left corner
-#----------------------------------------------------------------------------------------------------------
 DIAL_POS_INSTR1   = (40, 40)  # position for instrument 1
-DIAL_POS_INSTR2   = (740, 40) # position for instrument 2
-
-
-#----------------------------------------------------------------------------------------------------------
-# position of the needles and the offsets of the needle
-#----------------------------------------------------------------------------------------------------------
 NEEDLE_POS_INSTR1 = (SIZE_OF_INSTRUMENT_1[0]/2 + DIAL_POS_INSTR1[0],SIZE_OF_INSTRUMENT_1[1]/2 + DIAL_POS_INSTR1[1])
-NEEDLE_POS_INSTR2 = (SIZE_OF_INSTRUMENT_2[0]/2 + DIAL_POS_INSTR2[0],SIZE_OF_INSTRUMENT_2[1]/2 + DIAL_POS_INSTR2[1])
-
 NEEDLE_OFFSET_X = 60
 NEEDLE_OFFSET_Y = 60
 
 
 #----------------------------------------------------------------------------------------------------------
+# parameter for instrument 2
+#----------------------------------------------------------------------------------------------------------
+SIZE_OF_INSTRUMENT_2            = (400, 400)
+DIAL_POS_INSTR2   = (740, 40) # position for instrument 2
+NEEDLE_POS_INSTR2 = (SIZE_OF_INSTRUMENT_2[0]/2 + DIAL_POS_INSTR2[0],SIZE_OF_INSTRUMENT_2[1]/2 + DIAL_POS_INSTR2[1])
+
+
+#----------------------------------------------------------------------------------------------------------
+# speed of needle
+#----------------------------------------------------------------------------------------------------------
+SPEED_OF_NEEDLE = 1.0
+
+
+#----------------------------------------------------------------------------------------------------------
 # screen and window parameters
 #----------------------------------------------------------------------------------------------------------
-WIDTH        = 1400
-HEIGHT       = 600
-SCREEN_ORIGO = (0,0)    # screen origo upper left corner
-WINDOW_POS   = 10,30    # position of window, coordinate => upper left corner
-WINDOW_STYLE = 0        # no flag is set
-COLOR_DEPTH  = 32       # color depth
-
+WIDTH         = 1400
+HEIGHT        = 600
+SCREEN_ORIGO  = (0,0) # screen origo upper left corner
+WINDOW_POS    = 10,30 # position of window, coordinate => upper left corner
+WINDOW_STYLE  = 0     # no flag is set
+COLOR_DEPTH   = 32    # color depth
+X_INDENT_LINE = 10    # vertical line indentation
+Y_INDENT_LINE = 10    # vertical line indentation
 
 #----------------------------------------------------------------------------------------------------------
 # frames per second

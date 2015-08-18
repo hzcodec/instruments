@@ -77,17 +77,22 @@ def scan_keyboard():
 
 
 def draw_help_lines(screen):
-        # horizontal line
-        pygame.draw.line(screen, WHITE, 
-                        (10, SIZE_OF_INSTRUMENT_1[0]/2 + DIAL_POS_INSTR1[1]),
-                        (WIDTH-10, SIZE_OF_INSTRUMENT_1[0]/2 + DIAL_POS_INSTR1[1]),
-                         1)
+    """
+    Draw help lines to show center position. The reference is the first instrument's position.
+    Input:
+      screen - Current defined screen.
+    """
+    # horizontal line
+    pygame.draw.line(screen, WHITE, 
+                    (X_INDENT_LINE, SIZE_OF_INSTRUMENT_1[0]/2 + DIAL_POS_INSTR1[1]),
+                    (WIDTH-X_INDENT_LINE, SIZE_OF_INSTRUMENT_1[0]/2 + DIAL_POS_INSTR1[1]),
+                     1)
 
-        # vertical line
-        pygame.draw.line(screen, WHITE, 
-                         (SIZE_OF_INSTRUMENT_1[0]/2 + DIAL_POS_INSTR1[0], 10),
-                         (SIZE_OF_INSTRUMENT_1[0]/2 + DIAL_POS_INSTR1[0], HEIGHT-10),
-                          1)
+    # vertical line
+    pygame.draw.line(screen, WHITE, 
+                     (SIZE_OF_INSTRUMENT_1[0]/2 + DIAL_POS_INSTR1[0], X_INDENT_LINE),
+                     (SIZE_OF_INSTRUMENT_1[0]/2 + DIAL_POS_INSTR1[0], HEIGHT-X_INDENT_LINE),
+                      1)
 
 
 class Instrument():
@@ -97,6 +102,7 @@ class Instrument():
         Input:
           screen        - Current defined screen.
           dialName      - Name of the dial.
+          needleName    - Name of the needle.
           startAngle    - Start angle for needle.
           dialPos       - Position of dial.
           needlePos     - Position of needle.
@@ -106,7 +112,6 @@ class Instrument():
         self.needlePos     = needlePos
         self.speed         = SPEED_OF_NEEDLE 
         self.dial          = pygame.image.load(dialName)
-        #self.needle        = pygame.image.load('airspeed_needle2.png')
         self.needle        = pygame.image.load(needleName)
         self.nail          = pygame.image.load('grey_nail.png')
 
@@ -218,7 +223,7 @@ def main(argv):
  
     test = False
 
-    # argv - hidden in arguments used for test purpose
+    # argv - hidden argument used for test purpose
     # 1 => draw help lines at instrument to find center point
     if len(argv) > 0:
         test = True
