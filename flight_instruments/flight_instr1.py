@@ -100,6 +100,11 @@ def draw_help_lines(screen):
                      (SIZE_OF_INSTRUMENT_2[0]/2 + DIAL_POS_INSTR2[0], HEIGHT-X_INDENT_LINE),
                       1)
 
+    pygame.draw.line(screen, WHITE, 
+                     (SIZE_OF_INSTRUMENT_3[0]/2 + DIAL_POS_INSTR3[0], X_INDENT_LINE),
+                     (SIZE_OF_INSTRUMENT_3[0]/2 + DIAL_POS_INSTR3[0], HEIGHT-X_INDENT_LINE),
+                      1)
+
 
 class Instrument():
     def __init__(self, screen, dialName, needleName, startAngle, dialPos, needlePos, needleOffset):
@@ -225,6 +230,22 @@ class AltimeterInstrument(Instrument):
        self.input_angle(requestedAngle)
 
 
+class HorizontalInstrument(Instrument):
+    def __init__(self, screen, dialName, needleName, startAngle, dialPos, needlePos, needleOffset):
+        Instrument.__init__(self, screen, dialName, needleName, startAngle, dialPos, needlePos, needleOffset)
+
+    def input_data(self, inputData):
+       """
+       Calculate the angle with respect to the input data.
+       Input:
+         inputData - Input data value.
+       """
+       self.inputData = inputData
+       requestedAngle  = int(-2.5*inputData + 118)
+
+       self.input_angle(requestedAngle)
+
+
 # --------------------------------------------------------------------------------- 
 #  Main
 # --------------------------------------------------------------------------------- 
@@ -259,12 +280,21 @@ def main(argv):
                                             )
 
     altimeterInstrument = AltimeterInstrument(screen, 
-                                              'airspeed2.png',
+                                              'alt2.png',
                                               'needle_long.png',
                                               startAngle, 
                                               DIAL_POS_INSTR2,
                                               NEEDLE_POS_INSTR2,
                                               NEEDLE_OFFSET_INSTR2
+                                              )
+
+    horizontalInstrument = HorizontalInstrument(screen, 
+                                              'horizon1.png',
+                                              'needle_long.png',
+                                              startAngle, 
+                                              DIAL_POS_INSTR3,
+                                              NEEDLE_POS_INSTR3,
+                                              NEEDLE_OFFSET_INSTR3
                                               )
     
     while True:
@@ -275,6 +305,7 @@ def main(argv):
         inputData = scan_keyboard()
         airSpeedInstrument.input_data(inputData)
         altimeterInstrument.input_data(inputData)
+        horizontalInstrument.input_data(inputData)
 
         if test:
             draw_help_lines(screen)
