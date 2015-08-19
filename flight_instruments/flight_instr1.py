@@ -281,7 +281,7 @@ def main(argv):
 
     altimeterInstrument = AltimeterInstrument(screen, 
                                               'alt2.png',
-                                              'needle_long.png',
+                                              'altimeter_needle.png',
                                               startAngle, 
                                               DIAL_POS_INSTR2,
                                               NEEDLE_POS_INSTR2,
