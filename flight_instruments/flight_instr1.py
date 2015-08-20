@@ -4,6 +4,8 @@
 # Reference   : -
 # Description : Flight instruments are simulated.
 #
+# Remove nail
+#
 # Python ver : 2.7.3 (gcc 4.6.3)
 
 import pygame
@@ -214,9 +216,43 @@ class AirSpeedInstrument(Instrument):
        self.input_angle(requestedAngle)
 
 
-class AltimeterInstrument(Instrument):
-    def __init__(self, screen, dialName, needleName, startAngle, dialPos, needlePos, needleOffset):
-        Instrument.__init__(self, screen, dialName, needleName, startAngle, dialPos, needlePos, needleOffset)
+class AltimeterInstrument():
+    def __init__(self, screen, dialName, needleName1, needleName2, startAngle, dialPos, needlePos, needleOffset):
+        """
+        Define input parameters and load images of dial and needle.
+        Input:
+          screen        - Current defined screen.
+          dialName      - Name of the dial.
+          needleName    - Name of the needle.
+          startAngle    - Start angle for needle.
+          dialPos       - Position of dial.
+          needlePos     - Position of needle.
+          needleOffset  - Offset position for needle, this is setting the rotation point
+        """
+        self.screen        = screen
+        self.dialPos       = dialPos
+        self.needlePos     = needlePos
+        self.needlePos2    = needlePos
+        self.speed         = SPEED_OF_NEEDLE 
+        self.dial          = pygame.image.load(dialName)
+        self.needle        = pygame.image.load(needleName1)
+        self.needle2       = pygame.image.load(needleName2)
+        self.needleOffset  = needleOffset
+        self.needleOffset2 = (20,20)
+
+        self.requestedAngle  = 0           # requested angle from user
+        self.currentAngle    = startAngle  # current angle of needle
+        self.finalAngle      = 0           # final angle that was requested
+        self.flag1           = False       # flag to handle overshoot of needle
+        self.flag2           = False       # flag to handle overshoot of needle
+        self.inputData       = 0.0         # input data
+
+        self._get_rect_size()
+
+    def _get_rect_size(self):
+        self.dialRect    = self.dial.get_rect()
+        self.needleRect  = self.needle.get_rect()
+        self.needleRect2 = self.needle2.get_rect()
 
     def input_data(self, inputData):
        """
@@ -228,6 +264,64 @@ class AltimeterInstrument(Instrument):
        requestedAngle  = int(-2.5*inputData + 118)
 
        self.input_angle(requestedAngle)
+
+    def input_angle(self, reqAngle):
+        """
+        Increment/decrement the angle until the requested angle is reached.
+        Input:
+          reqAngle - Requested angle in degrees.
+        """
+        # clear flags when new data arrives
+        if self.finalAngle != reqAngle:
+            self.flag1 = False
+            self.flag2 = False
+
+        if reqAngle < self.currentAngle and not self.flag2:
+            #print '[1] Requested angle:',reqAngle,'  -  Current angle:',self.currentAngle
+            self.currentAngle -= self.speed
+            self.flag1 = True
+
+        elif reqAngle > self.currentAngle and not self.flag1:
+            #print '[2] Requested angle:',reqAngle,'  -  Current angle:',self.currentAngle
+            self.currentAngle += self.speed
+            self.flag2 = True
+
+        self.finalAngle = reqAngle
+        self._rotate(self.currentAngle)
+
+    def _rotate(self, angle):
+        """
+        Rotate needle and reposition the needle due to the angle.
+        Input:
+          angle - The rotation angle for the needle.
+        """
+        self.rotatedImage = pygame.transform.rotozoom(self.needle, angle, 1.0)
+        self.rotatedImageRectangle = self.rotatedImage.get_rect()
+
+        self.rotatedImage2 = pygame.transform.rotozoom(self.needle2, angle, 1.0)
+        self.rotatedImageRectangle2 = self.rotatedImage2.get_rect()
+
+        # compensate for rotation of needle
+        self.rotatedImageRectangle.center = (self.needlePos)
+        self.rotatedImageRectangle.center += np.array([np.cos(math.radians(angle)) * self.needleOffset[0],
+                                            -np.sin(math.radians(angle)) * self.needleOffset[1]])
+
+        self.rotatedImageRectangle2.center = (self.needlePos2)
+        #self.rotatedImageRectangle2.center += np.array([np.cos(math.radians(angle)) * self.needleOffset2[0],
+        #                                    -np.sin(math.radians(angle)) * self.needleOffset[1]])
+        self.rotatedImageRectangle2.center = np.array([np.cos(math.radians(angle+2.5)) * self.needleOffset2[0],
+                                            -np.sin(math.radians(angle+2.5)) * self.needleOffset[1]])
+
+        # blit images
+        self._blit_images()
+
+    def _blit_images(self): 
+        """ 
+        Blit dials, needle and input data value
+        """
+        self.screen.blit(self.dial, (self.dialPos))
+#        self.screen.blit(self.rotatedImage, self.rotatedImageRectangle)
+        self.screen.blit(self.rotatedImage2, self.rotatedImageRectangle2)
 
 
 class HorizontalInstrument(Instrument):
@@ -282,6 +376,7 @@ def main(argv):
     altimeterInstrument = AltimeterInstrument(screen, 
                                               'alt2.png',
                                               'altimeter_needle.png',
+                                              'altimeter_needle2.png',
                                               startAngle, 
                                               DIAL_POS_INSTR2,
                                               NEEDLE_POS_INSTR2,
