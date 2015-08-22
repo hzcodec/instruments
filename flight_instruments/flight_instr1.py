@@ -51,13 +51,13 @@ def scan_keyboard():
            scan_keyboard.inputData1 = 300
 
        elif event.type == KEYDOWN and event.key == pygame.K_4:
-           scan_keyboard.inputData1 = 400
+           scan_keyboard.inputData1 = 1400
 
        elif event.type == KEYDOWN and event.key == pygame.K_5:
-           scan_keyboard.inputData1 = 500
+           scan_keyboard.inputData1 = 2500
 
        elif event.type == KEYDOWN and event.key == pygame.K_6:
-           scan_keyboard.inputData1 = 600
+           scan_keyboard.inputData1 = 3600
 
        elif event.type == KEYDOWN and event.key == pygame.K_7:
            scan_keyboard.inputData1 = 700
@@ -247,13 +247,15 @@ class AltimeterInstrument():
         self.needleOffset2 = (20,20)
 
         self.requestedAngle  = 0           # requested angle from user
-        self.currentAngle    = startAngle  # current angle of needle
+        self.currentAngle    = 90          # current angle of needle, 90 degrees => 0 ft
         self.finalAngle      = 0           # final angle that was requested
         self.flag1           = False       # flag to handle overshoot of needle
         self.flag2           = False       # flag to handle overshoot of needle
         self.inputData       = 0.0         # input data
+        self.startInputValue = 0.0         # input start value, normally 0
 
         self._get_rect_size()
+        self.input_data(self.startInputValue)
 
     def _get_rect_size(self):
         self.dialRect    = self.dial.get_rect()
@@ -267,7 +269,12 @@ class AltimeterInstrument():
          inputData - Input data value.
        """
        self.inputData = inputData
-       requestedAngle  = int(-0.365*inputData + 90)
+
+       numberOf1000 = inputData / 1000
+       leftOver = inputData - numberOf1000*1000
+       print 'numberOf1000:',numberOf1000,'  -  leftOver:',leftOver
+
+       requestedAngle  = int(-0.362*inputData + 90)
 
        self.input_angle(requestedAngle)
 
@@ -297,15 +304,20 @@ class AltimeterInstrument():
         # blit dial
         self.screen.blit(self.dial, (self.dialPos))
         # then rotate
-        self._rotate2(self.currentAngle/10)
-        self._rotate(self.currentAngle)
+        self._rotate_1000ft_needle(self.currentAngle)
+        self._rotate_100ft_needle(self.currentAngle)
 
-    def _rotate(self, angle):
+    def _rotate_100ft_needle(self, angle):
         """
         Rotate needle and reposition the needle due to the angle. The needle is showing increments in 100 ft.
         Input:
           angle - The rotation angle for the needle.
         """
+        #print 'Angle:',angle,'    -    Compensated Angle:',angle-90.0
+        if (angle) < -270:
+            print 50*'+'+'  Max reached'
+            self.currentAngle = 90
+
         self.rotatedImage = pygame.transform.rotozoom(self.needle, angle, 1.0)
         self.rotatedImageRectangle = self.rotatedImage.get_rect()
 
@@ -317,7 +329,7 @@ class AltimeterInstrument():
         # blit image
         self.screen.blit(self.rotatedImage, self.rotatedImageRectangle)
 
-    def _rotate2(self, angle):
+    def _rotate_1000ft_needle(self, angle):
         """
         Rotate needle and reposition the needle due to the angle. The needle is showing increments ins 1000 ft.
         Input:
@@ -408,9 +420,9 @@ def main(argv):
 
         # scan keyboard to get an input value and send it to the instrument
         inputData = scan_keyboard()
-        airSpeedInstrument.input_data(inputData)
+#        airSpeedInstrument.input_data(inputData)
         altimeterInstrument.input_data(inputData)
-        horizontalInstrument.input_data(inputData)
+#        horizontalInstrument.input_data(inputData)
 
         if test:
             draw_help_lines(screen)
