@@ -27,7 +27,7 @@ def scan_keyboard():
 
    # static variable
    if not hasattr(scan_keyboard, "inputData1"):
-       scan_keyboard.inputData1 = 30
+       scan_keyboard.inputData1 = 0
 
    for event in pygame.event.get():
        if event.type == QUIT:
@@ -51,27 +51,30 @@ def scan_keyboard():
            scan_keyboard.inputData1 = 300
 
        elif event.type == KEYDOWN and event.key == pygame.K_4:
-           scan_keyboard.inputData1 = 60
+           scan_keyboard.inputData1 = 400
 
        elif event.type == KEYDOWN and event.key == pygame.K_5:
-           scan_keyboard.inputData1 = 70
+           scan_keyboard.inputData1 = 500
 
        elif event.type == KEYDOWN and event.key == pygame.K_6:
-           scan_keyboard.inputData1 = 80
+           scan_keyboard.inputData1 = 600
 
        elif event.type == KEYDOWN and event.key == pygame.K_7:
-           scan_keyboard.inputData1 = 90
+           scan_keyboard.inputData1 = 700
 
        elif event.type == KEYDOWN and event.key == pygame.K_8:
-           scan_keyboard.inputData1 = 100
+           scan_keyboard.inputData1 = 800
 
        elif event.type == KEYDOWN and event.key == pygame.K_9:
-           scan_keyboard.inputData1 = 10
+           scan_keyboard.inputData1 = 900
 
        elif event.type == KEYDOWN and event.key == pygame.K_q:
+           scan_keyboard.inputData1 = 1000
+
+       elif event.type == KEYDOWN and event.key == pygame.K_a:
            scan_keyboard.inputData1 = 50
 
-       elif event.type == KEYDOWN and event.key == pygame.K_w:
+       elif event.type == KEYDOWN and event.key == pygame.K_s:
            scan_keyboard.inputData1 = 75
 
    return scan_keyboard.inputData1
@@ -264,7 +267,7 @@ class AltimeterInstrument():
          inputData - Input data value.
        """
        self.inputData = inputData
-       requestedAngle  = int(-0.37*inputData + 90)
+       requestedAngle  = int(-0.365*inputData + 90)
 
        self.input_angle(requestedAngle)
 
@@ -294,7 +297,7 @@ class AltimeterInstrument():
         # blit dial
         self.screen.blit(self.dial, (self.dialPos))
         # then rotate
-        self._rotate2(self.currentAngle-80)
+        self._rotate2(self.currentAngle/10)
         self._rotate(self.currentAngle)
 
     def _rotate(self, angle):
@@ -367,7 +370,7 @@ def main(argv):
 
     background = pygame.image.load('background.png')
     pygame.display.set_caption(120*' '+'--- HzFlyer Flight Instruments ---')
-    startAngle = 180 # start angle of needle
+    startAngle = 0 # start angle of needle
     screen = pygame.display.set_mode((WIDTH, HEIGHT), WINDOW_STYLE, COLOR_DEPTH)
 
     # create instrument instance
