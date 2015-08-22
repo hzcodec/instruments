@@ -288,6 +288,7 @@ class AltimeterInstrument():
 
         self.finalAngle = reqAngle
         self._rotate(self.currentAngle)
+        self._rotate2(self.currentAngle+20)
 
     def _rotate(self, angle):
         """
@@ -298,30 +299,41 @@ class AltimeterInstrument():
         self.rotatedImage = pygame.transform.rotozoom(self.needle, angle, 1.0)
         self.rotatedImageRectangle = self.rotatedImage.get_rect()
 
-        self.rotatedImage2 = pygame.transform.rotozoom(self.needle2, angle, 1.0)
-        self.rotatedImageRectangle2 = self.rotatedImage2.get_rect()
-
         # compensate for rotation of needle
         self.rotatedImageRectangle.center = (self.needlePos)
         self.rotatedImageRectangle.center += np.array([np.cos(math.radians(angle)) * self.needleOffset[0],
                                             -np.sin(math.radians(angle)) * self.needleOffset[1]])
 
+        # blit images
+        self.screen.blit(self.rotatedImage, self.rotatedImageRectangle)
+        self._blit_images()
+
+    def _rotate2(self, angle):
+        """
+        Rotate needle and reposition the needle due to the angle.
+        Input:
+          angle - The rotation angle for the needle.
+        """
+        self.rotatedImage2 = pygame.transform.rotozoom(self.needle2, angle, 1.0)
+        self.rotatedImageRectangle2 = self.rotatedImage2.get_rect()
+
+        # compensate for rotation of needle
         self.rotatedImageRectangle2.center = (self.needlePos2)
-        #self.rotatedImageRectangle2.center += np.array([np.cos(math.radians(angle)) * self.needleOffset2[0],
-        #                                    -np.sin(math.radians(angle)) * self.needleOffset[1]])
-        self.rotatedImageRectangle2.center = np.array([np.cos(math.radians(angle+2.5)) * self.needleOffset2[0],
-                                            -np.sin(math.radians(angle+2.5)) * self.needleOffset[1]])
+        self.rotatedImageRectangle2.center += np.array([np.cos(math.radians(angle)) * self.needleOffset2[0],
+                                            -np.sin(math.radians(angle)) * self.needleOffset2[1]])
 
         # blit images
+        self.screen.blit(self.rotatedImage2, self.rotatedImageRectangle2)
         self._blit_images()
 
     def _blit_images(self): 
         """ 
         Blit dials, needle and input data value
         """
-        self.screen.blit(self.dial, (self.dialPos))
+        pass
+#        self.screen.blit(self.dial, (self.dialPos))
 #        self.screen.blit(self.rotatedImage, self.rotatedImageRectangle)
-        self.screen.blit(self.rotatedImage2, self.rotatedImageRectangle2)
+#        self.screen.blit(self.rotatedImage2, self.rotatedImageRectangle2)
 
 
 class HorizontalInstrument(Instrument):
