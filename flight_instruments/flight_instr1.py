@@ -287,8 +287,9 @@ class AltimeterInstrument():
             self.flag2 = True
 
         self.finalAngle = reqAngle
-        self._rotate(self.currentAngle)
+        self.screen.blit(self.dial, (self.dialPos))
         self._rotate2(self.currentAngle+20)
+        self._rotate(self.currentAngle)
 
     def _rotate(self, angle):
         """
