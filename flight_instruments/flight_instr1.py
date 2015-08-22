@@ -39,16 +39,16 @@ def scan_keyboard():
            sys.exit()
 
        elif event.type == KEYDOWN and event.key == pygame.K_0:
-           scan_keyboard.inputData1 = 130
+           scan_keyboard.inputData1 = 0
 
        elif event.type == KEYDOWN and event.key == pygame.K_1:
-           scan_keyboard.inputData1 = 30
+           scan_keyboard.inputData1 = 100
 
        elif event.type == KEYDOWN and event.key == pygame.K_2:
-           scan_keyboard.inputData1 = 40
+           scan_keyboard.inputData1 = 200
 
        elif event.type == KEYDOWN and event.key == pygame.K_3:
-           scan_keyboard.inputData1 = 50
+           scan_keyboard.inputData1 = 300
 
        elif event.type == KEYDOWN and event.key == pygame.K_4:
            scan_keyboard.inputData1 = 60
@@ -69,7 +69,10 @@ def scan_keyboard():
            scan_keyboard.inputData1 = 10
 
        elif event.type == KEYDOWN and event.key == pygame.K_q:
-           scan_keyboard.inputData1 = -40
+           scan_keyboard.inputData1 = 50
+
+       elif event.type == KEYDOWN and event.key == pygame.K_w:
+           scan_keyboard.inputData1 = 75
 
    return scan_keyboard.inputData1
 
@@ -261,7 +264,7 @@ class AltimeterInstrument():
          inputData - Input data value.
        """
        self.inputData = inputData
-       requestedAngle  = int(-2.5*inputData + 118)
+       requestedAngle  = int(-0.37*inputData + 90)
 
        self.input_angle(requestedAngle)
 
@@ -287,13 +290,16 @@ class AltimeterInstrument():
             self.flag2 = True
 
         self.finalAngle = reqAngle
+ 
+        # blit dial
         self.screen.blit(self.dial, (self.dialPos))
-        self._rotate2(self.currentAngle+20)
+        # then rotate
+        self._rotate2(self.currentAngle-80)
         self._rotate(self.currentAngle)
 
     def _rotate(self, angle):
         """
-        Rotate needle and reposition the needle due to the angle.
+        Rotate needle and reposition the needle due to the angle. The needle is showing increments in 100 ft.
         Input:
           angle - The rotation angle for the needle.
         """
@@ -305,13 +311,12 @@ class AltimeterInstrument():
         self.rotatedImageRectangle.center += np.array([np.cos(math.radians(angle)) * self.needleOffset[0],
                                             -np.sin(math.radians(angle)) * self.needleOffset[1]])
 
-        # blit images
+        # blit image
         self.screen.blit(self.rotatedImage, self.rotatedImageRectangle)
-        self._blit_images()
 
     def _rotate2(self, angle):
         """
-        Rotate needle and reposition the needle due to the angle.
+        Rotate needle and reposition the needle due to the angle. The needle is showing increments ins 1000 ft.
         Input:
           angle - The rotation angle for the needle.
         """
@@ -323,19 +328,8 @@ class AltimeterInstrument():
         self.rotatedImageRectangle2.center += np.array([np.cos(math.radians(angle)) * self.needleOffset2[0],
                                             -np.sin(math.radians(angle)) * self.needleOffset2[1]])
 
-        # blit images
+        # blit image
         self.screen.blit(self.rotatedImage2, self.rotatedImageRectangle2)
-        self._blit_images()
-
-    def _blit_images(self): 
-        """ 
-        Blit dials, needle and input data value
-        """
-        pass
-#        self.screen.blit(self.dial, (self.dialPos))
-#        self.screen.blit(self.rotatedImage, self.rotatedImageRectangle)
-#        self.screen.blit(self.rotatedImage2, self.rotatedImageRectangle2)
-
 
 class HorizontalInstrument(Instrument):
     def __init__(self, screen, dialName, needleName, startAngle, dialPos, needlePos, needleOffset):
